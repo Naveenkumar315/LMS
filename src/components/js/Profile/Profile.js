@@ -10,11 +10,13 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ChangePassword from './ChangePassword';
+import setTheme from '../../Sub-Component/setTheme';
 
 export default function Profile() {
     const [EmpId, setEmpId] = useState(localStorage['EmpId']);
     const [Details, setDetails] = useState({})
     useEffect(() => {
+        setTheme();
         axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
             setDetails(result.data[0][0]);
         });

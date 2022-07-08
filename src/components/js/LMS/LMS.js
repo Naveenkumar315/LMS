@@ -11,6 +11,7 @@ import nodeurl from '../../../nodeServer.json'
 import CustomGrid from '../../Sub-Component/CustomeGrid';
 import NavBar from '../../Sub-Component/NavBar';
 import Loader from '../../Sub-Component/Loader';
+import setTheme from '../../Sub-Component/setTheme';
 
 export default function Lms() {
     const [isLoading, setIsLoading] = useState([true, true, true]);
@@ -19,6 +20,7 @@ export default function Lms() {
     const [LeaveHistory, setLeaveHistory] = useState([]);
     const [PermissionHistory, setPermissionHistory] = useState([]);
     useEffect(() => {
+        setTheme();
         axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveBalance ' + EmpId + '' }).then(result => {
             let data = result.data[0];
             data.push({ LeaveType: 'Total', OpeningBalance: 0, EarnedLeave: 0, LeavesTaken: 0, currentblc: 0, LOP: 0 });

@@ -13,22 +13,11 @@ import '../../css/style.css'
 import CustomGrid from '../../Sub-Component/CustomeGrid';
 import NavBar from '../../Sub-Component/NavBar';
 import Loader from '../../Sub-Component/Loader';
+import setTheme from '../../Sub-Component/setTheme';
 
 export default function Home() {
-    const LightenDarkenColor = (col, amt) => {
-        col = col.replace('#', '')
-        var num = parseInt(col, 16);
-        var r = (num >> 16) + amt;
-        var b = ((num >> 8) & 0x00FF) + amt;
-        var g = (num & 0x0000FF) + amt;
-        var newColor = g | (b << 8) | (r << 16);
-        return newColor.toString(16);
-    }
     const [isLoading, setIsLoading] = useState(true);
     const [EmpId, setEmpId] = useState(localStorage['EmpId']);
-    document.documentElement.style.setProperty('--background-color', localStorage['BgColor']);
-    document.documentElement.style.setProperty('--color', localStorage['Color']);
-    document.documentElement.style.setProperty('--background-color-lighter', '#' + LightenDarkenColor(localStorage['BgColor'], 95));//95
     const [rowData, setRowData] = useState([]);
     const [columns, setColumns] = useState([
         { id: 'Client', label: 'Client', minWidth: 70 },
@@ -45,6 +34,7 @@ export default function Home() {
         { id: 'Create Sub-Task', label: 'Create Sub-Task', minWidth: 70, button: 'Re-Work', onclick: 'onclick("alert()")' }
     ]);
     useEffect(() => {
+        setTheme();
         axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',1' }).then(result => {
             setRowData(result.data[0]);
             setTimeout(() => { setIsLoading(false); }, 800);

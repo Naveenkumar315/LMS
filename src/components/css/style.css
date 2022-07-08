@@ -148,3 +148,23 @@ label {
   border-radius: 5px;
   margin-top: 10px;
 }
+
+.css-1ualgfl-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+.css-r11z79-MuiDataGrid-root .MuiDataGrid-cell.MuiDataGrid-cell--editing {
+  box-shadow: none !important;
+}
+.css-bpeome-MuiSvgIcon-root-MuiSelect-icon {
+  display: none !important;
+}
+
+.react-swipeable-view-container {
+  transition: transform 0.35s cubic-bezier(0.15, 0.3, 0.25, 1) 0s !important;
+}
+.viewPanel {
+  text-align: center;
+  border-bottom: 1px solid var(--background-color);
+  border-width: 3px;
+}

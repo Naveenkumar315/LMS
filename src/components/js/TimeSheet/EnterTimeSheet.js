@@ -12,6 +12,7 @@ import ViewTimeSheet from './ViewTimeSheet'
 import TimeSheetGrid from '../../Sub-Component/TimeSheetGrid';
 import NavBar from '../../Sub-Component/NavBar';
 import Loader from '../../Sub-Component/Loader';
+import setTheme from '../../Sub-Component/setTheme';
 
 export default function EnterTimeSheet() {
     const [EmpId, setEmpId] = useState(localStorage['EmpId']);
@@ -32,6 +33,7 @@ export default function EnterTimeSheet() {
         { id: 'Remove', label: 'Hours', minWidth: 100, type: 'button' }
     ];
     useEffect(() => {
+        setTheme();
         axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '"' }).then(result => {
             setEnterTimeSheet(result.data[0]);
             setIsLoading(false);
