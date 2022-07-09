@@ -18,7 +18,7 @@ import setTheme from '../../Sub-Component/setTheme';
 export default function EnterTimeSheet() {
     const [EmpId, setEmpId] = useState(localStorage['EmpId']);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [value, setValue] = useState(1);
     const [EnterTimeSheet, setEnterTimeSheet] = useState([]);
     const [taskDate, setTaskDate] = useState((new Date().toLocaleDateString()).toString());
     const EnterTimeSheetColumn = [
@@ -41,6 +41,14 @@ export default function EnterTimeSheet() {
             console.log(result.data[0]);
         });
     }, []);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const handleChangeIndex = (index) => {
+        setValue(index);
+    };
     function TabPanel(props) {
 
         const { children, value, index, ...other } = props;
@@ -76,16 +84,11 @@ export default function EnterTimeSheet() {
     }
 
     function FullWidthTabs(props) {
-        const [value, setValue] = useState(1);
 
-        const handleChange = (event, newValue) => {
-            setValue(newValue);
-        };
-
-        const handleChangeIndex = (index) => {
-            setValue(index);
-        };
-
+        // setTimeout(() => {
+        //     document.querySelectorAll('div.MuiButtonBase-root')[0].addEventListener('click', () => { handleChange('', value - 1) });
+        //     document.querySelectorAll('div.MuiButtonBase-root')[1].addEventListener('click', () => { handleChange('', value + 1) });
+        // }, 1000);
         return (
             <Box sx={{ bgcolor: 'inherit' }}>
                 <AppBar position="static" style={{ width: '305px', marginLeft: '25px', backgroundColor: '#fff' }} >

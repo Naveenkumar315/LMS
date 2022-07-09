@@ -4,14 +4,13 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import Moment from 'moment';
 
-export default function CustomeDatePicker() {
-    const [toggle, setToggle] = useState(true);
-    const [date, setDate] = useState(new Date);
+export default function CustomeDatePicker(props) {
+    const Date = props['Date'];
     return (
         <>
             <Calendar
-                date={date}
-                onChange={(date) => { setDate(date) }}
+                date={Date}
+                onChange={props['OnChange']}
                 color={localStorage['BgColor']}
             />
         </>

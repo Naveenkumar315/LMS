@@ -163,6 +163,19 @@ label {
 .react-swipeable-view-container {
   transition: transform 0.35s cubic-bezier(0.15, 0.3, 0.25, 1) 0s !important;
 }
+.rdrMonthAndYearWrapper {
+  border: 1px solid var(--background-color);
+}
+/* div:not(.rdrStartEdge):not(.rdrEndEdge) { */
+.rdrSelected,
+.rdrInRange,
+.rdrStartEdge,
+.rdrEndEdge {
+  color: var(--background-color) !important;
+}
+.rdrMonths.rdrMonthsVertical {
+  border: 1px solid var(--background-color);
+}
 .viewPanel {
   text-align: center;
   border-bottom: 1px solid var(--background-color);
@@ -175,10 +188,19 @@ label {
   flex-direction: column;
   display: flex;
 }
-#vertical-tabpanel-0 .MuiBox-root {
+#vertical-tabpanel-0 .MuiBox-root,
+.rdrDateDisplayItemActive {
   padding: 0 !important;
-  border: 1px solid var(--background-color);
+  border: 1px solid var(--background-color) !important;
+}
+.rdrDateDisplay {
+  margin: 0.833em 0 !important;
 }
 .rdrMonthAndYearWrapper {
   padding: 0 !important;
+}
+#full-width-tabpanel-0 div.MuiBox-root,
+#full-width-tabpanel-1 div.MuiBox-root:nth-child(2),
+#full-width-tabpanel-2 div.MuiBox-root {
+  padding: 24px 0 !important;
 }

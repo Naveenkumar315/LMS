@@ -26,6 +26,7 @@ app.post(`/`, function (req, res) {
             trustedConnection: true
         }
     };
+    console.log(req.body.query);
     new sql.ConnectionPool(config).connect().then(pool => {
         return pool.request().query(req.body.query)
     }).then(result => {
