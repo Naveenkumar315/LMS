@@ -21,7 +21,7 @@ app.post(`/`, function (req, res) {
     //server: `Analytic10`,
     const config = {
         database: `AnalyticBrains`,
-        server: `ABWKS207`,
+        server: `localhost`,
         options: {
             trustedConnection: true
         }

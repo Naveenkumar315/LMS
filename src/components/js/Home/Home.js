@@ -37,7 +37,7 @@ export default function Home() {
         setTheme();
         axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',1' }).then(result => {
             setRowData(result.data[0]);
-            setTimeout(() => { setIsLoading(false); }, 800);
+            setTimeout(() => { setIsLoading(false); }, 1500);
         });
     }, []);
 

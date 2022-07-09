@@ -14,6 +14,7 @@ import NavBar from '../../Sub-Component/NavBar';
 import Loader from '../../Sub-Component/Loader';
 import setTheme from '../../Sub-Component/setTheme';
 
+
 export default function EnterTimeSheet() {
     const [EmpId, setEmpId] = useState(localStorage['EmpId']);
     const [isLoading, setIsLoading] = useState(true);
@@ -75,7 +76,7 @@ export default function EnterTimeSheet() {
     }
 
     function FullWidthTabs(props) {
-        const [value, setValue] = useState(0);
+        const [value, setValue] = useState(1);
 
         const handleChange = (event, newValue) => {
             setValue(newValue);
@@ -107,7 +108,7 @@ export default function EnterTimeSheet() {
                         <TimeSheetGrid Columns={EnterTimeSheetColumn} Rows={EnterTimeSheet} Pagination={false} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        {/* <CustomGrid Columns={[]} Rows={[]} Pagination={false} /> */}
+                        <ViewTimeSheet />
                     </TabPanel>
 
                 </SwipeableViews >

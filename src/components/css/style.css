@@ -168,3 +168,17 @@ label {
   border-bottom: 1px solid var(--background-color);
   border-width: 3px;
 }
+.toggle {
+  display: none !important;
+}
+.MuiTypography-root.MuiTypography-body1 {
+  flex-direction: column;
+  display: flex;
+}
+#vertical-tabpanel-0 .MuiBox-root {
+  padding: 0 !important;
+  border: 1px solid var(--background-color);
+}
+.rdrMonthAndYearWrapper {
+  padding: 0 !important;
+}
