@@ -47,7 +47,7 @@ const Login = () => {
                         localStorage.setItem('UserName', loginDetails['UserName']);
                         localStorage.setItem('Name', loginDetails['Name']);
                         localStorage.setItem('Color', '#fff');
-                        localStorage.setItem('BgColor', '#0589a0');//1f456e,151e3d,0589a0
+                        localStorage.setItem('BgColor', '#1f456e');//1f456e,151e3d,0589a0
                         Navigate('/Home')
                     }
                 });

@@ -19,91 +19,91 @@ const StyledBox = styled(Box)(({ theme }) => ({
     },
 }));
 
-const rows = [
-    {
-        id: 1,
-        expense: 'Light bill',
-        price: 423324,
-        dueAt: new Date(2021, 6, 8),
-        isPaid: false,
-        paymentMethod: '',
-    },
-    {
-        id: 2,
-        expense: 'Rent',
-        price: 2423,
-        dueAt: new Date(2021, 7, 1),
-        isPaid: false,
-        paymentMethod: '',
-    },
-    {
-        id: 3,
-        expense: 'Car insurance',
-        price: 565,
-        dueAt: new Date(2021, 7, 4),
-        isPaid: true,
-        paymentMethod: 'Wire transfer',
-    },
-];
+// const rows = [
+//     {
+//         id: 1,
+//         expense: 'Light bill',
+//         price: 423324,
+//         dueAt: new Date(2021, 6, 8),
+//         isPaid: false,
+//         paymentMethod: '',
+//     },
+//     {
+//         id: 2,
+//         expense: 'Rent',
+//         price: 2423,
+//         dueAt: new Date(2021, 7, 1),
+//         isPaid: false,
+//         paymentMethod: '',
+//     },
+//     {
+//         id: 3,
+//         expense: 'Car insurance',
+//         price: 565,
+//         dueAt: new Date(2021, 7, 4),
+//         isPaid: true,
+//         paymentMethod: 'Wire transfer',
+//     },
+// ];
 
-export default function ConditionalValidationGrid() {
-    const EnterTimeSheetColumn = [
-        { field: 'Row', headerName: 'S No.', width: 100, type: 'lable' },
-        { field: 'ProjectId', headerName: 'Project', width: 100, type: 'select' },
-        { field: 'ModuleId', headerName: 'Module', width: 100, type: 'select' },
-        { field: 'TaskName', headerName: 'Task', width: 100, type: 'select' },
-        { field: 'TaskDescription', headerName: 'Description', width: 200, type: 'textarea' },
-        { field: 'Issues', headerName: 'Issue', width: 100, type: 'input' },
-        { field: 'Object', headerName: 'Object', width: 100, type: 'input' },
-        { field: 'Status', headerName: 'Status', width: 100, type: 'select' },
-        { field: 'Hours', headerName: 'Hours', width: 100, type: 'number' },
-        { field: 'Remove', headerName: 'Hours', width: 100, type: 'button' }
-    ];
-    const columns = [
-        { field: 'expense', headerName: 'Expense', width: 160, editable: true },
-        {
-            field: 'price',
-            headerName: 'Price',
-            type: 'number',
-            width: 120,
-            editable: true,
-        },
-        {
-            field: 'dueAt',
-            headerName: 'Due at',
-            type: 'date',
-            width: 120,
-            editable: true,
-        },
-        {
-            field: 'isPaid',
-            headerName: 'Is paid?',
-            type: 'boolean',
-            width: 140,
-            editable: true,
-        },
-        {
-            field: 'paymentMethod',
-            headerName: 'Payment method',
-            type: 'singleSelect',
-            valueOptions: ['Credit card', 'Wire transfer', 'Cash'],
-            width: 160,
-            editable: true,
-            // preProcessEditCellProps: (params) => {
-            //     const isPaidProps = params.otherFieldsProps.isPaid;
-            //     const hasError = isPaidProps.value && !params.props.value;
-            //     return { ...params.props, error: hasError };
-            // },
-        },
-    ];
+export default function ConditionalValidationGrid(props) {
+    // const EnterTimeSheetColumn = [
+    //     { field: 'Row', headerName: 'S No.', width: 100, type: 'lable' },
+    //     { field: 'ProjectId', headerName: 'Project', width: 100, type: 'select' },
+    //     { field: 'ModuleId', headerName: 'Module', width: 100, type: 'select' },
+    //     { field: 'TaskName', headerName: 'Task', width: 100, type: 'select' },
+    //     { field: 'TaskDescription', headerName: 'Description', width: 200, type: 'textarea' },
+    //     { field: 'Issues', headerName: 'Issue', width: 100, type: 'input' },
+    //     { field: 'Object', headerName: 'Object', width: 100, type: 'input' },
+    //     { field: 'Status', headerName: 'Status', width: 100, type: 'select' },
+    //     { field: 'Hours', headerName: 'Hours', width: 100, type: 'number' },
+    //     { field: 'Remove', headerName: 'Hours', width: 100, type: 'button' }
+    // // ];
+    // const columns = [
+    //     { field: 'expense', headerName: 'Expense', width: 160, editable: true },
+    //     {
+    //         field: 'price',
+    //         headerName: 'Price',
+    //         type: 'number',
+    //         width: 120,
+    //         editable: true,
+    //     },
+    //     {
+    //         field: 'dueAt',
+    //         headerName: 'Due at',
+    //         type: 'date',
+    //         width: 120,
+    //         editable: true,
+    //     },
+    //     {
+    //         field: 'isPaid',
+    //         headerName: 'Is paid?',
+    //         type: 'boolean',
+    //         width: 140,
+    //         editable: true,
+    //     },
+    //     {
+    //         field: 'paymentMethod',
+    //         headerName: 'Payment method',
+    //         type: 'singleSelect',
+    //         valueOptions: ['Credit card', 'Wire transfer', 'Cash'],
+    //         width: 160,
+    //         editable: true,
+    //         // preProcessEditCellProps: (params) => {
+    //         //     const isPaidProps = params.otherFieldsProps.isPaid;
+    //         //     const hasError = isPaidProps.value && !params.props.value;
+    //         //     return { ...params.props, error: hasError };
+    //         // },
+    //     },
+    // ];
 
     return (
-        <StyledBox>
+        <StyledBox style={{ margin: '0 0 0 20px' }}>
             <DataGrid
-                rows={rows}
-                columns={EnterTimeSheetColumn}
+                rows={props['Rows']}
+                columns={props['Columns']}
                 // editMode="row"
-                editable='true'
+                editable='false'
                 experimentalFeatures={{ newEditingApi: true }}
             />
         </StyledBox>

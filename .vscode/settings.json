@@ -1,5 +1,6 @@
 {
   "liveServer.settings.port": 5501,
   "search.useGlobalIgnoreFiles": true,
-  "search.useParentIgnoreFiles": true
+  "search.useParentIgnoreFiles": true,
+  "liveServer.settings.multiRootWorkspaceName": "TimeSheet_New"
 }

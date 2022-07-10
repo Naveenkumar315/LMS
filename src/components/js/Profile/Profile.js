@@ -24,6 +24,10 @@ export default function Profile() {
     const handelOnChange = (event) => {
         setDetails({ ...Details, [event.target.name]: event.target.value });
     }
+    const handelClick = () => {
+        axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_UpdateEmployeeDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
+        });
+    }
     const DetailsFields = () => {
         return (
             <div style={{ margin: '30px 0', width: '99%' }}>
@@ -107,7 +111,7 @@ export default function Profile() {
                     </div>
                 </div>
                 <div>
-                    <button className="btn marginLeft-0">Save Details</button>
+                    <button className="btn marginLeft-0" onClick={handelClick}>Save Details</button>
                 </div>
             </div>
         );

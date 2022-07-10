@@ -22,16 +22,16 @@ export default function EnterTimeSheet() {
     const [EnterTimeSheet, setEnterTimeSheet] = useState([]);
     const [taskDate, setTaskDate] = useState((new Date().toLocaleDateString()).toString());
     const EnterTimeSheetColumn = [
-        { id: 'Row', label: 'S No.', minWidth: 100, type: 'lable' },
-        { id: 'ProjectId', label: 'Project', minWidth: 100, type: 'select' },
-        { id: 'ModuleId', label: 'Module', minWidth: 100, type: 'select' },
-        { id: 'TaskName', label: 'Task', minWidth: 100, type: 'select' },
-        { id: 'TaskDescription', label: 'Description', minWidth: 200, type: 'textarea' },
-        { id: 'Issues', label: 'Issue', minWidth: 100, type: 'input' },
-        { id: 'Object', label: 'Object', minWidth: 100, type: 'input' },
-        { id: 'Status', label: 'Status', minWidth: 100, type: 'select' },
-        { id: 'Hours', label: 'Hours', minWidth: 100, type: 'number' },
-        { id: 'Remove', label: 'Hours', minWidth: 100, type: 'button' }
+        { field: 'Row', headerName: 'S No.', minWidth: 100, type: 'lable' },
+        { field: 'ProjectId', headerName: 'Project', minWidth: 100, type: 'select' },
+        { field: 'ModuleId', headerName: 'Module', minWidth: 100, type: 'select' },
+        { field: 'TaskName', headerName: 'Task', minWidth: 100, type: 'select' },
+        { field: 'TaskDescription', headerName: 'Description', minWidth: 200, type: 'textarea' },
+        { field: 'Issues', headerName: 'Issue', minWidth: 100, type: 'input' },
+        { field: 'Object', headerName: 'Object', minWidth: 100, type: 'input' },
+        { field: 'Status', headerName: 'Status', minWidth: 100, type: 'select' },
+        { field: 'Hours', headerName: 'Hours', minWidth: 100, type: 'number' },
+        { field: 'Remove', headerName: 'Hours', minWidth: 100, type: 'button' }
     ];
     useEffect(() => {
         setTheme();

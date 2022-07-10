@@ -11,6 +11,7 @@ import DatePicker from '../../Sub-Component/DatePicker/CustomeDatePicker';
 import DateRangePicker from '../../Sub-Component/DatePicker/CustomeDateRange';
 import '../../css/style.css'
 import Moment from 'moment';
+import CustomeGrid from '../../Sub-Component/CustomeGrid';
 
 function TabPanel(props) {
 
@@ -49,10 +50,10 @@ export default function ViewTimeSheet() {
     const today = new Date();
     const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
     const [value, setValue] = useState(0);
-    const [date, setDate] = useState(new Date);
+    const [date, setDate] = useState(today);
     const [monthYear, setMonthYear] = useState({ Month: today.getMonth() + 1, Year: today.getFullYear() });
     const [dateRange, setDateRange] = useState([{ startDate: firstDay, endDate: new Date(), key: 'selection' }]);
-    const [Row, setRow] = useState([]);
+    const [Rows, setRows] = useState([]);
     function generateArrayOfYears() {
         var max = today.getFullYear();
         var min = max - 5;
@@ -76,7 +77,15 @@ export default function ViewTimeSheet() {
         { value: 12, label: "December" }
     ];
 
-
+    const Columns = [
+        { id: 'TaskDate', label: 'Date', minWidth: 100 },
+        { id: 'ProjectName', label: 'Project', minWidth: 200 },
+        { id: 'TaskDescription', label: 'Description', minWidth: 250 },
+        { id: '', label: 'Actual / Estimated completion Date', minWidth: 150 },
+        { id: 'Status', label: 'Status', minWidth: 100 },
+        { id: 'Issues', label: 'Objects Changed', minWidth: 150 },
+        { id: 'Hours', label: 'Hours', minWidth: 100 }
+    ];
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -85,74 +94,82 @@ export default function ViewTimeSheet() {
     };
     const handelDateChange = (date) => {
         setDate(date);
-        axios.post(nodeurl['nodeurl'], { query: 'AB_ViewTimesheet_New "day",' + localStorage['EmpId'] + ',"","' + Moment(date).format('DD-MM-YYYY') + '",0,0' }).then(result => {
-            setRow(result.data[0]);
-            console.log(result.data[0]);
+        axios.post(nodeurl['nodeurl'], { query: 'AB_ViewTimesheet_New "day",' + localStorage['EmpId'] + ',"' + Moment(date).format('MMMM d YYYY') + '","' + Moment(date).format('MMMM d YYYY') + '",0,0' }).then(result => {
+            setRows(result.data[0]);
         });
     }
     const handelMonthYearChange = (event) => {
-        // debugger
         setMonthYear({ ...monthYear, [event.target.name]: parseInt(event.target.value) });
-        // axios.post(nodeurl['nodeurl'], { query: 'AB_ViewTimesheet_New "month",' + localStorage['EmpId'] + ',"","",0,0' }).then(result => {
-        //     setRow(result.data[0]);
-        //     console.log(result.data[0]);
-        // });
-        console.log(monthYear);
+        axios.post(nodeurl['nodeurl'], { query: 'AB_ViewTimesheet_New "month",' + localStorage['EmpId'] + ',"' + Moment(date).format('MMMM d YYYY') + '","' + Moment(date).format('MMMM d YYYY') + '",' + monthYear['Month'] + ',' + monthYear['Year'] }).then(result => {
+            setRows(result.data[0]);
+            console.log(result.data[0]);
+        });
+    }
+    const handelDateRangeChange = (event) => {
+        setDateRange([event['selection']]);
+        axios.post(nodeurl['nodeurl'], { query: 'AB_WeeklyStatus "range",' + localStorage['EmpId'] + ',"' + Moment(event['selection']['startDate']).format('MMMM d YYYY') + '","' + Moment(event['selection']['endDate']).format('MMMM d YYYY') + '",0' }).then(result => {
+            setRows(result.data[0]);
+        });
     }
 
     return (
-        <Box>
-            <Tabs sx={{ maxWidth: { xs: 320, sm: 170 }, bgcolor: 'background.paper' }}
-                value={value}
-                onChange={handleChange}
-                variant="scrollable"
-                scrollButtons="auto"
-                aria-label="scrollable auto tabs example"
-                textColor="inherit"
-                style={{ color: localStorage['BgColor'] }}
-            >
-                <Tab className='tab' label="Date"  {...a11yProps(0)} />
-                <Tab className='tab' label="Range"  {...a11yProps(1)} />
-                <Tab className='tab' label="Month"  {...a11yProps(2)} />
-            </Tabs>
-            <SwipeableViews
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                <TabPanel value={value} index={0}>
-                    <DatePicker Date={date} OnChange={handelDateChange} />
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <DateRangePicker DateRange={dateRange} OnChange={''} />
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <>
-                        <div style={{ display: 'flex', flexDirection: 'column', width: '400px' }}>
-                            <div className="input-wrapper marginLeft-0">
-                                <div className="input-holder">
-                                    <select className="input-input" name="Year" value={monthYear['Year']} onChange={handelMonthYearChange}>
-                                        {Years.map((item, index) => (
-                                            <option key={index} value={item}>{item}</option>
-                                        ))}
-                                    </select>
-                                    <label className="input-label">Year</label>
+        <>
+            <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex' }}>
+                <Box style={{ display: 'inline-block' }}>
+                    <Tabs sx={{ maxWidth: { xs: 320, sm: 170 }, bgcolor: 'background.paper' }}
+                        value={value}
+                        onChange={handleChange}
+                        variant="scrollable"
+                        scrollButtons="auto"
+                        aria-label="scrollable auto tabs example"
+                        textColor="inherit"
+                        style={{ color: localStorage['BgColor'] }}
+                    >
+                        <Tab className='tab' label="Date"  {...a11yProps(0)} />
+                        <Tab className='tab' label="Range"  {...a11yProps(1)} />
+                        <Tab className='tab' label="Month"  {...a11yProps(2)} />
+                    </Tabs>
+                    <SwipeableViews
+                        index={value}
+                        onChangeIndex={handleChangeIndex}
+                    >
+                        <TabPanel value={value} index={0}>
+                            <DatePicker Date={date} OnChange={handelDateChange} />
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            <DateRangePicker DateRange={dateRange} OnChange={handelDateRangeChange} />
+                        </TabPanel>
+                        <TabPanel value={value} index={2}>
+                            <>
+                                <div style={{ display: 'flex', flexDirection: 'column', width: '335px', marginTop: '20px' }}>
+                                    <div className="input-wrapper marginLeft-0" style={{ width: '86%' }}>
+                                        <div className="input-holder">
+                                            <select className="input-input" name="Year" value={monthYear['Year']} onChange={handelMonthYearChange}>
+                                                {Years.map((item, index) => (
+                                                    <option key={index} value={item}>{item}</option>
+                                                ))}
+                                            </select>
+                                            <label className="input-label">Year</label>
+                                        </div>
+                                    </div>
+                                    <div className="input-wrapper marginLeft-0" style={{ width: '86%' }}>
+                                        <div className="input-holder">
+                                            <select className="input-input" name="Month" value={monthYear['Month']} onChange={handelMonthYearChange}>
+                                                {Month.slice(0, today.getMonth() + 1).reverse().map((item, index) => (
+                                                    <option key={index} value={item['value']}>{item['label']}</option>
+                                                ))}
+                                            </select>
+                                            <label className="input-label">Month</label>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="input-wrapper marginLeft-0">
-                                <div className="input-holder">
-                                    <select className="input-input" name="Month" value={monthYear['Month']} onChange={handelMonthYearChange}>
-                                        {Month.slice(0, today.getMonth() + 1).reverse().map((item, index) => (
-                                            <option key={index} value={item['value']}>{item['label']}</option>
-                                        ))}
-                                    </select>
-                                    <label className="input-label">Month</label>
-                                </div>
-                            </div>
-                        </div>
-                    </>
-                </TabPanel>
+                            </>
+                        </TabPanel>
 
-            </SwipeableViews >
-        </Box>
+                    </SwipeableViews >
+                </Box>
+                <CustomeGrid Columns={Columns} Rows={Rows} />
+            </div>
+        </>
     );
 }

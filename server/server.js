@@ -14,19 +14,15 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json({ limit: `50mb` }));
+const config = {
+    database: `AnalyticBrains`,
+    server: `localhost`,
+    options: {
+        trustedConnection: true
+    }
+};
 // app.use(bodyParser.json({ type: `application/json` }));
 app.post(`/`, function (req, res) {
-    //user: `abuser`,
-    //password: `abuser10`,
-    //server: `Analytic10`,
-    const config = {
-        database: `AnalyticBrains`,
-        server: `localhost`,
-        options: {
-            trustedConnection: true
-        }
-    };
-    console.log(req.body.query);
     new sql.ConnectionPool(config).connect().then(pool => {
         return pool.request().query(req.body.query)
     }).then(result => {
@@ -37,6 +33,22 @@ app.post(`/`, function (req, res) {
         res.status(500).send({ message: `${err}` })
         sql.close();
     });
+});
+
+app.post('/Update', function (req, res) {
+    new sql.ConnectionPool(config).connect().then(pool => {
+        var request = pool.request();
+        request.input('UpdateJson', sql.VarChar(8000), req.body.UpdateJson);
+        return request.execute(req.body.SP);
+    }).then(result => {
+        res.status(200).send(result);
+        sql.close();
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send({ message: "${err}" })
+        sql.close();
+    });
+
 });
 
 const server = app.listen(Port, function () {
