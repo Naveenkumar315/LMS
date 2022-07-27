@@ -14,21 +14,22 @@ import setTheme from '../../Sub-Component/setTheme';
 
 export default function Profile() {
     const [EmpId, setEmpId] = useState(localStorage['EmpId']);
-    const [Details, setDetails] = useState({})
-    useEffect(() => {
-        setTheme();
-        axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
-            setDetails(result.data[0][0]);
-        });
-    }, []);
-    const handelOnChange = (event) => {
-        setDetails({ ...Details, [event.target.name]: event.target.value });
-    }
-    const handelClick = () => {
-        axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_UpdateEmployeeDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
-        });
-    }
+
     const DetailsFields = () => {
+        const [Details, setDetails] = useState({})
+        useEffect(() => {
+            setTheme();
+            axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
+                setDetails(result.data[0][0]);
+            });
+        }, []);
+        const handelOnChange = (event) => {
+            setDetails({ ...Details, [event.target.name]: event.target.value });
+        }
+        const handelClick = () => {
+            axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_UpdateEmployeeDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
+            });
+        }
         return (
             <div style={{ margin: '30px 0', width: '99%' }}>
                 <div className="input-wrapper marginLeft-0">
@@ -59,9 +60,8 @@ export default function Profile() {
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <select className="input-input" name="Gender" value={Details['Gender']} onChange={handelOnChange}>
-                            <option value="--Select--">--Select--</option>
-                            <option value="1">Female</option>
                             <option value="2">Male</option>
+                            <option value="1">Female</option>
                         </select>
                         <label className="input-label">Gender</label>
                     </div>
@@ -80,13 +80,13 @@ export default function Profile() {
                 </div>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="DateOfJoin" value={Details['DateOfJoin']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" disabled name="DateOfJoin" value={Details['DateOfJoin']} onChange={handelOnChange} />
                         <label className="input-label">Date Of Joining</label>
                     </div>
                 </div>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="UserName" value={Details['UserName']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" disabled name="UserName" value={Details['UserName']} onChange={handelOnChange} />
                         <label className="input-label">Official Mail ID(User Name)</label>
                     </div>
                 </div>
@@ -187,9 +187,9 @@ export default function Profile() {
                     <TabPanel value={value} index={1}>
                         <ChangePassword />
                     </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    {/* <TabPanel value={value} index={1}>
                         <ChangePassword />
-                    </TabPanel>
+                    </TabPanel> */}
 
                 </SwipeableViews >
             </Box >

@@ -32,6 +32,10 @@ const Login = () => {
     const Navigate = (path) => {
         navigate(path);
     }
+    const randomColor = () => {
+        var color = ["1f456e", "151e3d", "0589a0", "444791", "f48225", "428bca", "911844"];
+        return '#' + color[Math.floor(Math.random() * 6)]
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
         if (validate()) {
@@ -47,7 +51,7 @@ const Login = () => {
                         localStorage.setItem('UserName', loginDetails['UserName']);
                         localStorage.setItem('Name', loginDetails['Name']);
                         localStorage.setItem('Color', '#fff');
-                        localStorage.setItem('BgColor', '#1f456e');//1f456e,151e3d,0589a0
+                        localStorage.setItem('BgColor', randomColor());
                         Navigate('/Home')
                     }
                 });

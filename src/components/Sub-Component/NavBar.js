@@ -9,8 +9,10 @@ export default function NavBar(props) {
 
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <Sidebar />
-                    <div style={{ margin: '20px 30px', width: '100%', height: '85vh' }}>
-                        {props['Component']}
+                    <div className='scrollbar'>
+                        <div style={{ marginTop: '20px' }}>
+                            {props['Component']}
+                        </div>
                     </div>
                 </div>
             </div>

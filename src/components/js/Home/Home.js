@@ -21,14 +21,14 @@ export default function Home() {
     const [rowData, setRowData] = useState([]);
     const [columns, setColumns] = useState([
         { id: 'Client', label: 'Client', minWidth: 70 },
-        { id: 'Assigned By', label: 'Assigned By', minWidth: 70 },
-        { id: 'Assigned To', label: 'Assigned To', minWidth: 70 },
-        { id: 'Project', label: 'Project', minWidth: 70 },
-        { id: 'Module', label: 'Module', minWidth: 70 },
-        { id: 'Task', label: 'Task', minWidth: 70 },
-        { id: 'Priority', label: 'Priority', minWidth: 80 },
-        { id: 'Status', label: 'Status', minWidth: 120 },
-        { id: 'Expected Completed Date', label: 'Expected Completed Date', minWidth: 120 },
+        { id: 'AssignedBY', label: 'Assigned By', minWidth: 70 },
+        { id: 'AssignedTo', label: 'Assigned To', minWidth: 70 },
+        { id: 'ProjectName', label: 'Project', minWidth: 70 },
+        { id: 'ModuleName', label: 'Module', minWidth: 70 },
+        { id: 'TaskName', label: 'Task', minWidth: 70 },
+        { id: 'TaskPriority', label: 'Priority', minWidth: 80 },
+        { id: 'TaskStatus', label: 'Status', minWidth: 120 },
+        { id: 'ExpCompDate', label: 'Expected Completed Date', minWidth: 120 },
         { id: 'FTR', label: 'FTR', minWidth: 70 },
         { id: 'OTD', label: 'OTD', minWidth: 70 },
         { id: 'Create Sub-Task', label: 'Create Sub-Task', minWidth: 70, button: 'Re-Work', onclick: 'onclick("alert()")' }
@@ -37,6 +37,7 @@ export default function Home() {
         setTheme();
         axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',1' }).then(result => {
             setRowData(result.data[0]);
+            console.log(result.data[0]);
             setTimeout(() => { setIsLoading(false); }, 1000);
         });
     }, []);

@@ -80,6 +80,7 @@ div h2 {
 .btnAction {
   color: blue;
   font-size: 16px;
+  cursor: pointer !important;
 }
 
 .input-wrapper {
@@ -175,6 +176,7 @@ label {
 }
 .rdrMonths.rdrMonthsVertical {
   border: 1px solid var(--background-color);
+  width: 90% !important;
 }
 .viewPanel {
   text-align: center;
@@ -208,4 +210,74 @@ label {
 }
 #viewTimesheet #full-width-tabpanel-2 div.MuiBox-root {
   padding: 0 12px 0 12px !important;
+}
+.rdrWeekDay {
+  flex-basis: calc(100% / 7.8) !important;
+}
+.rdrDays,
+.rdrMonthAndYearWrapper,
+.rdrDateDisplay {
+  width: 90% !important;
+}
+/* .MuiTypography-root {
+  display: inline-block !important;
+} */
+.css-j204z7-MuiFormControlLabel-root {
+  margin: 0 !important;
+}
+.activeLable {
+  color: var(--background-color);
+  font-weight: 600;
+  opacity: 1 !important;
+}
+.Prelable {
+  font-weight: 600;
+  color: var(--background-color);
+  opacity: 0.5;
+}
+.MuiSnackbar-root {
+  left: auto !important;
+  right: 10px !important;
+}
+.css-o4b71y-MuiAccordionSummary-content.Mui-expanded,
+.css-1elwnq4-MuiPaper-root-MuiAccordion-root.Mui-expanded {
+  margin: 0 !important;
+}
+.css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
+  min-height: 48px !important;
+  border-top: 1px solid #dcdcdc;
+  border-bottom: 1px solid var(--background-color);
+}
+.scrollbar {
+  margin: 0 0 20px 30px;
+  width: 100%;
+  height: 89vh;
+  max-height: 89vh;
+  overflow-y: auto;
+  margin-left: 30px;
+  background: #f5f5f5;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #d9dbdb;
+  /* border-radius: 10px; */
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f5f5f5;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #fff;
+  background-image: -webkit-gradient(
+    linear,
+    40% 0%,
+    75% 84%,
+    from(var(--background-color)),
+    to(var(--background-color)),
+    color-stop(0.6, var(--background-color))
+  );
 }

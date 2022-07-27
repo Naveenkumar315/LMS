@@ -18,7 +18,7 @@ import setTheme from '../../Sub-Component/setTheme';
 export default function EnterTimeSheet() {
     const [EmpId, setEmpId] = useState(localStorage['EmpId']);
     const [isLoading, setIsLoading] = useState(true);
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(0);
     const [EnterTimeSheet, setEnterTimeSheet] = useState([]);
     const [taskDate, setTaskDate] = useState((new Date().toLocaleDateString()).toString());
     const EnterTimeSheetColumn = [

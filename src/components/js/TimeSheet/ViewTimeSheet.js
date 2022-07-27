@@ -77,6 +77,10 @@ export default function ViewTimeSheet() {
         { value: 12, label: "December" }
     ];
 
+    let option = Month;
+    if (monthYear['Year'] === today.getFullYear())
+        option = Month.slice(0, today.getMonth() + 1).reverse();
+
     const Columns = [
         { id: 'TaskDate', label: 'Date', minWidth: 100 },
         { id: 'ProjectName', label: 'Project', minWidth: 200 },
@@ -94,21 +98,24 @@ export default function ViewTimeSheet() {
     };
     const handelDateChange = (date) => {
         setDate(date);
-        axios.post(nodeurl['nodeurl'], { query: 'AB_ViewTimesheet_New "day",' + localStorage['EmpId'] + ',"' + Moment(date).format('MMMM d YYYY') + '","' + Moment(date).format('MMMM d YYYY') + '",0,0' }).then(result => {
+        axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Day",' + localStorage['EmpId'] + ',"' + Moment(date).format('YYYY-MM-DD') + '","' + Moment(date).format('YYYY-MM-DD') + '",' + monthYear['Month'] + ',' + monthYear['Year'] }).then(result => {
             setRows(result.data[0]);
+            console.log(result.data[0]);
         });
     }
     const handelMonthYearChange = (event) => {
         setMonthYear({ ...monthYear, [event.target.name]: parseInt(event.target.value) });
-        axios.post(nodeurl['nodeurl'], { query: 'AB_ViewTimesheet_New "month",' + localStorage['EmpId'] + ',"' + Moment(date).format('MMMM d YYYY') + '","' + Moment(date).format('MMMM d YYYY') + '",' + monthYear['Month'] + ',' + monthYear['Year'] }).then(result => {
+        axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Month",' + localStorage['EmpId'] + ',"' + Moment(date).format('YYYY-DD-MM') + '","' + Moment(date).format('YYYY-DD-MM') + '",' + monthYear['Month'] + ',' + monthYear['Year'] }).then(result => {
             setRows(result.data[0]);
             console.log(result.data[0]);
         });
     }
     const handelDateRangeChange = (event) => {
         setDateRange([event['selection']]);
-        axios.post(nodeurl['nodeurl'], { query: 'AB_WeeklyStatus "range",' + localStorage['EmpId'] + ',"' + Moment(event['selection']['startDate']).format('MMMM d YYYY') + '","' + Moment(event['selection']['endDate']).format('MMMM d YYYY') + '",0' }).then(result => {
+        axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Range",' + localStorage['EmpId'] + ',"' + Moment(event['selection']['startDate']).format('YYYY-MM-DD') + '","' + Moment(event['selection']['endDate']).format('YYYY-MM-DD') + '",0,0' }).then(result => {
             setRows(result.data[0]);
+            console.log(result.data[0]);
+
         });
     }
 
@@ -155,7 +162,7 @@ export default function ViewTimeSheet() {
                                     <div className="input-wrapper marginLeft-0" style={{ width: '86%' }}>
                                         <div className="input-holder">
                                             <select className="input-input" name="Month" value={monthYear['Month']} onChange={handelMonthYearChange}>
-                                                {Month.slice(0, today.getMonth() + 1).reverse().map((item, index) => (
+                                                {option.map((item, index) => (
                                                     <option key={index} value={item['value']}>{item['label']}</option>
                                                 ))}
                                             </select>

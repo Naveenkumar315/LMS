@@ -10,5 +10,5 @@ export default function setTheme() {
     }
     document.documentElement.style.setProperty('--background-color', localStorage['BgColor']);
     document.documentElement.style.setProperty('--color', localStorage['Color']);
-    document.documentElement.style.setProperty('--background-color-lighter', '#' + LightenDarkenColor(localStorage['BgColor'], 95));//95
+    //document.documentElement.style.setProperty('--background-color-lighter', '#' + LightenDarkenColor(localStorage['BgColor'], 90));//95,120,53
 }
