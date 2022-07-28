@@ -8,7 +8,7 @@ import CardHeader from '@mui/material/CardHeader';
 export default function DataCard(props) {
     const [cardStyle, setCardStyle] = useState(props['theam']);
     const nodeurl = `http://localhost:3001/`;
-    const [EmpId, setEmpId] = useState(localStorage['EmpId']);
+    const EmpId = localStorage['EmpId'];
     const [totalHoursClient, setTotalHoursClient] = useState([]);
     useEffect(() => {
         axios.post(nodeurl, { query: 'AB_Clientgrid ' + EmpId + '' }).then(result => setTotalHoursClient(result.data[0]));

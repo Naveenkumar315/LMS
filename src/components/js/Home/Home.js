@@ -17,7 +17,7 @@ import setTheme from '../../Sub-Component/setTheme';
 
 export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
-    const [EmpId, setEmpId] = useState(localStorage['EmpId']);
+    const EmpId = localStorage['EmpId'];
     const [rowData, setRowData] = useState([]);
     const [columns, setColumns] = useState([
         { id: 'Client', label: 'Client', minWidth: 70 },

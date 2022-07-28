@@ -16,11 +16,11 @@ import setTheme from '../../Sub-Component/setTheme';
 
 
 export default function EnterTimeSheet() {
-    const [EmpId, setEmpId] = useState(localStorage['EmpId']);
+    const EmpId = localStorage['EmpId'];
     const [isLoading, setIsLoading] = useState(true);
     const [value, setValue] = useState(0);
     const [EnterTimeSheet, setEnterTimeSheet] = useState([]);
-    const [taskDate, setTaskDate] = useState((new Date().toLocaleDateString()).toString());
+    const taskDate = (new Date().toLocaleDateString()).toString();
     const EnterTimeSheetColumn = [
         { field: 'Row', headerName: 'S No.', minWidth: 100, type: 'lable' },
         { field: 'ProjectId', headerName: 'Project', minWidth: 100, type: 'select' },

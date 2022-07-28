@@ -4,7 +4,7 @@ import nodeurl from '../../../nodeServer.json'
 import NavBar from '../../Sub-Component/NavBar';
 import { useNavigate } from "react-router-dom";
 export default function ChangePassword() {
-    const [EmpId, setEmpId] = useState(localStorage['EmpId']);
+    const EmpId = localStorage['EmpId'];
 
     const DetailsFields = () => {
         const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function ChangePassword() {
         const handelSubmitClick = () => {
             if (password['NewPassword'] === password['ConfirmNewPassword']) {
                 axios.post(nodeurl['nodeurl'],
-                    { query: "Update EmployeeDetails set Password='" + password['NewPassword'] + "' where Empid=" + EmpId }).then(result => {
+                    { query: "Update EmployeeDetails set Password='" + password['NewPassword'] + "' where EmpId=" + EmpId }).then(result => {
                         console.log('updated.... ');
                         Navigate('/')
                     });
@@ -47,7 +47,7 @@ export default function ChangePassword() {
             }
             else if (!isOTPVerified) {
                 axios.post(nodeurl['nodeurl'],
-                    { query: 'select case when otp=' + OTP + ' then 1 else 0 end AS Date from EmployeeDetails where Empid=' + EmpId }).then(result => {
+                    { query: 'select case when otp=' + OTP + ' then 1 else 0 end AS Date from EmployeeDetails where EmpId=' + EmpId }).then(result => {
                         if (result.data[0][0]['Date'] === 1)
                             setIsOTPVerified(true);
                     });

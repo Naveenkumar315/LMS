@@ -2,61 +2,76 @@ import React, { useState, useEffect, } from 'react';
 import { CDBSidebar, CDBSidebarContent, CDBSidebarFooter, CDBSidebarHeader, CDBSidebarMenu, CDBSidebarMenuItem } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faHome, faLevelUpAlt, faTableList, faTasks, faUser, faUserDoctor, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faHome, faHouseChimney, faArrowRight, faLevelUpAlt, faTableList, faTasks, faUser, faUserDoctor, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from "react-router-dom";
+import '../css/Sidebar.css'
 
-
-const Sidebar = () => {
+const Sidebar = (props) => {
     const handelLogOut = () => {
         localStorage.clear();
     }
+    const [IsOpen, setIsOpen] = useState(false);
     const { pathname } = useLocation();
     return (
         <div style={{ display: 'flex', marginTop: '-60px' }}>
-            <CDBSidebar backgroundColor={localStorage['BgColor']} textColor={localStorage['Color']} toggled >
+            <div>
+                <nav className={`sidebar ${IsOpen ? 'close' : ''}`}>
+                    <header>
+                        <div className="image-text">
+                            <span className="image">
+                                <img src="logo.png" alt="" />
+                            </span>
+                            <div className="text logo-text">
+                                <span className="name">{localStorage['Name']}</span>
+                                {/* <span className="profession">Web developer</span> */}
+                            </div>
+                        </div>
+                        {<FontAwesomeIcon className='icon Side-toggle' icon={faBars} onClick={() => { setIsOpen(!IsOpen) }} />}
+                    </header>
+                    <div className="menu-bar">
+                        <div className="menu">
 
-                <CDBSidebarHeader style={{ padding: '6px 0' }} prefix={<FontAwesomeIcon icon={faBars} />}>
-                    <a className="text-decoration-none" style={{ color: 'inherit', padding: 'inherit' }}>
-                        {localStorage['Name']}
-                    </a>
-                </CDBSidebarHeader>
+                            <div className="menu-links">
+                                <NavLink to="/Home" className={`nav-link tab ${pathname === '/Home' ? 'active' : ''}`} >
+                                    <FontAwesomeIcon icon={faHouseChimney} className="icon" />
+                                    <span className="text nav-text">Home</span>
+                                </NavLink>
 
-                <CDBSidebarContent className="sidebar-content">
-                    <CDBSidebarMenu>
-                        <NavLink to="/Home" activeclassname="activeClicked" >
-                            <CDBSidebarMenuItem active={pathname === '/Home' ? true : false} suffix={<FontAwesomeIcon icon={faHome} />}>Home</CDBSidebarMenuItem>
-                        </NavLink>
-                        <NavLink to="/EnterTimeSheet" activeclassname="activeClicked">
-                            <CDBSidebarMenuItem active={pathname === '/EnterTimeSheet' ? true : false} suffix={<FontAwesomeIcon icon={faTableList} />}>Time Sheet</CDBSidebarMenuItem>
-                        </NavLink>
-                        <NavLink to="/LMS" activeclassname="activeClicked">
-                            <CDBSidebarMenuItem active={pathname === '/Tasks' ? true : false} suffix={<FontAwesomeIcon icon={faTasks} />}>Tasks</CDBSidebarMenuItem>
-                        </NavLink>
-                        <NavLink to="/LMS" activeclassname="activeClicked">
-                            <CDBSidebarMenuItem active={pathname === '/LMS' ? true : false} suffix={<FontAwesomeIcon icon={faLevelUpAlt} />}>LMS</CDBSidebarMenuItem>
-                        </NavLink>
-                        <NavLink to="/Home" activeclassname="activeClicked">
-                            <CDBSidebarMenuItem active={pathname === '/EmployeePortal' ? true : false} suffix={<FontAwesomeIcon icon={faUserDoctor} />}>Employee Portal</CDBSidebarMenuItem>
-                        </NavLink>
-                        <NavLink to="/Profile" activeclassname="activeClicked">
-                            <CDBSidebarMenuItem active={pathname === '/Profile' ? true : false} suffix={<FontAwesomeIcon icon={faUser} />}>Profile</CDBSidebarMenuItem>
-                        </NavLink>
-                        <NavLink to="/" onClick={handelLogOut} activeclassname="activeClicked">
-                            <CDBSidebarMenuItem suffix={<FontAwesomeIcon icon={faRightFromBracket} />}>Log Out</CDBSidebarMenuItem>
-                        </NavLink>
-                    </CDBSidebarMenu>
-                </CDBSidebarContent>
+                                <NavLink to="/EnterTimeSheet" className={`nav-link tab ${pathname === '/EnterTimeSheet' ? 'active' : ''}`} >
+                                    <FontAwesomeIcon icon={faTableList} className="icon" />
+                                    <span className="text nav-text">Time Sheet</span>
+                                </NavLink>
 
-                <CDBSidebarFooter style={{ textAlign: 'center' }}>
-                    <div
-                        style={{
-                            padding: '20px 5px',
-                        }}
-                    >
-                        --------
+                                <NavLink to="/LMS" className={`nav-link tab ${pathname === '/LMS' ? 'active' : ''}`} >
+                                    <FontAwesomeIcon icon={faTasks} className="icon" />
+                                    <span className="text nav-text">Tasks</span>
+                                </NavLink>
+                                <NavLink to="/LMS" className={`nav-link tab ${pathname === '/LMS' ? 'active' : ''}`} >
+                                    <FontAwesomeIcon icon={faLevelUpAlt} className="icon" />
+                                    <span className="text nav-text">LMS</span>
+                                </NavLink>
+                                <NavLink to="/Home" className={`nav-link tab ${pathname === '/Home' ? 'active' : ''}`} >
+                                    <FontAwesomeIcon icon={faUserDoctor} className="icon" />
+                                    <span className="text nav-text">Employee Portal</span>
+                                </NavLink>
+                                <NavLink to="/Profile" className={`nav-link tab ${pathname === '/Profile' ? 'active' : ''}`} >
+                                    <FontAwesomeIcon icon={faUser} className="icon" />
+                                    <span className="text nav-text">Profile</span>
+                                </NavLink>
+                            </div>
+                        </div>
+                        <div className="bottom-content">
+                            <NavLink to="/" onClick={handelLogOut} className="nav-link tab" >
+                                <FontAwesomeIcon icon={faRightFromBracket} className="icon" />
+                                <span className="text nav-text">Logout</span>
+                            </NavLink>
+                        </div>
                     </div>
-                </CDBSidebarFooter>
-            </CDBSidebar>
+                </nav>
+                <section className="body">
+                    <div className="text">Dashboard Sidebar</div>
+                </section>
+            </div>
         </div >
     );
 };

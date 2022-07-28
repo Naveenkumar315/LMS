@@ -8,7 +8,7 @@ import CardHeader from '@mui/material/CardHeader';
 export default function DataCard(props) {
     const [cardStyle, setCardStyle] = useState(props['theam']);
     const nodeurl = `http://localhost:3001/`;
-    const [EmpId, setEmpId] = useState(localStorage['EmpId']);
+    const EmpId = localStorage['EmpId'];
     const [totalHours, setTotalHours] = useState([]);
     useEffect(() => {
         axios.post(nodeurl, { query: 'AB_EmpDashBoard ' + EmpId + '' }).then(result => setTotalHours(result.data[0][0]));

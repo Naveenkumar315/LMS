@@ -13,7 +13,7 @@ import ChangePassword from './ChangePassword';
 import setTheme from '../../Sub-Component/setTheme';
 
 export default function Profile() {
-    const [EmpId, setEmpId] = useState(localStorage['EmpId']);
+    const EmpId = localStorage['EmpId'];
 
     const DetailsFields = () => {
         const [Details, setDetails] = useState({})
@@ -93,7 +93,6 @@ export default function Profile() {
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <select className="input-input" name="Question" value={Details['Question']} onChange={handelOnChange}>
-                            <option value="--Select--">--Select--</option>
                             <option value="1">What is your favourite color?</option>
                             <option value="2">What is your favourite place?</option>
                             <option value="3">What is your favourite teachers name?</option>

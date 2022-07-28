@@ -19,9 +19,10 @@ import LeaveBalanceTab from './../../Sub-Component/LeaveBalance';
 
 
 export default function Lms() {
-    const [EmpId, setEmpId] = useState(localStorage['EmpId']);
+    const EmpId = localStorage['EmpId'];
     const [isLoading, setIsLoading] = useState(true);
     const [ComDate, setComDate] = useState([]);
+    const [PrevComDate, setPrevComDate] = useState([]);
     //const [IsApply, setIsApply] = useState(true);
     const [LeaveBalance, setLeaveBalance] = useState([]);
     const [LeaveHistory, setLeaveHistory] = useState([]);
@@ -40,12 +41,13 @@ export default function Lms() {
                 data[data.length - 1].LOP += data[i].LOP;
             }
             setLeaveBalance(data);
-            setComDate(result.data[1]);
+            setComDate(result.data[2]);
+            setPrevComDate(result.data[1]);
             // setTimeout(() => { setIsLoading(false); }, 800);
         });
         axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveHistory ' + EmpId + '' }).then(result => {
             setLeaveHistory(result.data[0]);
-            console.log(result.data[0]);
+            // console.log(result.data[0]);
             // setTimeout(() => { setIsLoading(false); }, 800);
         });
         axios.post(nodeurl['nodeurl'], { query: 'LM_PM_PermissionHistory ' + EmpId + '' }).then(result => {
@@ -170,7 +172,7 @@ export default function Lms() {
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             {/* <CustomGrid Columns={LeaveBalanceColumn} Rows={LeaveBalance} Pagination={false} onclick={handelAction} /> */}
-                            < LeaveBalanceTab Rows={LeaveBalance} ComDate={ComDate} />
+                            < LeaveBalanceTab Rows={LeaveBalance} ComDate={ComDate} PrevComDate={PrevComDate} />
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                             <CustomGrid Columns={PermissionHistoryColumn} Rows={PermissionHistory} Pagination={true} onclick={handelAction} />

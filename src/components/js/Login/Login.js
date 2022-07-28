@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../../css/Login.css';
 import { useNavigate } from "react-router-dom";
+import nodeurl from '../../../nodeServer.json'
 
 
 const Login = () => {
-    const nodeurl = `http://localhost:3001/`;
     const navigate = useNavigate();
     const [input, setInput] = useState({});
     const [errors, setErrors] = useState({});
@@ -42,7 +42,7 @@ const Login = () => {
             let email = input.email;
             let password = input.password;
             var query = { query: "AB_LoginValidation '" + email + "','" + password + "'" };
-            axios.post(nodeurl, query)
+            axios.post(nodeurl['nodeurl'], query)
                 .then(res => {
                     var loginDetails = res.data[0][0];
                     if (loginDetails['AccStatus'] === 1) {

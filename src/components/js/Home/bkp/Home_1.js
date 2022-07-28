@@ -16,7 +16,7 @@ const Home_1 = () => {
         localStorage.clear();
         Navigate_('/');
     }
-    const [EmpId, setEmpId] = useState(localStorage['EmpId']);
+    const EmpId = localStorage['EmpId'];
     const [totalHours, setTotalHours] = useState([]);
     const [totalHoursClient, setTotalHoursClient] = useState([]);
     const [leaveBalance, setLeaveBalance] = useState([]);

@@ -15,19 +15,32 @@ export default function LeaveBalanceTab(props) {
         setExpanded(isExpanded ? panel : false);
         setActiveTab(panel + 1);
     };
-    let Option = []
-    Option = props['ComDate'];
 
     const LeaveApplyTab = () => {
+        const [isVisavle, setIsVisavle] = useState(false);
+        const [Option, setOption] = useState([{}]);
         const [Details, setDetails] = useState({
             EmpId: localStorage['EmpId'], startDate: Moment(new Date).format('YYYY-MM-DD'), endDate: Moment(new Date).format('YYYY-MM-DD'),
-            Duration: 0, NoOfDays: '0.00', Reason: '', LeaveOption: 1, Dates: Moment(new Date).format('YYYY-MM-DD'), LeaveId: 1
+            Duration: 0, NoOfDays: '0.00', Reason: '', LeaveOption: 0, Dates: Moment(new Date).format('YYYY-MM-DD'), LeaveId: 1
         });
         const handelOnChange = (event) => {
-            setDetails({ ...Details, [event.target.name]: event.target.value, LeaveId: ActiveTab });
+            debugger
+            Details['LeaveId'] = ActiveTab;
+            setDetails({ ...Details, [event.target.name]: event.target.value });
+            if (event.target.name === 'LeaveOption') {
+                if (event.target.value === '1') {
+                    setOption(props['ComDate']);
+                    setIsVisavle(true);
+                }
+                else if (event.target.value === '2') {
+                    setOption(props['PrevComDate']);
+                    setIsVisavle(true);
+                } else {
+                    setIsVisavle(false);
+                }
+            }
         }
         const handelClick = () => {
-            console.log(Details);
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Sp_LM_Leaveapplication ', UpdateJson: JSON.stringify(Details) }).then(result => {
                 console.log(result.data[0]);
             });
@@ -50,10 +63,10 @@ export default function LeaveBalanceTab(props) {
                     </div>
                     <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
-                            <select className="input-input" name="LeaveOption" value={Details['Duration']} onChange={handelOnChange}>
+                            <select className="input-input" name="Duration" value={Details['Duration']} onChange={handelOnChange}>
                                 <option value="0">Full Day</option>
                                 <option value="1">1st Half</option>
-                                <option value="2">1st Half</option>
+                                <option value="2">2nd Half</option>
                             </select>
                             <label className="input-label">Duration</label>
                         </div>
@@ -80,16 +93,16 @@ export default function LeaveBalanceTab(props) {
                             <label className="input-label">Leave Option</label>
                         </div>
                     </div>
-                    <div className="input-wrapper marginLeft-0">
+                    {isVisavle && <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
                             <select className="input-input" name="Dates" value={Details['Dates']} onChange={handelOnChange}>
-                                {Option.map((item, index) => (
+                                {Option.length > 0 ? Option.map((item, index) => (
                                     <option key={index} value={item['Date_']}>{item['Date']}</option>
-                                ))}
+                                )) : <option value="1" disabled selected>No Dates Available</option>}
                             </select>
                             <label className="input-label">Dates</label>
                         </div>
-                    </div>
+                    </div>}
                     <div>
                         <button className="btn marginLeft-0" onClick={handelClick}>Apply</button>
                     </div>
@@ -101,22 +114,22 @@ export default function LeaveBalanceTab(props) {
         <div style={{ width: '95%', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
             <Accordion >
                 <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], }}>
-                    <Typography sx={{ width: '16%', flexShrink: 0 }}>
+                    <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
                         Leave Type
                     </Typography>
-                    <Typography sx={{ width: '16%', flexShrink: 0 }}>
+                    <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
                         Opening Balance
                     </Typography>
-                    <Typography sx={{ width: '16%', flexShrink: 0 }}>
+                    <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
                         Earned Leave
                     </Typography>
-                    <Typography sx={{ width: '16%', flexShrink: 0 }}>
+                    <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
                         Availed/Approved
                     </Typography>
-                    <Typography sx={{ width: '16%', flexShrink: 0 }}>
+                    <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
                         Current Balance
                     </Typography>
-                    <Typography sx={{ width: '16%', flexShrink: 0 }}>
+                    <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
                         LOP
                     </Typography>
                 </AccordionSummary>
@@ -124,33 +137,33 @@ export default function LeaveBalanceTab(props) {
             </Accordion>
 
             {props['Rows'].map((column, index) => (
-                <Accordion key={index} expanded={expanded === index} onChange={column['LeaveType'] === 'Total' ? '' : handleChange(index)}>
+                <Accordion key={index} expanded={expanded === index} onChange={column['LeaveType'] === 'Total' ? handleChange(-1) : handleChange(index)}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel2bh-content"
                         id="panel2bh-header"
                     >
-                        <Typography sx={{ width: '16%', flexShrink: 0 }}>
+                        <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
                             {column['LeaveType']}
                         </Typography>
-                        <Typography sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
+                        <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
                             {column['OpeningBalance']}
                         </Typography>
-                        <Typography sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
+                        <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
                             {column['EarnedLeave']}
                         </Typography>
-                        <Typography sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
+                        <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
                             {column['LeavesTaken']}
                         </Typography>
-                        <Typography sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
+                        <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
                             {column['currentblc']}
                         </Typography>
-                        <Typography sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
+                        <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
                             {column['LOP']}
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Typography>
+                        <Typography component={"span"}>
                             <LeaveApplyTab />
                         </Typography>
                     </AccordionDetails>

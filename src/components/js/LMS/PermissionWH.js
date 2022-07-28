@@ -4,7 +4,7 @@ import nodeurl from '../../../nodeServer.json'
 import Moment from 'moment';
 
 export default function PermissionWH() {
-    const [EmpId, setEmpId] = useState(localStorage['EmpId']);
+    const EmpId = localStorage['EmpId'];
     const [DetailsWH, setDetailsWH] = useState({ EmpId: EmpId, StartDate: Moment(new Date).format('YYYY-MM-DD'), EndDate: Moment(new Date).format('YYYY-MM-DD'), From: '09.00', To: '09.30', Duration: 0, TotalHours: '00.30', Reason: '', PermissionID: 1 })
     const TimeArr = [
         { value: "09.00", text: "09.00" }, { value: "09.30", text: "09.30" }, { value: "10.00", text: "10.00" }, { value: "10.30", text: "10.30" },

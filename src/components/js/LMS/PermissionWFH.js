@@ -5,7 +5,7 @@ import setTheme from '../../Sub-Component/setTheme';
 import Moment from 'moment';
 
 export default function PermissionWFH() {
-    const [EmpId, setEmpId] = useState(localStorage['EmpId']);
+    const EmpId = localStorage['EmpId'];
     const [DetailsWFH, setDetailsWFH] = useState({ EmpId: EmpId, StartDate: Moment(new Date).format('YYYY-MM-DD'), EndDate: Moment(new Date).format('YYYY-MM-DD'), From: '0.00', To: '0.00', Duration: 0, TotalHours: '1.00', Reason: '', PermissionID: 2 })
 
     const handelClick = () => {
