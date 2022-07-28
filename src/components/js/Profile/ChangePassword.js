@@ -38,7 +38,6 @@ export default function ChangePassword() {
             setPassword({ ...password, [e.target.name]: e.target.value })
         }
         const handelClick = (e) => {
-            debugger
             if (!isOTPSent) {
                 e.target.textContent = 'Verify'
                 setIsOTPSent(true);
@@ -56,7 +55,7 @@ export default function ChangePassword() {
         return (
             <>
                 <div style={{ flexDirection: 'row', display: 'flex' }}>
-                    <div className={(isOTPVerified ? 'd-none' : '')} style={{ margin: '30px 30px 0 0', width: '30%', display: 'inline-block' }}>
+                    {!isOTPVerified && <div style={{ margin: '30px 30px 0 0', width: '30%', display: 'inline-block' }}>
                         <div className="input-wrapper marginLeft-0">
                             <div className="input-holder">
                                 <input type="text" className="input-input" name="UserName" disabled value={Details['UserName']} onChange={handelOnChange} />
@@ -70,7 +69,8 @@ export default function ChangePassword() {
                             </div>
                         </div>
                     </div>
-                    <div className={(isOTPVerified ? '' : 'd-none')} style={{ margin: '30px 30px 0 0', width: '30%', display: 'inline-block' }}>
+                    }
+                    {isOTPVerified && <div style={{ margin: '30px 30px 0 0', width: '30%', display: 'inline-block' }}>
                         <div className="input-wrapper marginLeft-0">
                             <div className="input-holder">
                                 <input type="text" className="input-input" name="NewPassword" value={password['NewPassword']} onChange={handelPWDChange} />
@@ -84,13 +84,14 @@ export default function ChangePassword() {
                             </div>
                         </div>
                     </div>
+                    }
                 </div>
                 <div>
-                    <button className={(!isOTPVerified ? 'btn marginLeft-0' : 'd-none')} onClick={handelClick}>Send OTP</button>
-                    <div className={(isOTPVerified ? '' : 'd-none')}>
+                    {!isOTPVerified && <button className='btn marginLeft-0' onClick={handelClick}>Send OTP</button>}
+                    {isOTPVerified && <div>
                         <button className='btn marginLeft-0 d-none' onClick={handelSubmitClick}>Resend OTP</button>
                         <button className='btn marginLeft-0' onClick={handelSubmitClick}>Save</button>
-                    </div>
+                    </div>}
                 </div>
             </>
         );

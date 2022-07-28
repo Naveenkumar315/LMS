@@ -134,7 +134,7 @@ export default function Lms() {
     }
 
     function FullWidthTabs(props) {
-        const [value, setValue] = useState(1);
+        const [value, setValue] = useState(0);
 
         const handleChange = (event, newValue) => {
             setValue(newValue);
@@ -178,7 +178,7 @@ export default function Lms() {
                             <CustomGrid Columns={PermissionHistoryColumn} Rows={PermissionHistory} Pagination={true} onclick={handelAction} />
                         </TabPanel>
                         <TabPanel value={value} index={3} style={{ width: '100%' }}>
-                            <div style={{ margin: '0 20px' }}>
+                            <div style={{ margin: '0 3px' }}>
                                 <span className={!swatch ? 'activeLable Prelable' : 'Prelable'}>Permission for Work Hours</span>
                                 <Swatch OnChange={handelSwatchChange} style={{ display: 'inline-block', margin: '15px' }} />
                                 <span className={swatch ? 'activeLable Prelable' : 'Prelable'}>Permission for Work from Home</span>

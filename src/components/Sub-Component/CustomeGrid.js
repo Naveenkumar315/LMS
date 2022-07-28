@@ -43,7 +43,7 @@ export default function StickyHeadTable(props) {
 
     return (
         <>
-            <Paper sx={{ width: '100%', maxHeight: '80vh', overflow: 'auto', border: '1px solid ' + localStorage['BgColor'], height: 'auto' }}>
+            <Paper sx={{ width: '100%', overflow: 'auto', border: '1px solid ' + localStorage['BgColor'], height: 'auto' }}>
                 <TableContainer >
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead style={{ color: localStorage['BgColor'] }}>
