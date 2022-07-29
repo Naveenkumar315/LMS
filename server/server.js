@@ -24,7 +24,7 @@ const config = {
 // app.use(bodyParser.json({ type: `application/json` }));
 app.post(`/`, function (req, res) {
     new sql.ConnectionPool(config).connect().then(pool => {
-        console.log(req.body.query);
+        // console.log(req.body.query);
         return pool.request().query(req.body.query)
     }).then(result => {
         res.send(result[`recordsets`]);

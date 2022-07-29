@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faChevronRight, faHouseChimney, faLevelUpAlt, faTableList, faTasks, faUser, faUserDoctor, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from "react-router-dom";
-import Male from '../../images/Male.png'
-import Female from '../../images/Female.png'
+import Male from '../../images/Male.png';
+import Female from '../../images/Female.png';
 import '../css/Sidebar.css'
 
 const Sidebar = (props) => {

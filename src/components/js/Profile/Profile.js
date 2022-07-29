@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ChangePassword from './ChangePassword';
 import setTheme from '../../Sub-Component/setTheme';
+import InputDatePicker from '../../Sub-Component/DatePicker/InputDatePicker';
 
 export default function Profile() {
     const EmpId = localStorage['EmpId'];
@@ -25,6 +26,9 @@ export default function Profile() {
         }, []);
         const handelOnChange = (event) => {
             setDetails({ ...Details, [event.target.name]: event.target.value });
+            setTimeout(() => {
+                console.log(Details);
+            }, 2000);
         }
         const handelClick = () => {
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_UpdateEmployeeDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
@@ -45,12 +49,15 @@ export default function Profile() {
                         <label className="input-label">Last Name</label>
                     </div>
                 </div>
-                <div className="input-wrapper marginLeft-0">
+
+                <InputDatePicker name="DateOfBirth" label="Date Of Birth" Value={Details['DateOfBirth']} valueChange={handelOnChange} />
+
+                {/* <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" className="input-input" name="DateOfBirth" value={Details['DateOfBirth']} onChange={handelOnChange} />
                         <label className="input-label">Date Of Birth</label>
                     </div>
-                </div>
+                </div> */}
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" className="input-input" name="PhoneNumber" value={Details['PhoneNumber']} onChange={handelOnChange} />
