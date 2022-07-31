@@ -92,7 +92,7 @@ div h2 {
 .input-wrapper {
   width: 70%;
   height: 50px;
-  max-width: 400px;
+  max-width: 360px;
   margin: 25px 20px;
   display: inline-block;
   position: relative;
@@ -291,4 +291,34 @@ label {
   position: absolute;
   z-index: 1;
   margin-top: 52px;
+}
+#LMS .rdrMonthAndYearWrapper {
+  height: 40px !important;
+}
+#LMS .rdrDay {
+  height: 25px !important;
+}
+.activeAcc {
+  border: 2px solid var(--background-color);
+  border-top: none;
+}
+.activeAccSum {
+  background-color: var(--background-color) !important;
+  color: var(--color) !important;
+}
+/* #LMS #full-width-tabpanel-0,
+#full-width-tabpanel-1,
+#full-width-tabpanel-2 {
+  height: 80vh !important;
+} */
+.textarea {
+  display: block;
+  width: 100%;
+  overflow-y: scroll;
+  resize: vertical;
+  min-height: 40px;
+  line-height: 20px;
+}
+.rdrMonthAndYearWrapper {
+  display: inline-flex !important;
 }

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, } from 'react';
+import React from 'react';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import { MutatingDots } from 'react-loader-spinner'
-import { TailSpin } from 'react-loader-spinner'
+// import { MutatingDots } from 'react-loader-spinner';
+// import { TailSpin } from 'react-loader-spinner';
 import '../css/Loder.css'
 
 export default function Loader() {

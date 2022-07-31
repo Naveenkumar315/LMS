@@ -1,7 +1,6 @@
 import React, { useState, useEffect, } from 'react';
 import axios from 'axios';
 import nodeurl from '../../../nodeServer.json'
-import NavBar from '../../Sub-Component/NavBar';
 import { useNavigate } from "react-router-dom";
 export default function ChangePassword() {
     const EmpId = localStorage['EmpId'];

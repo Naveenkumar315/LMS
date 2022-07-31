@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import nodeurl from '../../nodeServer.json'
 import Paper from '@mui/material/Paper';
@@ -10,13 +10,28 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
-
 export default function StickyHeadTable(props) {
+    let EmpId = localStorage['EmpId'];
     const columns = props['Columns'];
-    const rows = props['Rows'];
+    const tab = props['tab']
+    const [rows, setRows] = useState([]);
     const Pagination = props['Pagination']
     const handelAction = props['onclick']
+    useEffect(() => {
+        if (tab === 'LeaveHistory')
+            axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveHistory ' + EmpId + '' }).then(result => {
+                setRows(result.data[0]);
+            });
+        else if (tab === 'PermissionHistory')
+            axios.post(nodeurl['nodeurl'], { query: 'LM_PM_PermissionHistory ' + EmpId + '' }).then(result => {
+                setRows(result.data[0]);
+            });
+        else if (tab === 'TaskDashBoard')
+            axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',1' }).then(result => {
+                setRows(result.data[0]);
 
+            });
+    }, [EmpId, tab]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -69,10 +84,10 @@ export default function StickyHeadTable(props) {
                                                 const value = row[column.id];
                                                 return (
                                                     <TableCell key={index} align={column.align} style={{ padding: '9px' }}>
-                                                        {column.type === 1 ? <button className='btnAction' id={row.EmpleaveApplicationID} clickType={column.type} onClick={handelAction}>{column.button}</button> : value}
-                                                        {column.type === 2 ? <button className='btnAction' id={row.EmpleaveApplicationID} clickType={column.type} onClick={handelAction}>{column.button}</button> : ''}
-                                                        {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clickType={column.type} onClick={handelAction}>{column.button}</button> : ''}
-                                                        {column.type === 4 ? <button className='btnAction' id={row.PermissionApplicationID} clickType={column.type} onClick={handelAction}>{column.button}</button> : ''}
+                                                        {column.type === 1 ? <button className='btnAction' id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelAction}>{column.button}</button> : value}
+                                                        {column.type === 2 ? <button className='btnAction' id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelAction}>{column.button}</button> : ''}
+                                                        {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handelAction}>{column.button}</button> : ''}
+                                                        {column.type === 4 ? <button className='btnAction' id={row.PermissionApplicationID} clicktype={column.type} onClick={handelAction}>{column.button}</button> : ''}
                                                     </TableCell>
                                                 );
                                             })}

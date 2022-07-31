@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import nodeurl from '../../../nodeServer.json'
 import NavBar from '../../Sub-Component/NavBar';
@@ -12,61 +12,70 @@ import Box from '@mui/material/Box';
 import ChangePassword from './ChangePassword';
 import setTheme from '../../Sub-Component/setTheme';
 import InputDatePicker from '../../Sub-Component/DatePicker/InputDatePicker';
+import Snackbars from '../../Sub-Component/Alert';
+
 
 export default function Profile() {
     const EmpId = localStorage['EmpId'];
-
+    const [alertDetails, setAlertDetails] = useState({ IsShow: false, severity: 'success', message: 'Welcome' });
     const DetailsFields = () => {
-        const [Details, setDetails] = useState({})
+        const [IsOpen, setIsOpen] = useState(false);
+        const [Details, setDetails] = useState({});
         useEffect(() => {
             setTheme();
             axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
                 setDetails(result.data[0][0]);
+
             });
         }, []);
         const handelOnChange = (event) => {
-            setDetails({ ...Details, [event.target.name]: event.target.value });
-            setTimeout(() => {
-                console.log(Details);
-            }, 2000);
+            if (event.target.name === 'DateOfBirth') {
+                var date = new Date(event.target.value);
+                date = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + date.getFullYear()
+                setDetails({ ...Details, [event.target.name]: date });
+            }
+            else
+                setDetails({ ...Details, [event.target.name]: event.target.value });
         }
         const handelClick = () => {
+            setIsOpen(false);
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_UpdateEmployeeDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
+                setAlertDetails({ IsShow: true, severity: 'success', message: 'Your Details Saved successfully' });
             });
         }
         return (
             <div style={{ margin: '30px 0', width: '99%' }}>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="FirstName" value={Details['FirstName']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" name="FirstName" onFocus={() => { setIsOpen(false) }} value={Details['FirstName']} onChange={handelOnChange} />
                         <label className="input-label">First Name</label>
                     </div>
                 </div>
 
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="LastName" value={Details['LastName']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" name="LastName" onFocus={() => { setIsOpen(false) }} value={Details['LastName']} onChange={handelOnChange} />
                         <label className="input-label">Last Name</label>
                     </div>
                 </div>
 
-                <InputDatePicker name="DateOfBirth" label="Date Of Birth" Value={Details['DateOfBirth']} valueChange={handelOnChange} />
 
-                {/* <div className="input-wrapper marginLeft-0">
-                    <div className="input-holder">
-                        <input type="text" className="input-input" name="DateOfBirth" value={Details['DateOfBirth']} onChange={handelOnChange} />
-                        <label className="input-label">Date Of Birth</label>
-                    </div>
-                </div> */}
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="PhoneNumber" value={Details['PhoneNumber']} onChange={handelOnChange} />
+                        {Details['DateOfBirth'] ? <input type="text" className="input-input" name="DateOfBirth" onFocus={() => { setIsOpen(true) }} value={Details['DateOfBirth']} onChange={handelOnChange} /> : ''}
+                        <label className="input-label">Date Of Birth</label>
+                    </div>
+                    {IsOpen && Details['DateOfBirth'] ? <InputDatePicker name="DateOfBirth" label="Date Of Birth" Value={Details['DateOfBirth'].split('-').reverse().join('-')} valueChange={handelOnChange} /> : ''}
+                </div>
+                <div className="input-wrapper marginLeft-0">
+                    <div className="input-holder">
+                        <input type="text" className="input-input" name="PhoneNumber" onFocus={() => { setIsOpen(false) }} value={Details['PhoneNumber']} onChange={handelOnChange} />
                         <label className="input-label">Mobile No.</label>
                     </div>
                 </div>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <select className="input-input" name="Gender" value={Details['Gender']} onChange={handelOnChange}>
+                        <select className="input-input" name="Gender" value={Details['Gender']} onFocus={() => { setIsOpen(false) }} onChange={handelOnChange}>
                             <option value="2">Male</option>
                             <option value="1">Female</option>
                         </select>
@@ -75,31 +84,31 @@ export default function Profile() {
                 </div>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="EmailID" value={Details['EmailID']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" name="EmailID" onFocus={() => { setIsOpen(false) }} value={Details['EmailID']} onChange={handelOnChange} />
                         <label className="input-label">Personal Email Id</label>
                     </div>
                 </div>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <textarea className="input-input" name="Address" value={Details['Address']} onChange={handelOnChange} />
+                        <textarea className="input-input textarea" name="Address" onFocus={() => { setIsOpen(false) }} value={Details['Address']} onChange={handelOnChange} />
                         <label className="input-label">Address</label>
                     </div>
                 </div>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" disabled name="DateOfJoin" value={Details['DateOfJoin']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" disabled name="DateOfJoin" onFocus={() => { setIsOpen(false) }} value={Details['DateOfJoin']} onChange={handelOnChange} />
                         <label className="input-label">Date Of Joining</label>
                     </div>
                 </div>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" disabled name="UserName" value={Details['UserName']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" disabled name="UserName" onFocus={() => { setIsOpen(false) }} value={Details['UserName']} onChange={handelOnChange} />
                         <label className="input-label">Official Mail ID(User Name)</label>
                     </div>
                 </div>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <select className="input-input" name="Question" value={Details['Question']} onChange={handelOnChange}>
+                        <select className="input-input" name="Question" value={Details['Question']} onFocus={() => { setIsOpen(false) }} onChange={handelOnChange}>
                             <option value="1">What is your favourite color?</option>
                             <option value="2">What is your favourite place?</option>
                             <option value="3">What is your favourite teachers name?</option>
@@ -112,12 +121,13 @@ export default function Profile() {
                 </div>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="Hintans" value={Details['Hintans']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" name="Hintans" onFocus={() => { setIsOpen(false) }} value={Details['Hintans']} onChange={handelOnChange} />
                         <label className="input-label">Answer</label>
                     </div>
                 </div>
                 <div>
                     <button className="btn marginLeft-0" onClick={handelClick}>Save Details</button>
+                    {alertDetails['IsShow'] ? <Snackbars Details={alertDetails} /> : <></>}
                 </div>
             </div>
         );

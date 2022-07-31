@@ -16,10 +16,7 @@ import Loader from '../../Sub-Component/Loader';
 import setTheme from '../../Sub-Component/setTheme';
 
 export default function Home() {
-    const [isLoading, setIsLoading] = useState(true);
-    const EmpId = localStorage['EmpId'];
-    const [rowData, setRowData] = useState([]);
-    const [columns, setColumns] = useState([
+    const columns = [
         { id: 'Client', label: 'Client', minWidth: 70 },
         { id: 'AssignedBY', label: 'Assigned By', minWidth: 70 },
         { id: 'AssignedTo', label: 'Assigned To', minWidth: 70 },
@@ -32,14 +29,9 @@ export default function Home() {
         { id: 'FTR', label: 'FTR', minWidth: 70 },
         { id: 'OTD', label: 'OTD', minWidth: 70 },
         { id: 'Create Sub-Task', label: 'Create Sub-Task', minWidth: 70, button: 'Re-Work', onclick: 'onclick("alert()")' }
-    ]);
+    ];
     useEffect(() => {
         setTheme();
-        axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',1' }).then(result => {
-            setRowData(result.data[0]);
-            console.log(result.data[0]);
-            setTimeout(() => { setIsLoading(false); }, 1000);
-        });
     }, []);
 
 
@@ -105,12 +97,12 @@ export default function Home() {
                     onChangeIndex={handleChangeIndex}
                 >
                     <TabPanel value={value} index={0}>
-                        <CustomGrid Rows={rowData} Columns={columns} Pagination={true} />
+                        <CustomGrid Columns={columns} tab='TaskDashBoard' Pagination={true} />
                     </TabPanel>
                 </SwipeableViews>
             </Box>
         );
     }
-    if (isLoading) return (<NavBar Component={<Loader />} />);
+    // if (isLoading) return (<NavBar Component={<Loader />} />);
     return (<NavBar Component={<FullWidthTabs />} />);
 }

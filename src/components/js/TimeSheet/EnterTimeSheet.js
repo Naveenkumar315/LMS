@@ -40,7 +40,7 @@ export default function EnterTimeSheet() {
             setIsLoading(false);
             console.log(result.data[0]);
         });
-    }, []);
+    }, [EmpId, taskDate]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
