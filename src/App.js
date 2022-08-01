@@ -6,6 +6,7 @@ import Lms from './components/js/LMS/LMS';
 import Profile from './components/js/Profile/Profile';
 import Tasks from './components/js/Tasks/Task';
 import Portal from './components/js/EmployeePortal/Portal';
+import SideBar from '../src/components/Sub-Component/Sidebar';
 import '../src/components/css/style.css';
 import EnterTimeSheet from './components/js/TimeSheet/EnterTimeSheet';
 function App() {
@@ -14,12 +15,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route exact path='/' element={<Login />} />
-          <Route path='/Home' element={<Home />} />
-          <Route path='/Tasks' element={<Tasks />} />
-          <Route path='/LMS' element={<Lms />} />
-          <Route path='/EmployeePortal' element={<Portal />} />
-          <Route path='/Profile' element={<Profile />} />
-          <Route path='/EnterTimeSheet' element={<EnterTimeSheet />} />
+          <Route path='/Home' element={<SideBar Component={<Home />} />} />
+          <Route path='/Tasks' element={<SideBar Component={<Tasks />} />} />
+          <Route path='/LMS' element={<SideBar Component={<Lms />} />} />
+          <Route path='/EmployeePortal' element={<SideBar Component={<Portal />} />} />
+          <Route path='/Profile' element={<SideBar Component={<Profile />} />} />
+          <Route path='/EnterTimeSheet' element={<SideBar Component={<EnterTimeSheet />} />} />
         </Routes>
       </BrowserRouter>
     </>

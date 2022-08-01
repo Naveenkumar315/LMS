@@ -9,7 +9,6 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CustomGrid from '../../Sub-Component/CustomeGrid';
-import NavBar from '../../Sub-Component/NavBar';
 import setTheme from '../../Sub-Component/setTheme';
 import Swatch from '../../Sub-Component/Swatch';
 import PermissionWH from './PermissionWH';
@@ -149,5 +148,5 @@ export default function Lms() {
         );
     }
 
-    return (<NavBar Component={<FullWidthTabs val="2" />} />);
+    return (<FullWidthTabs val="2" />);
 }

@@ -51,6 +51,7 @@ const Login = () => {
                         localStorage.setItem('UserName', loginDetails['UserName']);
                         localStorage.setItem('Name', loginDetails['Name']);
                         localStorage.setItem('Gender', loginDetails['Gender']);
+                        localStorage.setItem('Designation', loginDetails['Designation']);
                         localStorage.setItem('Color', '#fff');
                         localStorage.setItem('BgColor', randomColor());
                         Navigate('/Home')

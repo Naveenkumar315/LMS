@@ -28,7 +28,7 @@ const Sidebar = (props) => {
                                 </span>
                                 <div className="text logo-text">
                                     <span className="name">{localStorage['Name']}</span>
-                                    <span className="profession">Developer</span>
+                                    <span className="profession">{localStorage['Designation']}</span>
                                 </div>
                             </div>
                             {<FontAwesomeIcon className='icon Side-toggle' icon={faChevronRight} onClick={() => {

@@ -48,11 +48,11 @@ function a11yProps(index) {
 }
 export default function ViewTimeSheet() {
     const today = new Date();
-    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-    const [value, setValue] = useState(0);
+    const firstDate = new Date(today.getFullYear(), today.getMonth(), 1);
+    const [value, setValue] = useState(1);
     const [date, setDate] = useState(today);
     const [monthYear, setMonthYear] = useState({ Month: today.getMonth() + 1, Year: today.getFullYear() });
-    const [dateRange, setDateRange] = useState([{ startDate: firstDay, endDate: new Date(), key: 'selection' }]);
+    const [dateRange, setDateRange] = useState([{ startDate: firstDate, endDate: new Date(), key: 'selection' }]);
     const [Rows, setRows] = useState([]);
     function generateArrayOfYears() {
         var max = today.getFullYear();
@@ -148,8 +148,8 @@ export default function ViewTimeSheet() {
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                             <>
-                                <div style={{ display: 'flex', flexDirection: 'column', width: '335px', marginTop: '20px' }}>
-                                    <div className="input-wrapper marginLeft-0" style={{ width: '86%' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', width: '310px', marginTop: '20px' }}>
+                                    <div className="input-wrapper marginLeft-0" style={{ width: '92%', marginRight: '0' }}>
                                         <div className="input-holder">
                                             <select className="input-input" name="Year" value={monthYear['Year']} onChange={handelMonthYearChange}>
                                                 {Years.map((item, index) => (
@@ -159,7 +159,7 @@ export default function ViewTimeSheet() {
                                             <label className="input-label">Year</label>
                                         </div>
                                     </div>
-                                    <div className="input-wrapper marginLeft-0" style={{ width: '86%' }}>
+                                    <div className="input-wrapper marginLeft-0" style={{ width: '92%', marginRight: '0' }}>
                                         <div className="input-holder">
                                             <select className="input-input" name="Month" value={monthYear['Month']} onChange={handelMonthYearChange}>
                                                 {option.map((item, index) => (
@@ -175,7 +175,7 @@ export default function ViewTimeSheet() {
 
                     </SwipeableViews >
                 </Box>
-                <CustomeGrid Columns={Columns} Rows={Rows} tab="viewTimesheet" />
+                <CustomeGrid Columns={Columns} Rows={Rows} tab="viewTimesheet" Pagination={true} />
             </div>
         </>
     );

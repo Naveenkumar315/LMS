@@ -49,6 +49,7 @@ export default function StickyHeadTable(props) {
     const getPagination = () => {
         if (Pagination)
             return (<TablePagination
+                id='test'
                 rowsPerPageOptions={[10, 25, 50, 100]}
                 component="div"
                 count={rows.length}

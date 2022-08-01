@@ -10,7 +10,6 @@ import Box from '@mui/material/Box';
 import nodeurl from '../../../nodeServer.json'
 import ViewTimeSheet from './ViewTimeSheet'
 import TimeSheetGrid from '../../Sub-Component/TimeSheetGrid';
-import NavBar from '../../Sub-Component/NavBar';
 import Loader from '../../Sub-Component/Loader';
 import setTheme from '../../Sub-Component/setTheme';
 
@@ -120,7 +119,7 @@ export default function EnterTimeSheet() {
     }
 
     if (isLoading)
-        return (<NavBar Component={<Loader />} />);
+        return (<Loader />);
     else
-        return (<NavBar Component={<FullWidthTabs val="2" />} />);
+        return (<FullWidthTabs val="2" />);
 }

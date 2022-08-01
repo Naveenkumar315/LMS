@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import nodeurl from '../../../nodeServer.json'
-import NavBar from '../../Sub-Component/NavBar';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@mui/material/AppBar';
@@ -211,7 +210,5 @@ export default function Profile() {
             </Box >
         );
     }
-    return (
-        <NavBar Component={<FullWidthTabs />} />
-    )
+    return (<FullWidthTabs />)
 }

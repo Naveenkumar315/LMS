@@ -209,10 +209,11 @@ label {
 }
 #viewTimesheet #full-width-tabpanel-0 div.MuiBox-root {
   padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 #viewTimesheet #full-width-tabpanel-1 div.MuiBox-root:nth-child(1) {
-  padding: 0 12px 0 0 !important;
+  padding: 0 !important;
 }
 #viewTimesheet #full-width-tabpanel-2 div.MuiBox-root {
   padding: 0 12px 0 12px !important;

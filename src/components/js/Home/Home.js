@@ -1,7 +1,4 @@
 import React, { useState, useEffect, } from 'react';
-// import Sidebar from './Sidebar'
-import axios from 'axios';
-import nodeurl from '../../../nodeServer.json'
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@mui/material/AppBar';
@@ -11,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import '../../css/style.css'
 import CustomGrid from '../../Sub-Component/CustomeGrid';
-import NavBar from '../../Sub-Component/NavBar';
 import Loader from '../../Sub-Component/Loader';
 import setTheme from '../../Sub-Component/setTheme';
 
@@ -104,5 +100,5 @@ export default function Home() {
         );
     }
     // if (isLoading) return (<NavBar Component={<Loader />} />);
-    return (<NavBar Component={<FullWidthTabs />} />);
+    return (<FullWidthTabs />);
 }
