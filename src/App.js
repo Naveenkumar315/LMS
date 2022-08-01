@@ -8,8 +8,9 @@ import Tasks from './components/js/Tasks/Task';
 import Portal from './components/js/EmployeePortal/Portal';
 import SideBar from '../src/components/Sub-Component/Sidebar';
 import '../src/components/css/style.css';
-import EnterTimeSheet from './components/js/TimeSheet/EnterTimeSheet';
-function App() {
+import EnterTimeSheet from './components/js/TimeSheet/TimeSheet';
+
+export default function App() {
   return (
     <>
       <BrowserRouter>
@@ -27,4 +28,4 @@ function App() {
   );
 }
 
-export default App;
+

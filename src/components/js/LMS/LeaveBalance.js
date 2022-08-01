@@ -4,7 +4,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Moment, { relativeTimeRounding } from 'moment';
+import Moment from 'moment';
 import axios from 'axios';
 import nodeurl from '../../../nodeServer.json';
 import InputDatePicker from '../../Sub-Component/DatePicker/InputDatePicker';

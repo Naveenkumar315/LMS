@@ -1,24 +1,21 @@
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
-import AppBar from '@mui/material/AppBar';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import nodeurl from '../../../nodeServer.json'
-import ViewTimeSheet from './ViewTimeSheet'
-import TimeSheetGrid from '../../Sub-Component/TimeSheetGrid';
-import Loader from '../../Sub-Component/Loader';
-import setTheme from '../../Sub-Component/setTheme';
-
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function EnterTimeSheet() {
     const EmpId = localStorage['EmpId'];
-    const [isLoading, setIsLoading] = useState(true);
-    const [value, setValue] = useState(0);
-    const [EnterTimeSheet, setEnterTimeSheet] = useState([]);
+    const [expanded, setExpanded] = useState(false);
+    const [ActiveTab, setActiveTab] = useState(1);
+    const [Details, setDetails] = useState([]);
+    const [Project, setProject] = useState([]);
+    const [Module, setModule] = useState([]);
+    const [Tasks, setTasks] = useState([]);
+    const [Status, setStatus] = useState([]);
     const taskDate = (new Date().toLocaleDateString()).toString();
     const EnterTimeSheetColumn = [
         { field: 'Row', headerName: 'S No.', minWidth: 100, type: 'lable' },
@@ -33,93 +30,191 @@ export default function EnterTimeSheet() {
         { field: 'Remove', headerName: 'Hours', minWidth: 100, type: 'button' }
     ];
     useEffect(() => {
-        setTheme();
         axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '"' }).then(result => {
-            setEnterTimeSheet(result.data[0]);
-            setIsLoading(false);
-            console.log(result.data[0]);
+            setDetails(result.data[0]);
+            setProject(result.data[1]);
+            setModule(result.data[2]);
+            setStatus(result.data[3]);
         });
     }, [EmpId, taskDate]);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
+    const handleChange = (panel) => (event, isExpanded) => {
+        if (panel === -1) return;
+        setExpanded(isExpanded ? panel : false);
+        setActiveTab(panel + 1);
     };
+    const LeaveApplyTab = () => {
+        const [isVisavle, setIsVisavle] = useState(false);
+        const [Option, setOption] = useState([{}]);
+        const [IsOpen, setIsOpen] = useState([false, false]);
+        const [Details, setDetails] = useState({});
 
-    const handleChangeIndex = (index) => {
-        setValue(index);
-    };
-    function TabPanel(props) {
-
-        const { children, value, index, ...other } = props;
-
+        // const handelOnChange = (event) => {
+        //     Details['LeaveId'] = ActiveTab;
+        //     setDetails({ ...Details, [event.target.name]: event.target.value });
+        //     if (event.target.name === 'LeaveOption') {
+        //         if (event.target.value === '1') {
+        //             setOption(ComDate);
+        //             setIsVisavle(true);
+        //         }
+        //         else if (event.target.value === '2') {
+        //             setOption(PrevComDate);
+        //             setIsVisavle(true);
+        //         } else {
+        //             setIsVisavle(false);
+        //         }
+        //     }
+        // }
+        const handelClick = () => {
+            // axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Sp_LM_Leaveapplication ', UpdateJson: JSON.stringify(Details) }).then(result => {
+            // });
+        }
+        const handelModuleChange = (event) => {
+            axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + 1 + ',' + 1 + ',' + 0 + ',' + EmpId }).then(result => {
+                setTasks(result.data[0]);
+            });
+        }
         return (
-            <div
-                role="tabpanel"
-                hidden={value !== index}
-                id={`full-width-tabpanel-${index}`}
-                aria-labelledby={`full-width-tab-${index}`}
-                {...other}
-            >
-                {value === index && (
-                    <Box sx={{ p: 3 }}>
-                        <Typography component={"span"} variant={"body2"}>{children}</Typography>
-                    </Box>
-                )}
+            <>
+                <div style={{ margin: '15px 0 0 0', width: '99%' }}>
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ width: '70%' }}>
+                            <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                <div className="input-holder">
+                                    <select className="input-input" name="Project" value={1}>
+                                        {Project.map((item, index) => (
+                                            <option key={index} value={item['ProjectId']}>{item['ProjectName']}</option>
+                                        ))}
+                                    </select>
+                                    <label className="input-label">Project</label>
+                                </div>
+                            </div>
+
+                            <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                <div className="input-holder">
+                                    <select className="input-input" name="Module" onChange={handelModuleChange} >
+                                        {Module.filter((item) => { return item['ProjectId'] === 1 })
+                                            .map((item, index) => (
+                                                <option key={index} value={item['ModuleId']}>{item['ModuleName']}</option>
+                                            ))}
+                                    </select>
+                                    <label className="input-label">Module</label>
+                                </div>
+                            </div>
+                            <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                <div className="input-holder">
+                                    <select className="input-input" name="Task" >
+                                        {Tasks.map((item, index) => (
+                                            <option key={index} value={item['TaskId']}>{item['TaskName']}</option>
+                                        ))}
+                                    </select>
+                                    <label className="input-label">Task</label>
+                                </div>
+                            </div>
+
+                            <div className="input-wrapper marginLeft-0" style={{ width: '40%' }}>
+                                <div className="input-holder">
+                                    <select className="input-input" name="Status" >
+                                        {Status.map((item, index) => (
+                                            <option key={index} value={item['TypeOptionID']}>{item['TypeName']}</option>
+                                        ))}
+                                    </select>
+                                    <label className="input-label">Status</label>
+                                </div>
+                            </div>
+                            <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                <div className="input-holder">
+                                    <input type="text" className="input-input" name="Issues" />
+                                    <label className="input-label">Issue</label>
+                                </div>
+                            </div>
+                            <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
+                                <div className="input-holder">
+                                    <input type="text" className="input-input" name="Hours" />
+                                    <label className="input-label">Hours</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div style={{ width: '35%' }}>
+                            <div className="input-wrapper marginLeft-0" style={{ width: '100%' }} >
+                                <div className="input-holder">
+                                    <textarea type="text" className="input-input" name="TaskDescription" style={{ height: '155px' }} />
+                                    <label className="input-label">Task Description</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <button className="btn" style={{ margin: '0' }} >Apply</button>
+                    </div>
+                </div>
+            </>
+        );
+    }
+    return (
+        <>
+            <div style={{ width: '95%', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
+                <Accordion expanded="false" onChange={handleChange(-1)}>
+                    <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], }}>
+                        <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>
+                            Project
+                        </Typography>
+                        <Typography component={"span"} sx={{ width: '12%', flexShrink: 0 }}>
+                            Module
+                        </Typography>
+                        <Typography component={"span"} sx={{ width: '12%', flexShrink: 0 }}>
+                            Task
+                        </Typography>
+                        <Typography component={"span"} sx={{ width: '28%', flexShrink: 0 }}>
+                            Task Description
+                        </Typography>
+                        <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
+                            Status
+                        </Typography>
+                        <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
+                            Hours
+                        </Typography>
+                    </AccordionSummary>
+
+                </Accordion>
+
+                {Details.map((column, index) => (
+                    <Accordion key={index} expanded={expanded === index} className={expanded === index ? 'activeAcc' : ''} onChange={column['LeaveType'] === 'Total' ? handleChange(-1) : handleChange(index)} >
+                        <AccordionSummary className={expanded === index ? 'activeAccSum' : ''}
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel2bh-content"
+                            id="panel2bh-header"
+                        >
+                            <Typography component={"span"} sx={{ width: '7%', flexShrink: 0 }}>
+                                {column['ProjectName']}
+                            </Typography>
+                            <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
+                                {column['ModuleName']}
+                            </Typography>
+                            <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
+                                {column['TaskName']}
+                            </Typography>
+                            <Typography component={"span"} sx={{ width: '30%', flexShrink: 0, padding: '0 30px' }}>
+                                {column['TaskDescription']}
+                            </Typography>
+                            <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
+                                {column['Status']}
+                            </Typography>
+                            <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
+                                {column['Hours']}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography component={"span"}>
+                                <LeaveApplyTab />
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                ))}
             </div>
-        );
-    }
-
-    TabPanel.propTypes = {
-        children: PropTypes.node,
-        index: PropTypes.number.isRequired,
-        value: PropTypes.number.isRequired,
-    };
-
-    function a11yProps(index) {
-        return {
-            id: `full-width-tab-${index}`,
-            'aria-controls': `full-width-tabpanel-${index}`,
-        };
-    }
-
-    function FullWidthTabs(props) {
-
-        // setTimeout(() => {
-        //     document.querySelectorAll('div.MuiButtonBase-root')[0].addEventListener('click', () => { handleChange('', value - 1) });
-        //     document.querySelectorAll('div.MuiButtonBase-root')[1].addEventListener('click', () => { handleChange('', value + 1) });
-        // }, 1000);
-        return (
-            <Box sx={{ bgcolor: 'inherit' }}>
-                <AppBar position="static" style={{ width: '305px', marginLeft: '25px', backgroundColor: '#fff' }} >
-                    <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        textColor="inherit"
-                        style={{ color: localStorage['BgColor'] }}
-                    >
-                        <Tab label="Enter TimeSheet" className='tab' {...a11yProps(0)} />
-                        <Tab label="View TimeSheet" className='tab'  {...a11yProps(1)} />
-                    </Tabs>
-                </AppBar>
-                <SwipeableViews
-                    //axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                    index={value}
-                    onChangeIndex={handleChangeIndex}
-                >
-                    <TabPanel value={value} index={0}>
-                        <TimeSheetGrid Columns={EnterTimeSheetColumn} Rows={EnterTimeSheet} Pagination={false} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        <ViewTimeSheet />
-                    </TabPanel>
-
-                </SwipeableViews >
-            </Box >
-        );
-    }
-
-    if (isLoading)
-        return (<Loader />);
-    else
-        return (<FullWidthTabs val="2" />);
+        </>
+    );
 }
