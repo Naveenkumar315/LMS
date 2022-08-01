@@ -5,7 +5,6 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import Moment from 'moment';
 
 export default function InputDatePicker(props) {
-    debugger
     const [date, setDate] = useState(new Date(props['Value']));
     const valueChange = props['valueChange']
     const handelDateChange = (value, e) => {

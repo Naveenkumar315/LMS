@@ -15,7 +15,7 @@ import Swatch from '../../Sub-Component/Swatch';
 import PermissionWH from './PermissionWH';
 import PermissionWFH from './PermissionWFH';
 import LeaveBalanceTab from './LeaveBalance';
-import Snackbars from '../../Sub-Component/Alert';
+import Snackbars from '../../Sub-Component/alert';
 
 
 export default function Lms() {

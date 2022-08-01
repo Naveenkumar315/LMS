@@ -17,6 +17,7 @@ export default function StickyHeadTable(props) {
     const [rows, setRows] = useState([]);
     const Pagination = props['Pagination']
     const handelAction = props['onclick']
+
     useEffect(() => {
         if (tab === 'LeaveHistory')
             axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveHistory ' + EmpId + '' }).then(result => {
@@ -28,10 +29,12 @@ export default function StickyHeadTable(props) {
             });
         else if (tab === 'TaskDashBoard')
             axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',1' }).then(result => {
-                setRows(result.data[0]);
-
+                setRows(result.data[0])
             });
-    }, [EmpId, tab]);
+        else if (tab === 'viewTimesheet') {
+            setRows(props['Rows']);
+        }
+    }, [EmpId, tab, props['Rows']]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 

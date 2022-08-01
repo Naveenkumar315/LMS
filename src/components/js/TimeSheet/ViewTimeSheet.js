@@ -175,7 +175,7 @@ export default function ViewTimeSheet() {
 
                     </SwipeableViews >
                 </Box>
-                <CustomeGrid Columns={Columns} Rows={Rows} />
+                <CustomeGrid Columns={Columns} Rows={Rows} tab="viewTimesheet" />
             </div>
         </>
     );

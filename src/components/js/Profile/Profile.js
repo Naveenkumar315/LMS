@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import ChangePassword from './ChangePassword';
 import setTheme from '../../Sub-Component/setTheme';
 import InputDatePicker from '../../Sub-Component/DatePicker/InputDatePicker';
-import Snackbars from '../../Sub-Component/Alert';
+import Snackbars from '../../Sub-Component/alert';
 
 
 export default function Profile() {

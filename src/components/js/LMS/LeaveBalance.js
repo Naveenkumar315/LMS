@@ -8,7 +8,7 @@ import Moment, { relativeTimeRounding } from 'moment';
 import axios from 'axios';
 import nodeurl from '../../../nodeServer.json';
 import InputDatePicker from '../../Sub-Component/DatePicker/InputDatePicker';
-import Snackbars from '../../Sub-Component/Alert';
+import Snackbars from '../../Sub-Component/alert';
 
 export default function LeaveBalanceTab(props) {
     let EmpId = localStorage['EmpId'];
