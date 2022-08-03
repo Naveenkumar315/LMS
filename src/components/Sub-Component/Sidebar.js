@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight, faHouseChimney, faLevelUpAlt, faTableList, faTasks, faUser, faUserDoctor, sett, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faHouseChimney, faLevelUpAlt, faTableList, faTasks, faUser, faUserDoctor, sett, faRightFromBracket, faUserGear } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
 import Male from "../../images/Male.png";
 import Female from "../../images/Female.png";
@@ -14,6 +14,12 @@ const Sidebar = (props) => {
     };
     const [IsOpen, setIsOpen] = useState(false);
     const { pathname } = useLocation();
+    let images;
+    try {
+        images = require('../../images/Profile_' + localStorage['EmpId'] + '.png');
+    } catch (error) {
+        images = localStorage['Gender'] === 'Female' ? Female : Male
+    }
     return (
         <>
             <div
@@ -25,9 +31,12 @@ const Sidebar = (props) => {
                     <nav className={`sidebar ${IsOpen ? "close" : ""}`}>
                         <header>
                             <div className="image-text">
-                                <span className="image">
-                                    <img src={localStorage["Gender"] === "Female" ? Female : Male} alt="" />
-                                </span>
+                                <NavLink to="/Settings" >
+                                    <span className="image">
+                                        <img src={images} alt="" />
+                                        {/* <img src={localStorage["Gender"] === "Female" ? Female : Male} alt="" /> */}
+                                    </span>
+                                </NavLink>
                                 <div className="text logo-text">
                                     <span className="name">{localStorage["Name"]}</span>
                                     <span className="profession">{localStorage["Designation"]}</span>
@@ -119,13 +128,13 @@ const Sidebar = (props) => {
                                     {IsOpen ?
                                         <ToolTip title="Settings" placement="left">
                                             <NavLink to="/Settings" className={`nav-link tab ${pathname === "/Settings" ? "active" : ""}`}>
-                                                <FontAwesomeIcon icon={faUser} className="icon" />
+                                                <FontAwesomeIcon icon={faUserGear} className="icon" />
                                                 <span className="text nav-text">Settings</span>
                                             </NavLink>
                                         </ToolTip>
                                         :
                                         <NavLink to="/Settings" className={`nav-link tab ${pathname === "/Settings" ? "active" : ""}`}>
-                                            <FontAwesomeIcon icon={faUser} className="icon" />
+                                            <FontAwesomeIcon icon={faUserGear} className="icon" />
                                             <span className="text nav-text">Settings</span>
                                         </NavLink>
                                     }

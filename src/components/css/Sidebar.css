@@ -117,8 +117,11 @@ header .image-text .profession {
 
 .sidebar header .image img {
   width: 40px;
-  border-radius: 6px;
   margin-top: 9px;
+  height: 40px;
+  border-radius: 50%;
+  /* background-color: inherit;
+  border: 3px solid rgb(255, 255, 255); */
 }
 
 .sidebar header .Side-toggle {
