@@ -17,8 +17,7 @@ const Sidebar = (props) => {
     return (
         <>
             <div
-                style={{ backgroundColor: localStorage["BgColor"], color: "#fff", width: "100%", textAlign: "center", padding: "10px", }}
-            >
+                style={{ backgroundColor: localStorage["BgColor"], color: "#fff", width: "100%", textAlign: "center", padding: "10px", }}>
                 <h2 style={{ margin: 0 }}>Analytic Brains</h2>
             </div>
             <div style={{ marginTop: "-60px" }}>
@@ -94,7 +93,6 @@ const Sidebar = (props) => {
                                             <span className="text nav-text">LMS</span>
                                         </NavLink>
                                     )}
-
                                     {IsOpen ? (
                                         <ToolTip title="Employee Portal" placement="left">
                                             <NavLink to="/EmployeePortal" className={`nav-link tab disabled ${pathname === "/EmployeePortal" ? "active" : ""}`}>
