@@ -28,7 +28,6 @@ export default function EnterTimeSheet() {
     }, [EmpId, taskDate]);
     const handlePanelChange = (panel) => (event, isExpanded) => {
         if (panel === -1) return;
-        debugger
         axios.post(nodeurl['nodeurl'], { query: 'AB_ModuleList ' + Details[panel]['ProjectId'] }).then(result => {
             setModule(result.data[0]);
         });
@@ -40,121 +39,48 @@ export default function EnterTimeSheet() {
     };
     const handelClick = () => {
         for (let i = 0; i < Details.length; i++) {
-            debugger
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_SaveTimesheetDetail ', UpdateJson: JSON.stringify(Details[i]) }).then(result => {
-                alert()
             });
         }
     }
-    const TimeSheetTab = (index) => {
+    const handelOnChange = (event) => {
+        const newState = Details.map((obj, index_) => {
+            if (parseInt(parseInt(event.target.attributes.index.value)) === index_) {
+                if (event.target.name === 'ProjectId') {
+                    return { ...obj, [event.target.name]: event.target.value, 'ProjectName': event.target.options[event.target.selectedIndex].text };
+                } else if (event.target.name === 'ModuleId') {
+                    return { ...obj, [event.target.name]: event.target.value, 'ModuleName': event.target.options[event.target.selectedIndex].text };
+                } else if (event.target.name === 'TaskId') {
+                    return { ...obj, [event.target.name]: event.target.value, 'TaskName': event.target.options[event.target.selectedIndex].text };
+                }
+                return { ...obj, [event.target.name]: event.target.value };
+            }
+            return obj;
+        });
+        setDetails(newState);
+    }
 
-        if (index === undefined) return;
-        else index = index['index']
-
-        const handelOnChange = (event) => {
-            const newState = Details.map((obj, index_) => {
-                if (index === index_)
-                    return { ...obj, [event.target.name]: event.target.value };
-                return obj;
-            });
-            setDetails(newState);
-        }
-
-        const handelProjectChange = (event) => {
-            axios.post(nodeurl['nodeurl'], { query: 'AB_ModuleList ' + event.target.value }).then(Module_ => {
-                setModule(Module_.data[0]);
-                axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + event.target.value + ',' + Module_.data[0][0]['ModuleId'] + ',' + 0 + ',' + EmpId }).then(Tasks_ => {
-                    setTasks(Tasks_.data[0]);
-                    const newState = Details.map((obj, index_) => {
-                        if (index === index_)
-                            return { ...obj, 'ModuleId': Module_.data[0][0]['ModuleId'], 'ProjectId': event.target.value, 'TaskId': Tasks_.data[0][0]['TaskId'] };
-                        return obj;
-                    });
-                    setDetails(newState);
+    const handelProjectChange = (event) => {
+        axios.post(nodeurl['nodeurl'], { query: 'AB_ModuleList ' + event.target.value }).then(Module_ => {
+            setModule(Module_.data[0]);
+            axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + event.target.value + ',' + Module_.data[0][0]['ModuleId'] + ',' + 0 + ',' + EmpId }).then(Tasks_ => {
+                setTasks(Tasks_.data[0]);
+                const newState = Details.map((obj, index_) => {
+                    if (parseInt(event.target.attributes.index.value) === index_)
+                        return { ...obj, 'ModuleId': Module_.data[0][0]['ModuleId'], 'ModuleName': Module_.data[0][0]['ModuleName'], 'ProjectName': event.target.options[event.target.selectedIndex].text, 'ProjectId': event.target.value, 'TaskId': Tasks_.data[0][0]['TaskId'], 'TaskName': Tasks_.data[0][0]['TaskName'] };
+                    return obj;
                 });
+                setDetails(newState);
             });
-            handelOnChange(event);
+        });
+        handelOnChange(event);
 
-        }
-        const handelModuleChange = (event) => {
-            handelOnChange(event);
-            axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + Details[index]['ProjectId'] + ',' + event.target.value + ',' + 0 + ',' + EmpId }).then(result => {
-                setTasks(result.data[0]);
-            });
-        }
-
-        return (
-            <>
-                <div style={{ margin: '15px 0 0 0', width: '99%' }}>
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ width: '70%' }}>
-                            <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
-                                <div className="input-holder">
-                                    <select className="input-input" name="ProjectId" value={Details[index]['ProjectId']} onChange={handelProjectChange}>
-                                        {Project.map((item, index) => (
-                                            <option key={index} value={item['ProjectId']}>{item['ProjectName']}</option>
-                                        ))}
-                                    </select>
-                                    <label className="input-label">Project</label>
-                                </div>
-                            </div>
-
-                            <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
-                                <div className="input-holder">
-                                    <select className="input-input" name="ModuleId" value={Details[index]['ModuleId']} onChange={handelModuleChange} >
-                                        {Module.map((item, index) => (
-                                            <option key={index} value={item['ModuleId']}>{item['ModuleName']}</option>
-                                        ))}
-                                    </select>
-                                    <label className="input-label">Module</label>
-                                </div>
-                            </div>
-                            <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
-                                <div className="input-holder">
-                                    <select className="input-input" name="TaskId" value={Details[index]['TaskId']} onChange={handelOnChange}>
-                                        {Tasks.map((item, index) => (
-                                            <option key={index} value={item['TaskId']}>{item['TaskName']}</option>
-                                        ))}
-                                    </select>
-                                    <label className="input-label">Task</label>
-                                </div>
-                            </div>
-
-                            <div className="input-wrapper marginLeft-0" style={{ width: '40%' }}>
-                                <div className="input-holder">
-                                    <select className="input-input" name="StatusId" value={Details[index]['StatusId']} onChange={handelOnChange}>
-                                        {Status.map((item, index) => (
-                                            <option key={index} value={item['TypeOptionID']}>{item['TypeName']}</option>
-                                        ))}
-                                    </select>
-                                    <label className="input-label">Status</label>
-                                </div>
-                            </div>
-                            <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
-                                <div className="input-holder">
-                                    <input type="text" className="input-input" name="Issues" value={Details[index]['Issues']} onChange={handelOnChange} />
-                                    <label className="input-label">Issue</label>
-                                </div>
-                            </div>
-                            <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
-                                <div className="input-holder">
-                                    <input type="text" className="input-input" name="Hours" value={Details[index]['Hours']} onChange={handelOnChange} />
-                                    <label className="input-label">Hours</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div style={{ width: '35%' }}>
-                            <div className="input-wrapper marginLeft-0" style={{ width: '100%' }} >
-                                <div className="input-holder">
-                                    <textarea type="text" className="input-input" name="TaskDescription" value={Details[index]['TaskDescription']} onChange={handelOnChange} style={{ height: '155px' }} />
-                                    <label className="input-label">Task Description</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </>
-        );
+    }
+    const handelModuleChange = (event) => {
+        handelOnChange(event);
+        axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + Details[parseInt(event.target.attributes.index.value)]['ProjectId'] + ',' + event.target.value + ',' + 0 + ',' + EmpId }).then(result => {
+            setTasks(result.data[0]);
+        });
     }
     return (
         <>
@@ -211,14 +137,83 @@ export default function EnterTimeSheet() {
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography component={"span"}>
-                                {index !== undefined ? <TimeSheetTab index={index} /> : <></>}
+                                {
+                                    <div style={{ margin: '15px 0 0 0', width: '99%' }}>
+                                        <div style={{ display: 'flex' }}>
+                                            <div style={{ width: '70%' }}>
+                                                <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                                    <div className="input-holder">
+                                                        <select className="input-input" name="ProjectId" index={index} value={Details[index]['ProjectId']} onChange={handelProjectChange}>
+                                                            {Project.map((item, index) => (
+                                                                <option key={index} value={item['ProjectId']}>{item['ProjectName']}</option>
+                                                            ))}
+                                                        </select>
+                                                        <label className="input-label">Project</label>
+                                                    </div>
+                                                </div>
+
+                                                <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                                    <div className="input-holder">
+                                                        <select className="input-input" name="ModuleId" index={index} value={Details[index]['ModuleId']} onChange={handelModuleChange} >
+                                                            {Module.map((item, index) => (
+                                                                <option key={index} value={item['ModuleId']}>{item['ModuleName']}</option>
+                                                            ))}
+                                                        </select>
+                                                        <label className="input-label">Module</label>
+                                                    </div>
+                                                </div>
+                                                <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                                    <div className="input-holder">
+                                                        <select className="input-input" name="TaskId" index={index} value={Details[index]['TaskId']} onChange={handelOnChange}>
+                                                            {Tasks.map((item, index) => (
+                                                                <option key={index} value={item['TaskId']}>{item['TaskName']}</option>
+                                                            ))}
+                                                        </select>
+                                                        <label className="input-label">Task</label>
+                                                    </div>
+                                                </div>
+
+                                                <div className="input-wrapper marginLeft-0" style={{ width: '40%' }}>
+                                                    <div className="input-holder">
+                                                        <select className="input-input" name="StatusId" index={index} value={Details[index]['StatusId']} onChange={handelOnChange}>
+                                                            {Status.map((item, index) => (
+                                                                <option key={index} value={item['TypeOptionID']}>{item['TypeName']}</option>
+                                                            ))}
+                                                        </select>
+                                                        <label className="input-label">Status</label>
+                                                    </div>
+                                                </div>
+                                                <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                                    <div className="input-holder">
+                                                        <input type="text" className="input-input" name="Issues" index={index} value={Details[index]['Issues']} onChange={handelOnChange} />
+                                                        <label className="input-label">Issue</label>
+                                                    </div>
+                                                </div>
+                                                <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
+                                                    <div className="input-holder">
+                                                        <input type="text" className="input-input" name="Hours" index={index} value={Details[index]['Hours']} onChange={handelOnChange} />
+                                                        <label className="input-label">Hours</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style={{ width: '35%' }}>
+                                                <div className="input-wrapper marginLeft-0" style={{ width: '100%' }} >
+                                                    <div className="input-holder">
+                                                        <textarea type="text" className="input-input" name="TaskDescription" index={index} value={Details[index]['TaskDescription']} onChange={handelOnChange} style={{ height: '155px' }} />
+                                                        <label className="input-label">Task Description</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
                 )) : null}
             </div>
             <div>
-                <button className="btn" style={{ margin: '0' }} onClick={handelClick}>Apply</button>
+                <button className="btn marginLeft-0 " onClick={handelClick}>Apply</button>
             </div>
         </>
     );
