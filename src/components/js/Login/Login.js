@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../css/Login.css';
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,11 @@ const Login = () => {
     const [input, setInput] = useState({});
     const [errors, setErrors] = useState({});
     const margin = { margin: '35px 0px' };
-
+    useEffect(() => {
+        window.addEventListener('keydown', (event) => {
+            if (event.keyCode === 13) handleSubmit(event);
+        });
+    }, [])
     const handleChange = (event) => {
         var validate_UN = '', validate_PWD = '';
         input[event.target.name] = event.target.value;
@@ -32,10 +36,6 @@ const Login = () => {
     const Navigate = (path) => {
         navigate(path);
     }
-    const randomColor = () => {
-        var color = ["1f456e", "151e3d", "0589a0", "444791", "f48225", "428bca", "911844"];
-        return '#' + color[Math.floor(Math.random() * 6)]
-    }
     const handleSubmit = (event) => {
         event.preventDefault();
         if (validate()) {
@@ -52,8 +52,9 @@ const Login = () => {
                         localStorage.setItem('Name', loginDetails['Name']);
                         localStorage.setItem('Gender', loginDetails['Gender']);
                         localStorage.setItem('Designation', loginDetails['Designation']);
-                        localStorage.setItem('Color', '#fff');
-                        localStorage.setItem('BgColor', randomColor());
+                        const color = loginDetails['Theme'].split(',');
+                        localStorage.setItem('BgColor', color[0]);
+                        localStorage.setItem('Color', color[1]);
                         Navigate('/Home')
                     }
                 });

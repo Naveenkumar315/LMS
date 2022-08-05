@@ -21,6 +21,18 @@
   transition: var(--tran-05) !important;
   z-index: 100;
 }
+.ABWrapper {
+  background-color: var(--background-color);
+  color: var(--color);
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  transition: var(--tran-05) !important;
+}
+.AB {
+  margin: 0;
+  color: var(--color);
+}
 .sidebar.close {
   width: 88px;
   transition: var(--tran-05);

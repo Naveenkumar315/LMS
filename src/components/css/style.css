@@ -250,10 +250,40 @@ label {
 .css-1elwnq4-MuiPaper-root-MuiAccordion-root.Mui-expanded {
   margin: 0 !important;
 }
-.css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
+#LeaveBalance
+  .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
   min-height: 48px !important;
   border-top: 1px solid #dcdcdc;
   border-bottom: 1px solid var(--background-color);
+}
+#LeaveBalance .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root {
+  min-height: 48px !important;
+}
+#EnterTimeSheet .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root {
+  min-height: 73px !important;
+  max-height: 73px !important;
+}
+#EnterTimeSheet
+  .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
+  min-height: 73px !important;
+  max-height: 73px !important;
+  border-top: 1px solid #dcdcdc;
+  border-bottom: 1px solid var(--background-color);
+}
+.activeAcc {
+  border: 2px solid var(--background-color);
+  border-top: none;
+  transition: 0.35s;
+}
+.activeAcc path {
+  color: var(--color);
+}
+/* .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded:nth-child(0) {
+  min-height: 44px !important;
+} */
+.activeAccSum {
+  background-color: var(--background-color) !important;
+  color: var(--color) !important;
 }
 .scrollbar {
   margin: 0 0 20px 0;
@@ -299,14 +329,7 @@ label {
 #LMS .rdrDay {
   height: 25px !important;
 }
-.activeAcc {
-  border: 2px solid var(--background-color);
-  border-top: none;
-}
-.activeAccSum {
-  background-color: var(--background-color) !important;
-  color: var(--color) !important;
-}
+
 /* #LMS #full-width-tabpanel-0,
 #full-width-tabpanel-1,
 #full-width-tabpanel-2 {
@@ -322,4 +345,9 @@ label {
 }
 .rdrMonthAndYearWrapper {
   display: inline-flex !important;
+}
+.css-1wahp6y-MuiTypography-root,
+.css-14scp3-MuiTypography-root,
+.css-nyczrb-MuiTypography-root {
+  padding: 0 15px !important;
 }

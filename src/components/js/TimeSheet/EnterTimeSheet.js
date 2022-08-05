@@ -6,7 +6,9 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRemove, faTrashAlt, faTrash, faXmark, faXmarkCircle, faXmarkSquare } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 export default function EnterTimeSheet() {
     const EmpId = localStorage['EmpId'];
     const [expanded, setExpanded] = useState(false);
@@ -26,8 +28,37 @@ export default function EnterTimeSheet() {
             setStatus(result.data[3]);
         });
     }, [EmpId, taskDate]);
+    const handleRemove = (index) => {
+        setDetails(Details_ =>
+            Details_.filter((item, index_) => {
+                return parseInt(index) !== index_;
+            }),
+        );
+    }
     const handlePanelChange = (panel) => (event, isExpanded) => {
-        if (panel === -1) return;
+        if (event.target.tagName === 'path' || event.target.tagName === 'div' || event.target.tagName === 'svg') {
+            var index = 0;
+            if (event.target.tagName === 'path') {
+                if (event.target.attributes.fill !== undefined) {
+                    if (event.target.parentNode.attributes.index !== undefined) {
+                        handleRemove(event.target.parentNode.attributes.index.value)
+                        return;
+                    }
+                }
+            }
+            if (event.target.tagName === 'svg') {
+                if (event.target.parentNode.attributes.index !== undefined) {
+                    handleRemove(event.target.parentNode.attributes.index.value)
+                    return;
+                }
+            }
+            if (event.target.tagName === 'div') {
+                if (event.target.parentNode.attributes.index !== undefined) {
+                    handleRemove(event.target.parentNode.attributes.index.value)
+                    return;
+                }
+            }
+        }
         axios.post(nodeurl['nodeurl'], { query: 'AB_ModuleList ' + Details[panel]['ProjectId'] }).then(result => {
             setModule(result.data[0]);
         });
@@ -37,6 +68,19 @@ export default function EnterTimeSheet() {
         setExpanded(isExpanded ? panel : false);
         setActiveTab(panel + 1);
     };
+    const handelAddClick = () => {
+        let newRow = Details[Details.length - 1];
+        let index = Details.length;
+        setDetails([...Details, {
+            Row: Details.length, EmpId: EmpId, id: 134607, ProjectName: newRow['ProjectName'], ProjectId: newRow['ProjectId'], ModuleId: newRow['ModuleId'],
+            ModuleName: newRow['ModuleName'], TaskName: newRow['TaskName'], TaskId: newRow['TaskId'], TaskDate: '19-05-2022', Issues: '',
+            Object: '', TaskDescription: '',
+            Hours: 0, Status: '', StatusId: 0
+        }])
+        setTimeout(() => {
+            setExpanded(index);
+        }, 100);
+    }
     const handelClick = () => {
         for (let i = 0; i < Details.length; i++) {
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_SaveTimesheetDetail ', UpdateJson: JSON.stringify(Details[i]) }).then(result => {
@@ -51,6 +95,7 @@ export default function EnterTimeSheet() {
                 } else if (event.target.name === 'ModuleId') {
                     return { ...obj, [event.target.name]: event.target.value, 'ModuleName': event.target.options[event.target.selectedIndex].text };
                 } else if (event.target.name === 'TaskId') {
+                    debugger
                     return { ...obj, [event.target.name]: event.target.value, 'TaskName': event.target.options[event.target.selectedIndex].text };
                 }
                 return { ...obj, [event.target.name]: event.target.value };
@@ -80,12 +125,26 @@ export default function EnterTimeSheet() {
         handelOnChange(event);
         axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + Details[parseInt(event.target.attributes.index.value)]['ProjectId'] + ',' + event.target.value + ',' + 0 + ',' + EmpId }).then(result => {
             setTasks(result.data[0]);
+            const newState = Details.map((obj, index_) => {
+                if (parseInt(event.target.attributes.index.value) === index_) {
+                    let TaskId = '', TaskName = '';
+                    if (result.data[0].length > 0) {
+                        TaskId = result.data[0][0]['TaskId'];
+                        TaskName = result.data[0][0]['TaskName'];
+                    } else {
+                        TaskId = ''; TaskName = '';
+                    }
+                    return { ...obj, [event.target.name]: event.target.value, 'ModuleName': event.target.options[event.target.selectedIndex].text, 'TaskId': TaskId, 'TaskName': TaskName };
+                }
+                return obj;
+            });
+            setDetails(newState);
         });
     }
     return (
         <>
-            <div style={{ width: '95%', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
-                <Accordion expanded="false" onChange={handlePanelChange(-1)}>
+            <div id="EnterTimeSheet" style={{ width: '95%', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
+                <Accordion expanded={false} onChange={handlePanelChange(-1)}>
                     <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], }}>
                         <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>
                             Project
@@ -131,9 +190,12 @@ export default function EnterTimeSheet() {
                             <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
                                 {column['Status']}
                             </Typography>
-                            <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
+                            <Typography component={"span"} sx={{ width: '14%', flexShrink: 0, padding: '0 30px' }}>
                                 {column['Hours']}
                             </Typography>
+                            <div className='Remove' style={{ marginTop: '10px' }} index={index} onClick={handlePanelChange(-1)}>
+                                <FontAwesomeIcon icon={faTrashAlt} index={index} style={{ color: localStorage['BgColor'], fontSize: '18px' }} className="icon" />
+                            </div>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography component={"span"}>
@@ -213,7 +275,8 @@ export default function EnterTimeSheet() {
                 )) : null}
             </div>
             <div>
-                <button className="btn marginLeft-0 " onClick={handelClick}>Apply</button>
+                <button className="btn marginLeft-0 " onClick={handelAddClick}>Add New</button>
+                <button className="btn marginLeft-0 " onClick={handelClick}>Save Details</button>
             </div>
         </>
     );

@@ -22,9 +22,8 @@ const Sidebar = (props) => {
     }
     return (
         <>
-            <div
-                style={{ backgroundColor: localStorage["BgColor"], color: "#fff", width: "100%", textAlign: "center", padding: "10px", }}>
-                <h2 style={{ margin: 0 }}>Analytic Brains</h2>
+            <div className="ABWrapper">
+                <h2 className="AB" >Analytic Brains</h2>
             </div>
             <div style={{ marginTop: "-60px" }}>
                 <div>

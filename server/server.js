@@ -25,7 +25,7 @@ const config = {
 // app.use(bodyParser.json({ type: `application/json` }));
 app.post(`/`, function (req, res) {
     new sql.ConnectionPool(config).connect().then(pool => {
-        // console.log(req.body.query);
+        console.log(req.body.query);
         return pool.request().query(req.body.query)
     }).then(result => {
         res.send(result[`recordsets`]);
@@ -65,6 +65,14 @@ app.post('/Upload', function (req, res) {
     });
 
 
+});
+app.post('/Delete', function (req, res) {
+    try {
+        fs.unlink('../src/images/Profile_' + req.body.EmpId + '.png', function (err) {
+        });
+    } catch (error) {
+        console.log("Image Not Available");
+    }
 });
 app.post('/Email', function (req, res) {
     require('dotenv').config()
