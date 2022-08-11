@@ -10,9 +10,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CustomGrid from '../../Sub-Component/CustomeGrid';
 import setTheme from '../../Sub-Component/setTheme';
-import Swatch from '../../Sub-Component/Swatch';
-import PermissionWH from './PermissionWH';
-import PermissionWFH from './PermissionWFH';
+import Permission from './Permission'
 import LeaveBalanceTab from './LeaveBalance';
 import Snackbars from '../../Sub-Component/alert';
 
@@ -101,10 +99,7 @@ export default function Lms() {
         const handleChangeIndex = (index) => {
             setValue(index);
         };
-        const [swatch, setSwatch] = useState(false);
-        const handelSwatchChange = (e) => {
-            setSwatch(!swatch)
-        }
+
         return (
             <>
                 {alertDetails['IsShow'] ? <Snackbars Details={alertDetails} /> : <></>}
@@ -134,13 +129,7 @@ export default function Lms() {
                             <CustomGrid Columns={PermissionHistoryColumn} tab='PermissionHistory' Pagination={true} onclick={handelAction} />
                         </TabPanel>
                         <TabPanel value={value} index={3} style={{ width: '100%' }}>
-                            <div style={{ margin: '0 3px' }}>
-                                <span className={!swatch ? 'activeLable Prelable' : 'Prelable'}>Permission for Work Hours</span>
-                                <Swatch OnChange={handelSwatchChange} style={{ display: 'inline-block', margin: '15px' }} />
-                                <span className={swatch ? 'activeLable Prelable' : 'Prelable'}>Permission for Work from Home</span>
-                                {!swatch && <PermissionWH />}
-                                {swatch && <PermissionWFH />}
-                            </div>
+                            <Permission />
                         </TabPanel>
                     </SwipeableViews >
                 </Box >

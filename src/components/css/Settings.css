@@ -41,6 +41,7 @@
 .img {
   width: 200px;
   height: 200px;
+  padding: 2px;
   object-fit: cover;
   border-radius: 50%;
   border: 3px var(--background-color) solid;
@@ -74,7 +75,7 @@
 .colorPalette {
   height: 75px;
   width: 75px;
-  margin: 13px;
+  margin: 10px;
   display: flex;
   border-radius: 50%;
 }

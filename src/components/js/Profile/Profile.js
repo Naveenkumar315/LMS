@@ -16,7 +16,6 @@ import Snackbars from '../../Sub-Component/alert';
 
 export default function Profile() {
     const EmpId = localStorage['EmpId'];
-    const [alertDetails, setAlertDetails] = useState({ IsShow: false, severity: 'success', message: 'Welcome' });
     const DetailsFields = () => {
         const [IsOpen, setIsOpen] = useState(false);
         const [Details, setDetails] = useState({});
@@ -24,7 +23,6 @@ export default function Profile() {
             setTheme();
             axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
                 setDetails(result.data[0][0]);
-
             });
         }, []);
         const handelOnChange = (event) => {
@@ -39,9 +37,15 @@ export default function Profile() {
         const handelClick = () => {
             setIsOpen(false);
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_UpdateEmployeeDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
-                setAlertDetails({ IsShow: true, severity: 'success', message: 'Your Details Saved successfully' });
+                setAlertDetails({ IsShow: true, severity: 'success', message: 'Your Details Updated successfully' });
             });
         }
+        const [alertDetails, setAlertDetails] = useState({ IsShow: false, severity: 'success', message: 'Welcome' });
+        const handleClose = (event, reason) => {
+            if (reason === "clickaway") return;
+            setAlertDetails({ ...alertDetails, IsShow: false });
+        };
+
         return (
             <div style={{ margin: '30px 0', width: '99%' }}>
                 <div className="input-wrapper marginLeft-0">
@@ -126,7 +130,7 @@ export default function Profile() {
                 </div>
                 <div>
                     <button className="btn marginLeft-0" onClick={handelClick}>Save Details</button>
-                    {alertDetails['IsShow'] ? <Snackbars Details={alertDetails} /> : <></>}
+                    <Snackbars open={alertDetails['IsShow']} handleClose={handleClose} message={alertDetails['message']} />
                 </div>
             </div>
         );

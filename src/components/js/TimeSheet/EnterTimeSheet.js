@@ -6,13 +6,15 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRemove, faTrashAlt, faTrash, faXmark, faXmarkCircle, faXmarkSquare } from '@fortawesome/free-solid-svg-icons';
-import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
+
+
 export default function EnterTimeSheet() {
     const EmpId = localStorage['EmpId'];
     const [expanded, setExpanded] = useState(false);
-    const [ActiveTab, setActiveTab] = useState(1);
+    // const [ActiveTab, setActiveTab] = useState(1);
     const [Details, setDetails] = useState([]);
     const [Project, setProject] = useState([]);
     const [Module, setModule] = useState([]);
@@ -22,6 +24,7 @@ export default function EnterTimeSheet() {
 
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '"' }).then(result => {
+            debugger
             setDetails(result.data[0]);
             setProject(result.data[1]);
             setModule(result.data[2]);
@@ -29,15 +32,17 @@ export default function EnterTimeSheet() {
         });
     }, [EmpId, taskDate]);
     const handleRemove = (index) => {
-        setDetails(Details_ =>
-            Details_.filter((item, index_) => {
-                return parseInt(index) !== index_;
-            }),
-        );
+        axios.post(nodeurl['nodeurl'], { query: 'Delete FROM ABMonthlyTimesheet WHERE Id=' + Details[index]['Id'] + ' AND Empid=' + EmpId }).then(result => {
+            setDetails(Details_ =>
+                Details_.filter((item, index_) => {
+                    return parseInt(index) !== index_;
+                }),
+            );
+        });
+
     }
     const handlePanelChange = (panel) => (event, isExpanded) => {
         if (event.target.tagName === 'path' || event.target.tagName === 'div' || event.target.tagName === 'svg') {
-            var index = 0;
             if (event.target.tagName === 'path') {
                 if (event.target.attributes.fill !== undefined) {
                     if (event.target.parentNode.attributes.index !== undefined) {
@@ -66,16 +71,16 @@ export default function EnterTimeSheet() {
             setTasks(result.data[0]);
         });
         setExpanded(isExpanded ? panel : false);
-        setActiveTab(panel + 1);
+        // setActiveTab(panel + 1);
     };
     const handelAddClick = () => {
         let newRow = Details[Details.length - 1];
         let index = Details.length;
         setDetails([...Details, {
-            Row: Details.length, EmpId: EmpId, id: 134607, ProjectName: newRow['ProjectName'], ProjectId: newRow['ProjectId'], ModuleId: newRow['ModuleId'],
-            ModuleName: newRow['ModuleName'], TaskName: newRow['TaskName'], TaskId: newRow['TaskId'], TaskDate: '19-05-2022', Issues: '',
+            Row: Details.length, EmpId: EmpId, Id: 0, ProjectName: newRow['ProjectName'], ProjectId: newRow['ProjectId'], ModuleId: newRow['ModuleId'],
+            ModuleName: newRow['ModuleName'], TaskName: newRow['TaskName'], TaskId: newRow['TaskId'], TaskDate: moment(taskDate).format('YYYY-DD-MM'), Issues: '',
             Object: '', TaskDescription: '',
-            Hours: 0, Status: '', StatusId: 0
+            Hours: 0, Status: 'In Progress', StatusId: 2
         }])
         setTimeout(() => {
             setExpanded(index);
@@ -95,8 +100,9 @@ export default function EnterTimeSheet() {
                 } else if (event.target.name === 'ModuleId') {
                     return { ...obj, [event.target.name]: event.target.value, 'ModuleName': event.target.options[event.target.selectedIndex].text };
                 } else if (event.target.name === 'TaskId') {
-                    debugger
                     return { ...obj, [event.target.name]: event.target.value, 'TaskName': event.target.options[event.target.selectedIndex].text };
+                } else if (event.target.name === 'StatusId') {
+                    return { ...obj, [event.target.name]: event.target.value, 'Status': event.target.options[event.target.selectedIndex].text };
                 }
                 return { ...obj, [event.target.name]: event.target.value };
             }
@@ -274,9 +280,9 @@ export default function EnterTimeSheet() {
                     </Accordion>
                 )) : null}
             </div>
-            <div>
+            <div style={{ textAlign: 'right', width: '95%' }}>
                 <button className="btn marginLeft-0 " onClick={handelAddClick}>Add New</button>
-                <button className="btn marginLeft-0 " onClick={handelClick}>Save Details</button>
+                <button className="btn marginLeft-0 marginRight-0 " onClick={handelClick}>Save Details</button>
             </div>
         </>
     );

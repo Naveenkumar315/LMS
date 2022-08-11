@@ -1,5 +1,6 @@
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import nodeurl from '../../../nodeServer.json'
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@mui/material/AppBar';
@@ -7,24 +8,14 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import nodeurl from '../../../nodeServer.json'
-import ViewTimeSheet from './ViewTimeSheet'
-import Loader from '../../Sub-Component/Loader';
 import setTheme from '../../Sub-Component/setTheme';
-import EnterTimeSheet from './EnterTimeSheet';
+import Swatch from '../../Sub-Component/Swatch';
+import PermissionWH from './PermissionWH';
+import PermissionWFH from './PermissionWFH';
 
-
-export default function TimeSheet() {
-    const [isLoading, setIsLoading] = useState(true);
-    useEffect(() => {
-        setTheme();
-        setIsLoading(false);
-    }, []);
-
+export default function Permission() {
     function TabPanel(props) {
-
         const { children, value, index, ...other } = props;
-
         return (
             <div
                 role="tabpanel"
@@ -48,54 +39,36 @@ export default function TimeSheet() {
         value: PropTypes.number.isRequired,
     };
 
-    function a11yProps(index) {
-        return {
-            id: `full-width-tab-${index}`,
-            'aria-controls': `full-width-tabpanel-${index}`,
-        };
-    }
-
     function FullWidthTabs(props) {
         const [value, setValue] = useState(0);
-        const handleChange = (event, newValue) => {
-            setValue(newValue);
-        };
-
         const handleChangeIndex = (index) => {
             setValue(index);
         };
+        const [swatch, setSwatch] = useState(false);
+        const handelSwatchChange = (e) => {
+            setSwatch(!swatch)
+            setValue(value === 0 ? 1 : 0);
+        }
         return (
             <Box sx={{ bgcolor: 'inherit' }}>
-                <AppBar position="static" style={{ width: '305px', marginLeft: '25px', backgroundColor: '#fff' }} >
-                    <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        textColor="inherit"
-                        style={{ color: localStorage['BgColor'] }}
-                    >
-                        <Tab label="Enter TimeSheet" className='tab' {...a11yProps(0)} />
-                        <Tab label="View TimeSheet" className='tab'  {...a11yProps(1)} />
-                    </Tabs>
-                </AppBar>
+                <span className={!swatch ? 'activeLable Prelable' : 'Prelable'}>Permission for Work Hours</span>
+                <Swatch OnChange={handelSwatchChange} style={{ display: 'inline-block', margin: '15px' }} />
+                <span className={swatch ? 'activeLable Prelable' : 'Prelable'}>Permission for Work from Home</span>
                 <SwipeableViews
-                    //axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                     index={value}
                     onChangeIndex={handleChangeIndex}
                 >
                     <TabPanel value={value} index={0}>
-                        <EnterTimeSheet />
+                        <div style={{ margin: '0 3px' }}>
+                            <PermissionWH />
+                        </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ViewTimeSheet />
+                        <PermissionWFH />
                     </TabPanel>
-
                 </SwipeableViews >
             </Box >
         );
     }
-
-    if (isLoading)
-        return (<Loader />);
-    else
-        return (<FullWidthTabs val="2" />);
+    return (<FullWidthTabs />)
 }

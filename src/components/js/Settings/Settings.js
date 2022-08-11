@@ -68,7 +68,7 @@ export default function Settings() {
     return (
         <>
             <div className="page">
-                <div className="container">
+                <div className="container" style={{ width: '30%', minWidth: '250px' }}>
                     <div className="img-holder">
                         <img src={loadImage()} alt="" id="img" className="img" />
                     </div>
@@ -85,7 +85,7 @@ export default function Settings() {
                 </div>
 
 
-                <div className="container">
+                <div className="container" style={{ minWidth: '400px', textAlign: 'center' }}>
                     <div style={{ margin: '40px auto' }}>
                         {Color.map((color, index) => {
                             return (<div div key={index} className='colorPaletteWrapper' >
