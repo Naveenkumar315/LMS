@@ -141,7 +141,7 @@ export default function LeaveBalanceTab(props) {
     return (
         <>
             <div id="LeaveBalance" style={{ width: '95%', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
-                <Accordion expanded="false" onChange={handleChange(-1)}>
+                <Accordion expanded={false} onChange={handleChange(-1)}>
                     <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], }}>
                         <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
                             Leave Type
