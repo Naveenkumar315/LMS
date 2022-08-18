@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CustomGrid from '../../Sub-Component/CustomeGrid';
 import setTheme from '../../Sub-Component/setTheme';
-import Permission from './Permission'
+import Permission from './Permission';
 import LeaveBalanceTab from './LeaveBalance';
 import Snackbars from '../../Sub-Component/alert';
 

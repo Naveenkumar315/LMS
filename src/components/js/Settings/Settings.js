@@ -30,12 +30,13 @@ export default function Settings() {
         { Primary: '#e30b5d', Secondary: '#fff' },
 
         { Primary: '#4fb8c0', Secondary: '#111' },
+        { Primary: '#ffcf05', Secondary: '#111' },
         { Primary: '#00bfff', Secondary: '#0c090a' },
         { Primary: '#82ade2', Secondary: '#111' },
         { Primary: '#306754', Secondary: '#fbcfcd' },
         { Primary: '#111', Secondary: '#ffdfba' },
         { Primary: '#111', Secondary: '#fff' },
-        { Primary: '#111', Secondary: '#fbcfcd' },
+        // { Primary: '#111', Secondary: '#fbcfcd' },
     ];
     useEffect(() => { setTheme(); }, []);
     const imageHandler = (e) => {

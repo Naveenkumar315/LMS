@@ -51,7 +51,8 @@ table tr:nth-child(even) {
 .MuiTablePagination-selectLabel {
   margin: 0;
 }
-.css-1aquho2-MuiTabs-indicator {
+.css-1aquho2-MuiTabs-indicator,
+.MuiTabs-indicator {
   background-color: var(--background-color) !important;
   height: 4px !important;
 }
@@ -263,9 +264,10 @@ label {
   min-height: 48px !important;
 }
 #EnterTimeSheet .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root {
-  min-height: 73px !important;
-  max-height: 73px !important;
+  min-height: 73px;
+  max-height: 73px;
 }
+
 #EnterTimeSheet
   .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
   min-height: 73px !important;
@@ -277,6 +279,12 @@ label {
   border: 2px solid var(--background-color);
   border-top: none;
   transition: 0.35s;
+}
+.Mui-expanded {
+  margin: 1.5px 0px !important;
+}
+.css-67l5gl {
+  box-shadow: none !important;
 }
 .activeAcc path {
   color: var(--color);

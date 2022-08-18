@@ -9,7 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
     const [input, setInput] = useState({});
     const [errors, setErrors] = useState({});
-    const margin = { margin: '35px 0px' };
+    const [alert, setAlert] = useState('');
     useEffect(() => {
         window.addEventListener('keydown', (event) => {
             if (event.keyCode === 13) handleSubmit(event);
@@ -39,6 +39,7 @@ const Login = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (validate()) {
+            setAlert('');
             let email = input.email;
             let password = input.password;
             var query = { query: "AB_LoginValidation '" + email + "','" + password + "'" };
@@ -56,6 +57,14 @@ const Login = () => {
                         localStorage.setItem('BgColor', color[0]);
                         localStorage.setItem('Color', color[1]);
                         Navigate('/Home')
+                    } else if (loginDetails['AccStatus'] === 0) {
+                        setAlert('Please enter the correct User Name and Password!');
+                    } else if (loginDetails['AccStatus'] === 2) {
+                        setAlert('No. of login attempts exceeded!! Please Contact admin!');
+                    } else if (loginDetails['AccStatus'] === 3) {
+                        setAlert('Your account has been locked!!! Please Contact admin!');
+                    } else if (loginDetails['AccStatus'] === 4) {
+                        setAlert('Please enter valid username and password!');
                     }
                 });
         }
@@ -95,19 +104,21 @@ const Login = () => {
         <>
             <div className="login-container">
                 <div className="title">Login</div>
-                <div className="input input--open" style={margin}>
+                <div className="input input--open" style={{ margin: '35px 0' }}>
                     <div className="input-holder">
                         <input type="text" onChange={handleChange} className="input-input" id="name" name="email" />
                         <div className={(errors.email ? 'text-danger' : '')}>{errors.email}</div>
                         <label className="input-label">user name</label>
-                    </div></div>
-                <div className="input input--open" style={margin}>
+                    </div>
+                </div>
+                <div className="input input--open" style={{ margin: '25px 0 10px 0' }}>
                     <div className="input-holder">
                         <input type="password" onChange={handleChange} className="input-input" id="password" name="password" />
                         <div className={(errors.password ? 'text-danger' : '')}>{errors.password}</div>
                         <label className="input-label">password</label>
-                    </div></div>
-
+                    </div>
+                </div>
+                <div className={(alert !== '' ? 'text-danger' : 'text-danger noBorder')} style={{ margin: '20px auto 5px auto', minHeight: '25px' }}>{alert}</div>
                 <button className="button login-button" onClick={handleSubmit}>log in</button>
 
             </div>

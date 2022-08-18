@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import Snackbars from '../../Sub-Component/alert';
 import moment from 'moment';
 
 
@@ -20,12 +21,30 @@ export default function EnterTimeSheet() {
     const [Module, setModule] = useState([]);
     const [Tasks, setTasks] = useState([]);
     const [Status, setStatus] = useState([]);
-    const taskDate = (new Date().toLocaleDateString()).toString();
-
+    const taskDate = '8/17/2022'
+    const [alertDetails, setAlertDetails] = useState({ IsShow: false, severity: 'success', message: 'Welcome' });
+    const handleClose = (event, reason) => {
+        if (reason === "clickaway") return;
+        setAlertDetails({ ...alertDetails, IsShow: false });
+    };
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '"' }).then(result => {
-            debugger
-            setDetails(result.data[0]);
+            if (result.data[0].length === 0) {
+                let index = 0;
+                setDetails([{
+                    Row: index, EmpId: EmpId, Id: 0, ProjectName: '', ProjectId: 1, ModuleId: 1,
+                    ModuleName: '', TaskName: '', TaskId: 1, TaskDate: moment(taskDate).format('YYYY-MM-DD'), Issues: '',
+                    Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2
+                }]);
+                setTimeout(() => {
+                    setExpanded(index);
+                    let ele = document.querySelector('select[name="ProjectId"][index="' + index + '"]');
+                    ele.dispatchEvent(new Event('change', { bubbles: true }));
+                }, 100);
+            }
+            else {
+                setDetails(result.data[0]);
+            }
             setProject(result.data[1]);
             setModule(result.data[2]);
             setStatus(result.data[3]);
@@ -38,6 +57,7 @@ export default function EnterTimeSheet() {
                     return parseInt(index) !== index_;
                 }),
             );
+            setAlertDetails({ IsShow: true, severity: 'success', message: 'Deleted successfully' });
         });
 
     }
@@ -74,20 +94,30 @@ export default function EnterTimeSheet() {
         // setActiveTab(panel + 1);
     };
     const handelAddClick = () => {
-        let newRow = Details[Details.length - 1];
+        let newRow = Details[Details.length - 1] || -1;
         let index = Details.length;
-        setDetails([...Details, {
-            Row: Details.length, EmpId: EmpId, Id: 0, ProjectName: newRow['ProjectName'], ProjectId: newRow['ProjectId'], ModuleId: newRow['ModuleId'],
-            ModuleName: newRow['ModuleName'], TaskName: newRow['TaskName'], TaskId: newRow['TaskId'], TaskDate: moment(taskDate).format('YYYY-DD-MM'), Issues: '',
-            Object: '', TaskDescription: '',
-            Hours: 0, Status: 'In Progress', StatusId: 2
-        }])
+        if (newRow === -1) {
+            setDetails([...Details, {
+                Row: index, EmpId: EmpId, Id: 0, ProjectName: '', ProjectId: 1, ModuleId: 1,
+                ModuleName: '', TaskName: '', TaskId: 1, TaskDate: moment(taskDate).format('YYYY-MM-DD'), Issues: '',
+                Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2
+            }]);
+        } else {
+            setDetails([...Details, {
+                Row: Details.length, EmpId: EmpId, Id: 0, ProjectName: newRow['ProjectName'], ProjectId: newRow['ProjectId'], ModuleId: newRow['ModuleId'],
+                ModuleName: newRow['ModuleName'], TaskName: newRow['TaskName'], TaskId: newRow['TaskId'], TaskDate: moment(taskDate).format('YYYY-MM-DD'), Issues: '',
+                Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2
+            }]);
+        }
         setTimeout(() => {
             setExpanded(index);
+            let ele = document.querySelector('select[name="ProjectId"][index="' + index + '"]');
+            ele.dispatchEvent(new Event('change', { bubbles: true }));
         }, 100);
     }
     const handelClick = () => {
         for (let i = 0; i < Details.length; i++) {
+            Details[i] = { ...Details[i], TaskDate: moment(Details[i].taskDate).format('YYYY-MM-DD') }
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_SaveTimesheetDetail ', UpdateJson: JSON.stringify(Details[i]) }).then(result => {
             });
         }
@@ -151,7 +181,7 @@ export default function EnterTimeSheet() {
         <>
             <div id="EnterTimeSheet" style={{ width: '95%', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
                 <Accordion expanded={false} onChange={handlePanelChange(-1)}>
-                    <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], }}>
+                    <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], maxHeight: '48px', minHeight: '48px' }}>
                         <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>
                             Project
                         </Typography>
@@ -284,6 +314,7 @@ export default function EnterTimeSheet() {
                 <button className="btn marginLeft-0 " onClick={handelAddClick}>Add New</button>
                 <button className="btn marginLeft-0 marginRight-0 " onClick={handelClick}>Save Details</button>
             </div>
+
         </>
     );
 }
