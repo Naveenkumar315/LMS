@@ -16,15 +16,14 @@ import EnterTimeSheet from './EnterTimeSheet';
 
 export default function TimeSheet() {
     const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         setTheme();
         setIsLoading(false);
     }, []);
 
     function TabPanel(props) {
-
         const { children, value, index, ...other } = props;
-
         return (
             <div
                 role="tabpanel"
@@ -60,10 +59,11 @@ export default function TimeSheet() {
         const handleChange = (event, newValue) => {
             setValue(newValue);
         };
-
         const handleChangeIndex = (index) => {
             setValue(index);
         };
+
+
         return (
             <Box sx={{ bgcolor: 'inherit' }}>
                 <AppBar position="static" style={{ width: '305px', marginLeft: '25px', backgroundColor: '#fff' }} >
@@ -91,6 +91,7 @@ export default function TimeSheet() {
 
                 </SwipeableViews >
             </Box >
+
         );
     }
 

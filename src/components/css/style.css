@@ -363,3 +363,8 @@ label {
 .css-nyczrb-MuiTypography-root {
   padding: 0 15px !important;
 }
+.MuiTableSortLabel-root.Mui-active,
+.MuiTableSortLabel-root:hover,
+.MuiTableSortLabel-root.Mui-active .MuiTableSortLabel-icon {
+  color: var(--color) !important;
+}

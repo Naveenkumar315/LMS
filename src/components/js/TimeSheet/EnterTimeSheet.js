@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import Snackbars from '../../Sub-Component/alert';
 import moment from 'moment';
 
 
@@ -21,12 +20,8 @@ export default function EnterTimeSheet() {
     const [Module, setModule] = useState([]);
     const [Tasks, setTasks] = useState([]);
     const [Status, setStatus] = useState([]);
-    const taskDate = '8/17/2022'
-    const [alertDetails, setAlertDetails] = useState({ IsShow: false, severity: 'success', message: 'Welcome' });
-    const handleClose = (event, reason) => {
-        if (reason === "clickaway") return;
-        setAlertDetails({ ...alertDetails, IsShow: false });
-    };
+    const taskDate = (new Date().toLocaleDateString()).toString();
+
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '"' }).then(result => {
             if (result.data[0].length === 0) {
@@ -57,12 +52,11 @@ export default function EnterTimeSheet() {
                     return parseInt(index) !== index_;
                 }),
             );
-            setAlertDetails({ IsShow: true, severity: 'success', message: 'Deleted successfully' });
         });
 
     }
     const handlePanelChange = (panel) => (event, isExpanded) => {
-        if (event.target.tagName === 'path' || event.target.tagName === 'div' || event.target.tagName === 'svg') {
+        if ((event.target.tagName === 'path' || event.target.tagName === 'div' || event.target.tagName === 'svg') && panel === -1) {
             if (event.target.tagName === 'path') {
                 if (event.target.attributes.fill !== undefined) {
                     if (event.target.parentNode.attributes.index !== undefined) {
@@ -94,6 +88,7 @@ export default function EnterTimeSheet() {
         // setActiveTab(panel + 1);
     };
     const handelAddClick = () => {
+        debugger
         let newRow = Details[Details.length - 1] || -1;
         let index = Details.length;
         if (newRow === -1) {
@@ -205,7 +200,7 @@ export default function EnterTimeSheet() {
                 </Accordion>
 
                 {Array.isArray(Details) ? Details.map((column, index) => (
-                    <Accordion key={index} expanded={expanded === index} className={expanded === index ? 'activeAcc' : ''} onChange={column['LeaveType'] === 'Total' ? handlePanelChange(-1) : handlePanelChange(index)} >
+                    <Accordion key={index} expanded={expanded === index} className={expanded === index ? 'activeAcc' : ''} onChange={handlePanelChange(index)} >
                         <AccordionSummary className={expanded === index ? 'activeAccSum' : ''}
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel2bh-content"
@@ -314,7 +309,6 @@ export default function EnterTimeSheet() {
                 <button className="btn marginLeft-0 " onClick={handelAddClick}>Add New</button>
                 <button className="btn marginLeft-0 marginRight-0 " onClick={handelClick}>Save Details</button>
             </div>
-
         </>
     );
 }
