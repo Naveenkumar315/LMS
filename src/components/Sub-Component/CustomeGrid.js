@@ -13,6 +13,8 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Box from '@mui/material/Box';
 import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationArrow, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function StickyHeadTable(props) {
     let EmpId = localStorage['EmpId'];
@@ -38,7 +40,7 @@ export default function StickyHeadTable(props) {
         else if (tab === 'viewTimesheet') {
             setRows(props['Rows']);
         }
-    }, [EmpId, tab, props['Rows']]);
+    }, [EmpId, tab, props]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -46,6 +48,30 @@ export default function StickyHeadTable(props) {
         setPage(newPage);
     };
 
+
+    const handelCancelAction = (e) => {
+        let id, type;
+        if (e.target.tagName === 'path') {
+            id = e.target.parentElement.id
+            type = e.target.parentElement.attributes.clicktype.value;
+        } else {
+            id = e.target.id;
+            type = e.target.attributes.clicktype.value;
+        }
+        handelAction(id, type);
+        setTimeout(() => {
+            if (type === '1') {
+                axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveHistory ' + EmpId + '' }).then(result => {
+                    setRows(result.data[0]);
+                });
+            }
+            else if (type === '4') {
+                axios.post(nodeurl['nodeurl'], { query: 'LM_PM_PermissionHistory ' + EmpId + '' }).then(result => {
+                    setRows(result.data[0]);
+                });
+            }
+        }, 10);
+    }
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
@@ -75,22 +101,22 @@ export default function StickyHeadTable(props) {
                 <TableRow>
                     {columns.map((headCell, index) => (
                         <TableCell
-                            key={headCell.id}
+                            key={index}
                             style={{ minWidth: headCell.minWidth, backgroundColor: localStorage['BgColor'], color: '#fff', padding: '10px' }}
-                            sortDirection={orderBy === headCell.id ? order : false}
+                            sortDirection={orderBy === headCell['id'] ? order : false}
                         >
-                            <TableSortLabel
-                                active={orderBy === headCell.id}
-                                direction={orderBy === headCell.id ? order : 'asc'}
-                                onClick={createSortHandler(headCell.id)}
+                            {headCell['sort'] ? <TableSortLabel
+                                active={orderBy === headCell['id']}
+                                direction={orderBy === headCell['id'] ? order : 'asc'}
+                                onClick={createSortHandler(headCell['id'])}
                             >
-                                {headCell.label}
-                                {orderBy === headCell.id ? (
+                                {headCell['label']}
+                                {orderBy === headCell['id'] ? (
                                     <Box component="span" sx={visuallyHidden}>
                                         {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                                     </Box>
                                 ) : null}
-                            </TableSortLabel>
+                            </TableSortLabel> : (headCell['label'])}
                         </TableCell>
                     ))}
                 </TableRow>
@@ -104,12 +130,12 @@ export default function StickyHeadTable(props) {
         setOrderBy(property);
     };
     EnhancedTableHead.propTypes = {
-        numSelected: PropTypes.number.isRequired,
+        // numSelected: PropTypes.number.isRequired,
         onRequestSort: PropTypes.func.isRequired,
-        onSelectAllClick: PropTypes.func.isRequired,
+        // onSelectAllClick: PropTypes.func.isRequired,
         order: PropTypes.oneOf(['asc', 'desc']).isRequired,
         orderBy: PropTypes.string.isRequired,
-        rowCount: PropTypes.number.isRequired,
+        // rowCount: PropTypes.number.isRequired,
     };
     function descendingComparator(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
@@ -141,37 +167,38 @@ export default function StickyHeadTable(props) {
     return (
         <>
             <Paper sx={{ width: '100%', overflow: 'auto', border: '1px solid ' + localStorage['BgColor'], height: 'auto' }}>
-                <TableContainer >
+                <TableContainer className='scrollbar' >
                     <Table stickyHeader aria-label="sticky table">
                         <EnhancedTableHead
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
                         />
-                        <TableBody>
-                            {stableSort(rows, getComparator(order, orderBy))
+                        <TableBody >
+                            {rows['length'] > 0 ? stableSort(rows, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                                            {columns.map((column, index) => {
+                                        <TableRow tabIndex={-1} key={index}>
+                                            {columns.map((column, index_) => {
                                                 const value = row[column.id];
                                                 return (
-                                                    <TableCell key={index} align={column.align} style={{ padding: '9px' }}>
-                                                        {column.type === 1 ? <button className='btnAction' id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelAction}>{column.button}</button> : value}
-                                                        {column.type === 2 ? <button className='btnAction' id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelAction}>{column.button}</button> : ''}
-                                                        {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handelAction}>{column.button}</button> : ''}
-                                                        {column.type === 4 ? <button className='btnAction' id={row.PermissionApplicationID} clicktype={column.type} onClick={handelAction}>{column.button}</button> : ''}
+                                                    <TableCell key={index_} align={column.align} style={{ padding: '9px' }}>
+                                                        {column.type === 1 ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faLocationArrow} /></button> : value}
+                                                        {column.type === 2 && row.Reason === 'Timesheet not filled' ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : ''}
+                                                        {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handelCancelAction}>{column.button}</button> : ''}
+                                                        {column.type === 4 ? <button className='btnAction' ><FontAwesomeIcon id={row.PermissionApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : ''}
                                                     </TableCell>
                                                 );
                                             })}
                                         </TableRow>
                                     );
-                                })}
+                                }) :
+                                <TableCell key={-1} colSpan={columns['length']} style={{ textAlign: "center" }}>No Rows Found...!</TableCell>}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {getPagination()}
+                {rows['length'] > 0 && getPagination()}
             </Paper >
 
         </>

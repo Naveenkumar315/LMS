@@ -57,10 +57,11 @@
   padding: 0 5%;
   box-shadow: 0px 1px 5px 0px #000c2f4d;
 }
-.input--open .input-label {
+.input--open .Input-label {
+  color: #0589a0 !important;
   transform: translateY(-40px);
 }
-.input-label {
+.Input-label {
   width: calc(100% - 10%);
   height: 100%;
   display: flex;
@@ -70,7 +71,7 @@
   font-size: 1em;
   left: 5%;
   top: 0;
-  color: #0589a0;
+  color: #0589a0 !important;
   font-weight: 400;
   text-transform: capitalize;
   pointer-events: none;
@@ -126,13 +127,13 @@ textarea {
 .login-container .login-button:hover,
 .login-container .login-button:focus {
   box-shadow: 0px 3px 20px 3px rgb(0 122 255 / 30%);
-  background-color: #0589a0;
+  background-color: #0589a0 !important;
 }
 .login-container .login-button {
   border-radius: 5px;
   width: 60%;
   padding: 15px;
-  background-color: #0589a0;
+  background-color: #0589a0 !important;
   color: #fff;
   text-transform: capitalize;
   letter-spacing: 1px;
@@ -143,8 +144,8 @@ textarea {
 }
 .login-container .login-button:hover {
   background-color: #fff;
-  color: #0589a0;
-  outline: 1px solid #0589a0;
+  color: #0589a0 !important;
+  outline: 1px solid #0589a0 !important;
   text-transform: capitalize;
   font-weight: 600;
   border-radius: 5px;

@@ -9,10 +9,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-
+import { useAlert } from "react-alert";
 
 export default function EnterTimeSheet() {
     const EmpId = localStorage['EmpId'];
+    const alert = useAlert();
     const [expanded, setExpanded] = useState(false);
     // const [ActiveTab, setActiveTab] = useState(1);
     const [Details, setDetails] = useState([]);
@@ -20,19 +21,26 @@ export default function EnterTimeSheet() {
     const [Module, setModule] = useState([]);
     const [Tasks, setTasks] = useState([]);
     const [Status, setStatus] = useState([]);
-    const taskDate = (new Date().toLocaleDateString()).toString();
+    const [taskDate, setTaskDate] = useState((new Date().toLocaleDateString()).toString());
+    const taskDateArr = [
+        // (new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate())).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 2)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 3)).toLocaleDateString()).toString()
+    ];
 
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '"' }).then(result => {
             if (result.data[0].length === 0) {
                 let index = 0;
-                setDetails([{
-                    Row: index, EmpId: EmpId, Id: 0, ProjectName: '', ProjectId: 1, ModuleId: 1,
-                    ModuleName: '', TaskName: '', TaskId: 1, TaskDate: moment(taskDate).format('YYYY-MM-DD'), Issues: '',
-                    Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2
-                }]);
+                // setDetails([{
+                //     Row: index, EmpId: EmpId, Id: 0, ProjectName: '', ProjectId: 1, ModuleId: 1,
+                //     ModuleName: '', TaskName: '', TaskId: 1, TaskDate: moment(taskDate).format('YYYY-MM-DD'), Issues: '',
+                //     Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2
+                // }]);
                 setTimeout(() => {
-                    setExpanded(index);
+                    // setExpanded(index);
                     let ele = document.querySelector('select[name="ProjectId"][index="' + index + '"]');
                     ele.dispatchEvent(new Event('change', { bubbles: true }));
                 }, 100);
@@ -88,7 +96,6 @@ export default function EnterTimeSheet() {
         // setActiveTab(panel + 1);
     };
     const handelAddClick = () => {
-        debugger
         let newRow = Details[Details.length - 1] || -1;
         let index = Details.length;
         if (newRow === -1) {
@@ -112,8 +119,10 @@ export default function EnterTimeSheet() {
     }
     const handelClick = () => {
         for (let i = 0; i < Details.length; i++) {
-            Details[i] = { ...Details[i], TaskDate: moment(Details[i].taskDate).format('YYYY-MM-DD') }
+            Details[i] = { ...Details[i], TaskDate: moment(taskDate).format('YYYY-MM-DD') }
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_SaveTimesheetDetail ', UpdateJson: JSON.stringify(Details[i]) }).then(result => {
+                setExpanded(-1);
+                alert.success("Details Saved successfully.");
             });
         }
     }
@@ -172,9 +181,44 @@ export default function EnterTimeSheet() {
             setDetails(newState);
         });
     }
+    const handelTaskDateChange = (e) => {
+        setTaskDate(e.target.value);
+        axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + e.target.value + '"' }).then(result => {
+            if (result.data[0].length === 0) {
+                let index = 0;
+                // setDetails([{
+                //     Row: index, EmpId: EmpId, Id: 0, ProjectName: '', ProjectId: 1, ModuleId: 1,
+                //     ModuleName: '', TaskName: '', TaskId: 1, TaskDate: moment(e.target.value).format('YYYY-MM-DD'), Issues: '',
+                //     Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2
+                // }]);
+                setDetails(result.data[0]);
+
+                setTimeout(() => {
+                    // setExpanded(index);
+                    let ele = document.querySelector('select[name="ProjectId"][index="' + index + '"]');
+                    ele.dispatchEvent(new Event('change', { bubbles: true }));
+                }, 100);
+            }
+            else {
+                setDetails(result.data[0]);
+            }
+        });
+    }
     return (
         <>
-            <div id="EnterTimeSheet" style={{ width: '95%', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
+            <div style={{ textAlign: 'right', width: '99%' }}>
+                <div className="input-wrapper timeSheetDate" style={{ width: '15%' }} >
+                    <div className="input-holder">
+                        <select className="input-input" style={{ width: '100%', fontSize: '17px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
+                            {taskDateArr.map((item, index) => (
+                                <option key={index} value={item}>{moment(item).format('DD-MM-YYYY')}</option>
+                            ))}
+                        </select>
+                        <label className="input-label">Task Date</label>
+                    </div>
+                </div>
+            </div>
+            <div id="EnterTimeSheet" style={{ width: '99%', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
                 <Accordion expanded={false} onChange={handlePanelChange(-1)}>
                     <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], maxHeight: '48px', minHeight: '48px' }}>
                         <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>
@@ -186,27 +230,27 @@ export default function EnterTimeSheet() {
                         <Typography component={"span"} sx={{ width: '12%', flexShrink: 0 }}>
                             Task
                         </Typography>
-                        <Typography component={"span"} sx={{ width: '28%', flexShrink: 0 }}>
+                        <Typography component={"span"} sx={{ width: '29%', flexShrink: 0 }}>
                             Task Description
                         </Typography>
-                        <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
+                        <Typography component={"span"} sx={{ width: '15%', flexShrink: 0 }}>
                             Status
                         </Typography>
                         <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
                             Hours
                         </Typography>
-                    </AccordionSummary>
 
+                    </AccordionSummary>
                 </Accordion>
 
-                {Array.isArray(Details) ? Details.map((column, index) => (
+                {Details.length > 0 ? Details.map((column, index) => (
                     <Accordion key={index} expanded={expanded === index} className={expanded === index ? 'activeAcc' : ''} onChange={handlePanelChange(index)} >
                         <AccordionSummary className={expanded === index ? 'activeAccSum' : ''}
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel2bh-content"
                             id="panel2bh-header"
                         >
-                            <Typography component={"span"} sx={{ width: '7%', flexShrink: 0 }}>
+                            <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>
                                 {column['ProjectName']}
                             </Typography>
                             <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
@@ -221,7 +265,7 @@ export default function EnterTimeSheet() {
                             <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
                                 {column['Status']}
                             </Typography>
-                            <Typography component={"span"} sx={{ width: '14%', flexShrink: 0, padding: '0 30px' }}>
+                            <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
                                 {column['Hours']}
                             </Typography>
                             <div className='Remove' style={{ marginTop: '10px' }} index={index} onClick={handlePanelChange(-1)}>
@@ -303,9 +347,17 @@ export default function EnterTimeSheet() {
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
-                )) : null}
+                )) :
+                    <Accordion expanded={false} onChange={handlePanelChange(-1)}>
+                        <AccordionSummary style={{ maxHeight: '48px', minHeight: '48px' }}>
+                            <Typography component={"span"} sx={{ width: '100%', textAlign: 'center' }}>
+                                No Rows Found...!
+                            </Typography>
+                        </AccordionSummary>
+                    </Accordion>
+                }
             </div>
-            <div style={{ textAlign: 'right', width: '95%' }}>
+            <div style={{ textAlign: 'right', width: '99%' }}>
                 <button className="btn marginLeft-0 " onClick={handelAddClick}>Add New</button>
                 <button className="btn marginLeft-0 marginRight-0 " onClick={handelClick}>Save Details</button>
             </div>

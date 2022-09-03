@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 function TabPanel(props) {
-    debugger
     const { children, value, index, ...other } = props;
 
     return (

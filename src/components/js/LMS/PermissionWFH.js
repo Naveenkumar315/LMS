@@ -3,16 +3,20 @@ import axios from 'axios';
 import nodeurl from '../../../nodeServer.json'
 import InputDatePicker from '../../Sub-Component/DatePicker/InputDatePicker';
 import Moment from 'moment';
+import { useAlert } from "react-alert";
 
 export default function PermissionWFH() {
     const EmpId = localStorage['EmpId'];
     const [IsOpen, setIsOpen] = useState(false);
+    const alert = useAlert();
     const [DetailsWFH, setDetailsWFH] = useState({ EmpId: EmpId, StartDate: Moment(new Date()).format('MM-DD-YYYY'), EndDate: Moment(new Date()).format('MM-DD-YYYY'), From: '0.00', To: '0.00', Duration: 0, TotalHours: '1.00', Reason: '', PermissionID: 2 })
 
     const handelClick = () => {
         setIsOpen(false);
         axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'LM_PM_PermissionApply ', UpdateJson: JSON.stringify(DetailsWFH) }).then(result => {
-            console.log(result.data[0]);
+            // let status = result.data[0];
+            // if (status === 1) 
+            alert.show("Permission(WFH) has been Applied successfully.");
         });
     }
     const handelOnChange = (event) => {
@@ -27,7 +31,7 @@ export default function PermissionWFH() {
 
 
     return (
-        <div style={{ margin: '30px 0', width: '99%', height: '50vh' }}>
+        <div style={{ width: '99%', height: '50vh' }}>
 
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder">

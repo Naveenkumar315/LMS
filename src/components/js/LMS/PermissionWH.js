@@ -22,7 +22,9 @@ export default function PermissionWH() {
     const handelClick = () => {
         setIsOpen(false);
         axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'LM_PM_PermissionApply ', UpdateJson: JSON.stringify(DetailsWH) }).then(result => {
-            console.log(result.data[0]);
+            // let status = result.data[0];
+            // if (status === 1) 
+            alert.show("Permission has been Applied successfully.");
         });
     }
     const handelOnChange = (event) => {
@@ -34,7 +36,7 @@ export default function PermissionWH() {
 
 
     return (
-        <div style={{ margin: '30px 0', width: '99%', height: '50vh' }}>
+        <div style={{ width: '99%', height: '50vh' }}>
 
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder">

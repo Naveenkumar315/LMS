@@ -62,11 +62,9 @@ export default function TimeSheet() {
         const handleChangeIndex = (index) => {
             setValue(index);
         };
-
-
         return (
             <Box sx={{ bgcolor: 'inherit' }}>
-                <AppBar position="static" style={{ width: '305px', marginLeft: '25px', backgroundColor: '#fff' }} >
+                <AppBar position="static" style={{ width: '305px', marginLeft: '25px', backgroundColor: '#fff', position: 'absolute', zIndex: '99' }} >
                     <Tabs
                         value={value}
                         onChange={handleChange}
@@ -78,7 +76,6 @@ export default function TimeSheet() {
                     </Tabs>
                 </AppBar>
                 <SwipeableViews
-                    //axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                     index={value}
                     onChangeIndex={handleChangeIndex}
                 >
@@ -88,7 +85,6 @@ export default function TimeSheet() {
                     <TabPanel value={value} index={1}>
                         <ViewTimeSheet />
                     </TabPanel>
-
                 </SwipeableViews >
             </Box >
 

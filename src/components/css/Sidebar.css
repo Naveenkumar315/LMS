@@ -243,9 +243,9 @@ body.dark .mode .sun-moon i.moon {
   /* position: absolute; */
   top: 60px;
   left: 250px;
-  height: 90vh;
+  height: 89vh;
   width: calc(100% - 250px);
-  background-color: var(--color);
+  /* background-color: var(--color); */
   transition: var(--tran-05);
 }
 .body .text {
@@ -257,7 +257,7 @@ body.dark .mode .sun-moon i.moon {
 
 .sidebar.close ~ .body {
   left: 88px;
-  height: 90vh;
+  height: 89vh;
   width: calc(100% - 88px);
 }
 body.dark .body .text {

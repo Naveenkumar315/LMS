@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Tabs from '@mui/material/Tabs';
 import axios from 'axios';
 import Tab from '@mui/material/Tab';
@@ -47,15 +47,14 @@ function a11yProps(index) {
     };
 }
 export default function ViewTimeSheet() {
-    const today = new Date();
-    const firstDate = new Date(today.getFullYear(), today.getMonth(), 1);
+    const [date, setDate] = useState(new Date());
+    const firstDate = useMemo(() => (new Date(date.getFullYear(), date.getMonth(), 1)), [date]);
     const [value, setValue] = useState(1);
-    const [date, setDate] = useState(today);
-    const [monthYear, setMonthYear] = useState({ Month: today.getMonth(), Year: today.getFullYear() });
+    const [monthYear, setMonthYear] = useState({ Month: date.getMonth(), Year: date.getFullYear() });
     const [dateRange, setDateRange] = useState([{ startDate: firstDate, endDate: new Date(), key: 'selection' }]);
     const [Rows, setRows] = useState([]);
     function generateArrayOfYears() {
-        var max = today.getFullYear();
+        var max = date.getFullYear();
         var min = max - 5;
         var years = [];
         for (var i = max; i >= min; i--) { years.push(i) }
@@ -78,23 +77,23 @@ export default function ViewTimeSheet() {
     ];
 
     let option = Month;
-    if (monthYear['Year'] === today.getFullYear())
-        option = Month.slice(0, today.getMonth() + 1).reverse();
+    if (monthYear['Year'] === date.getFullYear())
+        option = Month.slice(0, date.getMonth() + 1).reverse();
 
     const Columns = [
         { id: 'TaskDate', label: 'Date', minWidth: 100 },
-        { id: 'ProjectName', label: 'Project', minWidth: 200 },
+        { id: 'ProjectName', label: 'Project', minWidth: 120 },
         { id: 'TaskDescription', label: 'Description', minWidth: 250 },
-        { id: '', label: 'Actual / Estimated completion Date', minWidth: 150 },
+        { id: '', label: 'Completion Date', minWidth: 120 },//Actual / Estimated
         { id: 'Status', label: 'Status', minWidth: 100 },
         { id: 'Issues', label: 'Objects Changed', minWidth: 150 },
-        { id: 'Hours', label: 'Hours', minWidth: 100 }
+        { id: 'Hours', label: 'Hours', minWidth: 80 }
     ];
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Range",' + localStorage['EmpId'] + ',"' + Moment(firstDate).format('YYYY-MM-DD') + '","' + Moment(new Date()).format('YYYY-MM-DD') + '",0,0' }).then(result => {
             setRows(result.data[0]);
         });
-    }, [])
+    }, [firstDate])
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -109,9 +108,9 @@ export default function ViewTimeSheet() {
             });
         }
         else if (newValue === 2) {
-            let today = new Date();
-            setMonthYear({ Month: today.getMonth(), Year: today.getFullYear() });
-            axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Month",' + localStorage['EmpId'] + ',"' + Moment(date).format('YYYY-DD-MM') + '","' + Moment(date).format('YYYY-DD-MM') + '",' + (parseInt(today.getMonth())) + ',' + today.getFullYear() }).then(result => {
+            let date = new Date();
+            setMonthYear({ Month: date.getMonth(), Year: date.getFullYear() });
+            axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Month",' + localStorage['EmpId'] + ',"' + Moment(date).format('YYYY-DD-MM') + '","' + Moment(date).format('YYYY-DD-MM') + '",' + (parseInt(date.getMonth())) + ',' + date.getFullYear() }).then(result => {
                 setRows(result.data[0]);
             });
         }
@@ -127,7 +126,7 @@ export default function ViewTimeSheet() {
     }
     const handelMonthYearChange = (event) => {
         setMonthYear({ ...monthYear, [event.target.name]: parseInt(event.target.value) });
-        let month = today.getMonth() + 1, year = today.getFullYear();
+        let month = date.getMonth() + 1, year = date.getFullYear();
         if (event.target.name === 'Month') month = parseInt(event.target.value);
         else if (event.target.name === 'Year') year = parseInt(event.target.value);
         axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Month",' + localStorage['EmpId'] + ',"' + Moment(date).format('YYYY-DD-MM') + '","' + Moment(date).format('YYYY-DD-MM') + '",' + month + ',' + year }).then(result => {
@@ -143,7 +142,7 @@ export default function ViewTimeSheet() {
 
     return (
         <>
-            <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex' }}>
+            <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex', marginTop: '50px', }}>
                 <Box style={{ display: 'inline-block' }}>
                     <Tabs sx={{ maxWidth: { xs: 320, sm: 170 }, bgcolor: 'background.paper' }}
                         value={value}

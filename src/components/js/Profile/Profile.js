@@ -11,18 +11,20 @@ import Box from '@mui/material/Box';
 import ChangePassword from './ChangePassword';
 import setTheme from '../../Sub-Component/setTheme';
 import InputDatePicker from '../../Sub-Component/DatePicker/InputDatePicker';
-import Snackbars from '../../Sub-Component/alert';
+import { useAlert } from "react-alert";
 
 
 export default function Profile() {
     const EmpId = localStorage['EmpId'];
+    const alert = useAlert();
     const DetailsFields = () => {
         const [IsOpen, setIsOpen] = useState(false);
-        const [Details, setDetails] = useState({});
+        const [Details, setDetails] = useState({ Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: '', DateOfJoin: '', UserName: '', Password: '', Gender: 2, Hintans: '', Question: 0 });
         useEffect(() => {
             setTheme();
             axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
                 setDetails(result.data[0][0]);
+                console.log(result.data[0][0]);
             });
         }, []);
         const handelOnChange = (event) => {
@@ -37,14 +39,9 @@ export default function Profile() {
         const handelClick = () => {
             setIsOpen(false);
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_UpdateEmployeeDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
-                setAlertDetails({ IsShow: true, severity: 'success', message: 'Your Details Updated successfully' });
+                alert.success("Your details Updated successfully.");
             });
         }
-        const [alertDetails, setAlertDetails] = useState({ IsShow: false, severity: 'success', message: 'Welcome' });
-        const handleClose = (event, reason) => {
-            if (reason === "clickaway") return;
-            setAlertDetails({ ...alertDetails, IsShow: false });
-        };
 
         return (
             <div style={{ margin: '30px 0', width: '99%' }}>
@@ -130,7 +127,6 @@ export default function Profile() {
                 </div>
                 <div>
                     <button className="btn marginLeft-0" onClick={handelClick}>Save Details</button>
-                    <Snackbars open={alertDetails['IsShow']} handleClose={handleClose} message={alertDetails['message']} />
                 </div>
             </div>
         );

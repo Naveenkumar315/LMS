@@ -8,11 +8,11 @@ import Moment from 'moment';
 import axios from 'axios';
 import nodeurl from '../../../nodeServer.json';
 import InputDatePicker from '../../Sub-Component/DatePicker/InputDatePicker';
-import Snackbars from '../../Sub-Component/alert';
+import { useAlert } from "react-alert";
 
 export default function LeaveBalanceTab(props) {
     let EmpId = localStorage['EmpId'];
-    const [alertDetails, setAlertDetails] = useState({ IsShow: false, severity: 'success', message: 'Welcome' });
+    const alert = useAlert();
     const [expanded, setExpanded] = useState(false);
     const [ActiveTab, setActiveTab] = useState(1);
     const [ComDate, setComDate] = useState([]);
@@ -35,8 +35,8 @@ export default function LeaveBalanceTab(props) {
                 data[data.length - 1].LOP += data[i].LOP;
             }
             setData(data);
-            setPrevComDate(result.data[1]);
-            setComDate(result.data[2]);
+            setComDate(result.data[1]);
+            setPrevComDate(result.data[2]);
         });
     }, [EmpId]);
     const LeaveApplyTab = () => {
@@ -45,11 +45,18 @@ export default function LeaveBalanceTab(props) {
         const [IsOpen, setIsOpen] = useState([false, false]);
         const [Details, setDetails] = useState({
             EmpId: localStorage['EmpId'], startDate: Moment(new Date()).format('MM-DD-YYYY'), endDate: Moment(new Date()).format('MM-DD-YYYY'),
-            Duration: 0, NoOfDays: '0.00', Reason: '', LeaveOption: 0, Dates: Moment(new Date()).format('MM-DD-YYYY'), LeaveId: 1
+            Duration: 0, NoOfDays: 0, Reason: '', LeaveOption: 0, Dates: Moment(new Date()).format('MM-DD-YYYY'), LeaveId: 1
         });
 
         const handelOnChange = (event) => {
             Details['LeaveId'] = ActiveTab;
+            if (event.target.name === 'startDate')
+                Details['NoOfDays'] = getBusinessDatesCount(event.target.value, Details['endDate']);
+            else if (event.target.name === 'endDate')
+                Details['NoOfDays'] = getBusinessDatesCount(Details['startDate'], event.target.value);
+            else if (event.target.name === 'Duration')
+                Details['NoOfDays'] = event.target.value;
+            if (Details['NoOfDays'] <= 1) Details['Duration'] = 1;
             setDetails({ ...Details, [event.target.name]: event.target.value });
             if (event.target.name === 'LeaveOption') {
                 if (event.target.value === '1') {
@@ -66,10 +73,32 @@ export default function LeaveBalanceTab(props) {
         }
         const handelClick = () => {
             setIsOpen([false, false]);
+            setExpanded(-1);
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Sp_LM_Leaveapplication ', UpdateJson: JSON.stringify(Details) }).then(result => {
-                setAlertDetails({ IsShow: true, severity: 'success', message: 'Leave Applied successfully' });
+                // let IsSubmit = result.data[0];
+                let msg = 'Leave has been Applied successfully.';
+                // if (IsSubmit === 0) msg = 'Already exists this date.';
+                alert.success(msg);
             });
         }
+        const getBusinessDatesCount = (startDate, endDate) => {
+            startDate = new Date(startDate);
+            endDate = new Date(endDate);
+            let count = 0;
+            let curDate = +startDate;
+            let holiDay = ComDate.filter((item) => { return item['Day'] !== "Sunday" && item['Day'] !== "Saturday" });
+            console.log(holiDay);
+            while (curDate <= +endDate) {
+                const dayOfWeek = new Date(curDate).getDay();
+                const isWeekend = (dayOfWeek === 6) || (dayOfWeek === 0);
+                if (!isWeekend) {
+                    count++;
+                }
+                curDate = curDate + 24 * 60 * 60 * 1000
+            }
+            return count;
+        }
+
         return (
             <>
                 <div id='LMS' style={{ margin: '15px 0 0 0', width: '99%' }}>
@@ -86,14 +115,14 @@ export default function LeaveBalanceTab(props) {
                             <input type="text" className="input-input" name="endDate" onFocus={() => { setIsOpen([false, true]) }} value={Moment(Details['endDate']).format('DD-MM-YYYY')} onChange={handelOnChange} />
                             <label className="input-label">End Date</label>
                         </div>
-                        {IsOpen[1] && Details['endDate'] ? <InputDatePicker name="endDate" Value={Details['endDate']} valueChange={handelOnChange} /> : ''}
+                        {IsOpen[1] && Details['endDate'] ? <InputDatePicker name="endDate" minDate_={new Date(Details['startDate'])} Value={Details['endDate']} valueChange={handelOnChange} /> : ''}
                     </div>
                     <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
-                            <select className="input-input" name="Duration" value={Details['Duration']} onFocus={() => { setIsOpen([false, false]) }} onChange={handelOnChange}>
-                                <option value="0">Full Day</option>
-                                <option value="1">1st Half</option>
-                                <option value="2">2nd Half</option>
+                            <select className="input-input" name="Duration" disabled={Details['NoOfDays'] <= 1 && Details['NoOfDays'] !== 0 ? false : true} value={Details['Duration']} onFocus={() => { setIsOpen([false, false]) }} onChange={handelOnChange}>
+                                <option value="1">Full Day</option>
+                                <option value="0.5">1st Half</option>
+                                <option value="0.5">2nd Half</option>
                             </select>
                             <label className="input-label">Duration</label>
                         </div>
@@ -198,10 +227,7 @@ export default function LeaveBalanceTab(props) {
                         </AccordionDetails>
                     </Accordion>
                 ))}
-
-
             </div>
-            {alertDetails['IsShow'] ? <Snackbars Details={alertDetails} /> : <></>}
         </>
     );
 }

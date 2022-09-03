@@ -12,46 +12,57 @@ import CustomGrid from '../../Sub-Component/CustomeGrid';
 import setTheme from '../../Sub-Component/setTheme';
 import Permission from './Permission';
 import LeaveBalanceTab from './LeaveBalance';
-import Snackbars from '../../Sub-Component/alert';
+import { useAlert } from "react-alert";
 
 
 export default function Lms() {
-    const [alertDetails, setAlertDetails] = useState({ IsShow: false, severity: 'success', message: 'Weldsdacome' });
+    const alert = useAlert();
     useEffect(() => {
         setTheme();
     }, []);
 
-    const handelAction = (e) => {
-        var id = e.target.id;
-        var type = e.target.attributes.clicktype.value;
-        var query = '';
+    const handelAction = (id, type) => {
+        let query = '';
+
         if (type === '1') query = 'SP_LM_CheckCancelStatus';
         else if (type === '2') query = 'SP_LM_LOP_Cancel_Request';
         else if (type === '4') query = 'LM_PM_ReturnCancelStatus';
         axios.post(nodeurl['nodeurl'], { query: query + ' ' + id }).then(result => {
-            setAlertDetails({ IsShow: true, severity: 'success', message: query });
+            let status = result.data[0][0]['Result'];
+            if (type === '1') {
+                if (status === 0) alert.show("Leave Cancellation Request has been sent to the Reporting Manager.");
+                else if (status === 1) alert.success("Leave has been cancelled successfully.");
+                else alert.error("You are Not Allowed to Cancel this Leave.");
+            }
+            else if (type === '2') {
+
+            } else if (type === '4') {
+                if (status === 0) { alert.show("Permission Cancellation Request has been Sent to the Reporting Manager."); }
+                else if (status === 1) { alert.success("Permission has been Cancelled Successfully.") }
+                else { alert.error("You are Not Allowed to Cancel this Leave.") }
+            }
         });
     }
 
     const LeaveHistoryColumn = [
-        { id: 'LeaveType', label: 'Leave Type', minWidth: 130 },
-        { id: 'AppliedOn', label: 'Applied On', minWidth: 100 },
-        { id: 'StartDate', label: 'Start Date', minWidth: 100 },
-        { id: 'EndDate', label: 'End Date', minWidth: 100 },
-        { id: 'No_Of_Days', label: 'No. of Days', minWidth: 110 },
-        { id: 'status', label: 'Status', minWidth: 130 },
+        { id: 'LeaveType', label: 'Leave Type', minWidth: 115, sort: true },
+        { id: 'AppliedOn', label: 'Applied On', minWidth: 115, sort: true },
+        { id: 'StartDate', label: 'Start Date', minWidth: 110, sort: true },
+        { id: 'EndDate', label: 'End Date', minWidth: 100, sort: true },
+        { id: 'No_Of_Days', label: 'No. of Days', minWidth: 110, sort: true },
+        { id: 'status', label: 'Status', minWidth: 120, sort: true },
         { id: 'Reason', label: 'Reason', minWidth: 180 },
-        { id: 'Leaveoptions', label: 'Leave Option', minWidth: 200 },
+        { id: 'Leaveoptions', label: 'Leave Option', minWidth: 200, sort: true },
         { id: '', label: 'Action', minWidth: 100, button: 'Cancel', type: 1 },
         { id: '', label: 'LOP', minWidth: 100, button: 'Cancel', type: 2 }
     ];
     const PermissionHistoryColumn = [
-        { id: 'PermissionType', label: 'Permission Type', minWidth: 200 },
-        { id: 'AppliedOn', label: 'Applied On', minWidth: 160 },
-        { id: 'StartDate', label: 'Start Date Time', minWidth: 160 },
-        { id: 'EndDate', label: 'End Date Time', minWidth: 160 },
+        { id: 'PermissionType', label: 'Permission Type', minWidth: 200, sort: true },
+        { id: 'AppliedOn', label: 'Applied On', minWidth: 160, sort: true },
+        { id: 'StartDate', label: 'Start Date Time', minWidth: 160, sort: true },
+        { id: 'EndDate', label: 'End Date Time', minWidth: 160, sort: true },
         { id: 'No_of_days', label: 'Hours', minWidth: 110 },
-        { id: 'Status', label: 'Status', minWidth: 130 },
+        { id: 'Status', label: 'Status', minWidth: 130, sort: true },
         { id: 'Reason', label: 'Reason', minWidth: 180 },
         { id: '', label: 'Action', minWidth: 100, button: 'Cancel', type: 4, onclick: handelAction },
     ];
@@ -102,7 +113,6 @@ export default function Lms() {
 
         return (
             <>
-                {alertDetails['IsShow'] ? <Snackbars Details={alertDetails} /> : <></>}
                 <Box sx={{ bgcolor: 'inherit' }}>
                     <AppBar position="static" style={{ width: '605px', marginLeft: '25px', backgroundColor: '#fff' }} >
                         <Tabs

@@ -50,24 +50,26 @@ export default function Permission() {
             setValue(value === 0 ? 1 : 0);
         }
         return (
-            <Box sx={{ bgcolor: 'inherit' }}>
-                <span className={!swatch ? 'activeLable Prelable' : 'Prelable'}>Permission for Work Hours</span>
-                <Swatch OnChange={handelSwatchChange} style={{ display: 'inline-block', margin: '15px' }} />
-                <span className={swatch ? 'activeLable Prelable' : 'Prelable'}>Permission for Work from Home</span>
-                <SwipeableViews
-                    index={value}
-                    onChangeIndex={handleChangeIndex}
-                >
-                    <TabPanel value={value} index={0}>
-                        <div style={{ margin: '0 3px' }}>
-                            <PermissionWH />
-                        </div>
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        <PermissionWFH />
-                    </TabPanel>
-                </SwipeableViews >
-            </Box >
+            <div className='Permission' >
+                <Box sx={{ bgcolor: 'inherit' }}>
+                    <span className={!swatch ? 'activeLable Prelable' : 'Prelable'}>Permission for Work Hours</span>
+                    <Swatch OnChange={handelSwatchChange} style={{ display: 'inline-block', margin: '15px' }} />
+                    <span className={swatch ? 'activeLable Prelable' : 'Prelable'}>Permission for Work from Home</span>
+                    <SwipeableViews
+                        index={value}
+                        onChangeIndex={handleChangeIndex}
+                    >
+                        <TabPanel value={value} index={0}>
+                            <div style={{ margin: '0 3px' }}>
+                                <PermissionWH />
+                            </div>
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            <PermissionWFH />
+                        </TabPanel>
+                    </SwipeableViews >
+                </Box >
+            </div>
         );
     }
     return (<FullWidthTabs />)

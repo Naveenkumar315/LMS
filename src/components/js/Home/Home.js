@@ -13,15 +13,15 @@ import setTheme from '../../Sub-Component/setTheme';
 
 export default function Home() {
     const columns = [
-        { id: 'Client', label: 'Client', minWidth: 70 },
+        { id: 'Client', label: 'Client', minWidth: 70, sort: true },
         { id: 'AssignedBY', label: 'Assigned By', minWidth: 70 },
         { id: 'AssignedTo', label: 'Assigned To', minWidth: 70 },
-        { id: 'ProjectName', label: 'Project', minWidth: 70 },
+        { id: 'ProjectName', label: 'Project', minWidth: 70, sort: true },
         { id: 'ModuleName', label: 'Module', minWidth: 70 },
         { id: 'TaskName', label: 'Task', minWidth: 70 },
-        { id: 'TaskPriority', label: 'Priority', minWidth: 80 },
-        { id: 'TaskStatus', label: 'Status', minWidth: 120 },
-        { id: 'ExpCompDate', label: 'Expected Completed Date', minWidth: 120 },
+        { id: 'TaskPriority', label: 'Priority', minWidth: 80, sort: true },
+        { id: 'TaskStatus', label: 'Status', minWidth: 120, sort: true },
+        { id: 'ExpCompDate', label: 'Expected Completed Date', minWidth: 120, sort: true },
         { id: 'FTR', label: 'FTR', minWidth: 70 },
         { id: 'OTD', label: 'OTD', minWidth: 70 },
         { id: 'Create Sub-Task', label: 'Create Sub-Task', minWidth: 70, button: 'Re-Work', onclick: 'onclick("alert()")' }
