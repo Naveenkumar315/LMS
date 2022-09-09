@@ -27,7 +27,14 @@ export default function EnterTimeSheet() {
         (new Date(new Date().setDate(new Date().getDate())).toLocaleDateString()).toString(),
         (new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString()).toString(),
         (new Date(new Date().setDate(new Date().getDate() - 2)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 3)).toLocaleDateString()).toString()
+        (new Date(new Date().setDate(new Date().getDate() - 3)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 4)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 5)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 6)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 7)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 8)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 9)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 10)).toLocaleDateString()).toString(),
     ];
 
     useEffect(() => {
@@ -209,7 +216,7 @@ export default function EnterTimeSheet() {
             <div style={{ textAlign: 'right', width: '99%' }}>
                 <div className="input-wrapper timeSheetDate" style={{ width: '15%' }} >
                     <div className="input-holder">
-                        <select className="input-input" style={{ width: '100%', fontSize: '17px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
+                        <select className="input-input" style={{ width: '100%', fontSize: '17px', height: '35px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
                             {taskDateArr.map((item, index) => (
                                 <option key={index} value={item}>{moment(item).format('DD-MM-YYYY')}</option>
                             ))}

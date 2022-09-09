@@ -237,6 +237,7 @@ label {
 #viewTimesheet #full-width-tabpanel-2 div.MuiBox-root {
   padding: 0 12px 0 12px !important;
 }
+
 .rdrWeekDay {
   flex-basis: calc(100% / 7.8) !important;
 }
@@ -418,5 +419,5 @@ label {
   padding: 0 !important;
 }
 .timeSheetDate {
-  margin: 0 0 15px 0;
+  margin: 0;
 }

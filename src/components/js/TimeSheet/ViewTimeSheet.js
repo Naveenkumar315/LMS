@@ -12,11 +12,11 @@ import DateRangePicker from '../../Sub-Component/DatePicker/CustomeDateRange';
 import '../../css/style.css'
 import Moment from 'moment';
 import CustomeGrid from '../../Sub-Component/CustomeGrid';
+import { ExcelLibraryWorkingWithCells } from '../../Sub-Component/Excel/ExportExcel.tsx'
 
 function TabPanel(props) {
 
     const { children, value, index, ...other } = props;
-
     return (
         <div
             role="tabpanel"
@@ -59,6 +59,9 @@ export default function ViewTimeSheet() {
         var years = [];
         for (var i = max; i >= min; i--) { years.push(i) }
         return years;
+    }
+    const handelExport = () => {
+        ExcelLibraryWorkingWithCells.workbookCreate(Rows);
     }
     const Years = generateArrayOfYears();
     const Month = [
@@ -142,7 +145,10 @@ export default function ViewTimeSheet() {
 
     return (
         <>
-            <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex', marginTop: '50px', }}>
+            <div style={{ textAlign: 'right', width: '99%', marginTop: '-25px' }}>
+                <button className="btn marginLeft-0 " onClick={handelExport}>Export To Excel</button>
+            </div>
+            <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex' }}>
                 <Box style={{ display: 'inline-block' }}>
                     <Tabs sx={{ maxWidth: { xs: 320, sm: 170 }, bgcolor: 'background.paper' }}
                         value={value}
@@ -196,7 +202,9 @@ export default function ViewTimeSheet() {
 
                     </SwipeableViews >
                 </Box>
-                <CustomeGrid Columns={Columns} Rows={Rows} tab="viewTimesheet" Pagination={true} />
+                <div style={{ marginTop: '20px', display: 'inline-block' }}>
+                    <CustomeGrid Columns={Columns} Rows={Rows} tab="viewTimesheet" Pagination={true} />
+                </div>
             </div>
         </>
     );
