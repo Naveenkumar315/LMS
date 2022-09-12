@@ -1,19 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import { ExcelUtility } from "./ExcelUtility.ts";
-import {
-  BorderLineStyle,
-  CellFill,
-  IgrExcelModule,
-} from "igniteui-react-excel";
+import { CellFill, IgrExcelModule } from "igniteui-react-excel";
 import { Workbook } from "igniteui-react-excel";
 import { Worksheet } from "igniteui-react-excel";
 import { WorkbookFormat } from "igniteui-react-excel";
-import { CellReferenceMode } from "igniteui-react-excel";
-import { WorksheetMergedCellsRegion } from "igniteui-react-excel";
-import { WorksheetCellComment } from "igniteui-react-excel";
-import { FormattedString } from "igniteui-react-excel";
-import { Formula } from "igniteui-react-excel";
 import { Color } from "igniteui-react-core";
 import moment from "moment";
 import { WorkbookColorInfo } from "igniteui-react-excel";
@@ -28,6 +17,10 @@ export class ExcelLibraryWorkingWithCells {
   public worksheetRegion: string[] | null;
   public selectedRegion: string | null;
   public cellFeatures: string[];
+  static worksheetRegion: string[] | null;
+  static selectedRegion: string | null;
+  static wb: Workbook;
+  static canSave: boolean;
 
   public static workbookSave(): void {
     if (this.canSave) {
@@ -64,12 +57,17 @@ export class ExcelLibraryWorkingWithCells {
     this.canSave = wb != null;
   }
 
-  public static workbookCreate(TimeSheetDatas): void {
+  public static workbookCreate(
+    TimeSheetDatas: any,
+    WorkingDaysCount: any,
+    detailsRow: any
+  ): void {
     const wb = new Workbook(WorkbookFormat.Excel2007);
     const monthYear = new Date().toLocaleDateString("en-us", {
       year: "numeric",
       month: "short",
     });
+
     const ReportDate = moment(new Date()).format("DD-MM-YYYY");
     const SheetOne = wb.worksheets().add("Summary for " + monthYear); //WorkSheet Name
 
@@ -83,6 +81,8 @@ export class ExcelLibraryWorkingWithCells {
       3,
       "Summary of Effort Metrics for " + monthYear
     );
+    SheetOne.rows(1).cells(3).cellFormat.font.bold = true;
+    SheetOne.rows(1).cells(3).cellFormat.font.height = 22;
 
     SheetOne.rows(1).cells(6).cellFormat.bottomBorderStyle = 1;
     SheetOne.rows(1).cells(6).cellFormat.leftBorderStyle = 1;
@@ -117,25 +117,24 @@ export class ExcelLibraryWorkingWithCells {
 
     //Row 3
     SheetOne.rows(3).setCellValue(3, "No of Billable Days");
-    SheetOne.rows(3).setCellValue(4, 22);
+    SheetOne.rows(3).setCellValue(4, WorkingDaysCount);
     SheetOne.rows(3).setCellValue(5, "No of Billable Hours");
-    let formula: Formula | null = null;
-    formula = Formula.parse("=E4*8", CellReferenceMode.A1);
-    formula.applyTo(SheetOne.rows(3).cells(6));
+    SheetOne.rows(3).cells(6).applyFormula("=E4*8");
 
     //Row 4
     SheetOne.rows(4).setCellValue(3, "MTD Days Passed");
-    SheetOne.rows(4).setCellValue(4, 20.5);
+    SheetOne.rows(4).setCellValue(
+      4,
+      parseInt(WorkingDaysCount) - parseInt(detailsRow[0]["EmpLeaveCount"])
+    );
     SheetOne.rows(4).setCellValue(5, "MTD Expected Hours");
-    formula = Formula.parse("=E5*8", CellReferenceMode.A1);
-    formula.applyTo(SheetOne.rows(4).cells(6));
+    SheetOne.rows(4).cells(6).applyFormula("=E5*8");
 
     //Row 5
     SheetOne.rows(5).setCellValue(3, "No. Of Leaves");
-    SheetOne.rows(5).setCellValue(4, 0.5);
+    SheetOne.rows(5).setCellValue(4, parseInt(detailsRow[0]["EmpLeaveCount"]));
     SheetOne.rows(5).setCellValue(5, "Min MTD Expected Hours");
-    formula = Formula.parse("=(E5-E6)*8", CellReferenceMode.A1);
-    formula.applyTo(SheetOne.rows(5).cells(6));
+    SheetOne.rows(5).cells(6).applyFormula("=(E5-E6)*8");
 
     const SheetOneColumns = [
       "Emp Id",
@@ -154,31 +153,33 @@ export class ExcelLibraryWorkingWithCells {
         new WorkbookColorInfo(color);
     }
 
-    const SheetRow = [
-      "53",
-      "Logeswaran",
-      "=Logeswaran!D1",
+    const SheetRow: any = [
+      parseInt(detailsRow[0]["EmpId"]),
+      detailsRow[0]["FirstName"] + " " + detailsRow[0]["LastName"],
+      "=(" + detailsRow[0]["FirstName"] + "!D1)",
       "=$F$10-$G$5",
       "=$F$10-$G$4",
     ];
     for (let col = 0; col < SheetRow.length; col++) {
-      if (col < 3) {
+      if (col <= 2) {
         SheetOne.columns(col + 3).width = 5000;
         SheetOne.rows(9).setCellValue(col + 3, SheetRow[col]);
-      } else {
-        formula = Formula.parse(SheetRow[col], CellReferenceMode.A1);
-        formula.applyTo(SheetOne.rows(9).cells(col + 3));
+      } else if (col !== 2) {
+        SheetOne.rows(9)
+          .cells(col + 3)
+          .applyFormula(SheetRow[col]);
       }
     }
 
-    const SheetTwo = wb.worksheets().add("Logeswaran");
+    const SheetTwo: any = wb
+      .worksheets()
+      .add(detailsRow[0]["FirstName"].toString());
     SheetTwo.mergedCellsRegions().add(0, 0, 0, 2);
     SheetTwo.rows(0).setCellValue(0, "Effort Metrics Reported Thru Email");
-    formula = Formula.parse(
-      "=SUM(G3:G" + (TimeSheetDatas.length + 2) + ")",
-      CellReferenceMode.A1
-    );
-    formula.applyTo(SheetTwo.rows(0).cells(3));
+
+    SheetTwo.rows(0)
+      .cells(3)
+      .applyFormula("=SUM(G3:G" + (TimeSheetDatas.length + 2) + ")");
     const SheetTwoColumns = [
       "Date",
       "Status",
@@ -189,7 +190,7 @@ export class ExcelLibraryWorkingWithCells {
       "Hours",
     ];
 
-    var color = new Color();
+    // var color = new Color();
     color.colorString = "#fff";
     for (let col = 0; col < SheetTwoColumns.length; col++) {
       if (col === 3) SheetTwo.columns(col).width = 8000;
@@ -223,6 +224,12 @@ export class ExcelLibraryWorkingWithCells {
       SheetTwo.rows(col + 2).setCellValue(4, "");
       SheetTwo.rows(col + 2).setCellValue(5, rowData["Object"]);
       SheetTwo.rows(col + 2).setCellValue(6, rowData["Hours"]);
+    }
+    // Here, set Effort Metrics Hours formula after SheetTwo is Ready...
+    try {
+      SheetOne.rows(9).cells(5).applyFormula(SheetRow[2].toString());
+    } catch (error) {
+      alert(error);
     }
 
     this.workbookParse(wb);

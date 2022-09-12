@@ -49,7 +49,8 @@ export default function EnterTimeSheet() {
                 setTimeout(() => {
                     // setExpanded(index);
                     let ele = document.querySelector('select[name="ProjectId"][index="' + index + '"]');
-                    ele.dispatchEvent(new Event('change', { bubbles: true }));
+                    if (ele !== null)
+                        ele.dispatchEvent(new Event('change', { bubbles: true }));
                 }, 100);
             }
             else {
@@ -213,7 +214,7 @@ export default function EnterTimeSheet() {
     }
     return (
         <>
-            <div style={{ textAlign: 'right', width: '99%' }}>
+            <div style={{ textAlign: 'right' }}>
                 <div className="input-wrapper timeSheetDate" style={{ width: '15%' }} >
                     <div className="input-holder">
                         <select className="input-input" style={{ width: '100%', fontSize: '17px', height: '35px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
@@ -225,7 +226,7 @@ export default function EnterTimeSheet() {
                     </div>
                 </div>
             </div>
-            <div id="EnterTimeSheet" style={{ width: '99%', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
+            <div id="EnterTimeSheet" style={{ border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
                 <Accordion expanded={false} onChange={handlePanelChange(-1)}>
                     <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], maxHeight: '48px', minHeight: '48px' }}>
                         <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>
@@ -282,7 +283,7 @@ export default function EnterTimeSheet() {
                         <AccordionDetails>
                             <Typography component={"span"}>
                                 {
-                                    <div style={{ margin: '15px 0 0 0', width: '99%' }}>
+                                    <div style={{ margin: '15px 0 0 0' }}>
                                         <div style={{ display: 'flex' }}>
                                             <div style={{ width: '70%' }}>
                                                 <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
@@ -364,7 +365,7 @@ export default function EnterTimeSheet() {
                     </Accordion>
                 }
             </div>
-            <div style={{ textAlign: 'right', width: '99%' }}>
+            <div style={{ textAlign: 'right' }}>
                 <button className="btn marginLeft-0 " onClick={handelAddClick}>Add New</button>
                 <button className="btn marginLeft-0 marginRight-0 " onClick={handelClick}>Save Details</button>
             </div>

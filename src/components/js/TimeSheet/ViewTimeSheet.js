@@ -61,7 +61,9 @@ export default function ViewTimeSheet() {
         return years;
     }
     const handelExport = () => {
-        ExcelLibraryWorkingWithCells.workbookCreate(Rows);
+        axios.post(nodeurl["nodeurl"], { query: "LM_GetExcelSheetInfo " + localStorage["EmpId"], }).then((result) => {
+            ExcelLibraryWorkingWithCells.workbookCreate(Rows, result.data[0][0]['WorkingDaysCount'], result.data[1]);
+        });
     }
     const Years = generateArrayOfYears();
     const Month = [
@@ -145,11 +147,11 @@ export default function ViewTimeSheet() {
 
     return (
         <>
-            <div style={{ textAlign: 'right', width: '99%', marginTop: '-25px' }}>
-                <button className="btn marginLeft-0 " onClick={handelExport}>Export To Excel</button>
+            <div style={{ textAlign: 'right', marginTop: '-25px' }}>
+                <button className="btn marginLeft-0 marginRight-0" onClick={handelExport}>Export To Excel</button>
             </div>
             <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex' }}>
-                <Box style={{ display: 'inline-block' }}>
+                <Box style={{ display: 'inline-block', marginRight: '-20px' }}>
                     <Tabs sx={{ maxWidth: { xs: 320, sm: 170 }, bgcolor: 'background.paper' }}
                         value={value}
                         onChange={handleChange}
@@ -202,7 +204,7 @@ export default function ViewTimeSheet() {
 
                     </SwipeableViews >
                 </Box>
-                <div style={{ marginTop: '20px', display: 'inline-block' }}>
+                <div id='IdViewTimeSheetGrid' style={{ marginTop: '20px', display: 'contents' }}>
                     <CustomeGrid Columns={Columns} Rows={Rows} tab="viewTimesheet" Pagination={true} />
                 </div>
             </div>

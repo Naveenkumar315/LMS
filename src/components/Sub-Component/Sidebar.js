@@ -33,8 +33,7 @@ const Sidebar = (props) => {
         { text: 'LMS', link: '/LMS', icon: faLevelUpAlt },
         { text: 'Employee Portal', link: '/EmployeePortal', icon: faUserDoctor },
         { text: 'Profile', link: '/Profile', icon: faUser },
-        { text: 'Settings', link: '/Settings', icon: faUserGear },
-        { text: 'Export', link: '/Export', icon: faUserGear }
+        { text: 'Settings', link: '/Settings', icon: faUserGear }
     ];
     return (
         <>
