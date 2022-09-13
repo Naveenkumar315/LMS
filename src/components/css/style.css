@@ -343,10 +343,11 @@ label {
 
 .scrollbar::-webkit-scrollbar {
   width: 4px;
+  height: 5px;
   /* background-color: #f5f5f5; */
   background: linear-gradient(
     to top,
-    hsl(0, 0%, 88%) 480px,
+    hsl(0, 0%, 88%) 448px,
     var(--background-color) 60px
   );
 }

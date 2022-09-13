@@ -215,18 +215,18 @@ export default function EnterTimeSheet() {
     return (
         <>
             <div style={{ textAlign: 'right' }}>
-                <div className="input-wrapper timeSheetDate" style={{ width: '15%' }} >
+                <div className="input-wrapper timeSheetDate" style={{ width: '15%', height: '35px' }} >
                     <div className="input-holder">
-                        <select className="input-input" style={{ width: '100%', fontSize: '17px', height: '35px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
+                        <select className="input-input" style={{ width: '100%', fontSize: '17px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
                             {taskDateArr.map((item, index) => (
                                 <option key={index} value={item}>{moment(item).format('DD-MM-YYYY')}</option>
                             ))}
                         </select>
-                        <label className="input-label">Task Date</label>
+                        <label className="input-label" style={{ height: '60px' }}>Task Date</label>
                     </div>
                 </div>
             </div>
-            <div id="EnterTimeSheet" style={{ border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
+            <div id="EnterTimeSheet" style={{ marginTop: '20px', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
                 <Accordion expanded={false} onChange={handlePanelChange(-1)}>
                     <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], maxHeight: '48px', minHeight: '48px' }}>
                         <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>

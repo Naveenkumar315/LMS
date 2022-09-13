@@ -178,7 +178,7 @@ export default function ViewTimeSheet() {
                         <TabPanel value={value} index={2}>
                             <>
                                 <div style={{ display: 'flex', flexDirection: 'column', width: '310px', marginTop: '20px' }}>
-                                    <div className="input-wrapper marginLeft-0" style={{ width: '92%', marginRight: '0' }}>
+                                    <div className="input-wrapper marginLeft-0" style={{ width: '89%', marginRight: '0' }}>
                                         <div className="input-holder">
                                             <select className="input-input" name="Year" value={monthYear['Year']} onChange={handelMonthYearChange}>
                                                 {Years.map((item, index) => (
@@ -188,7 +188,7 @@ export default function ViewTimeSheet() {
                                             <label className="input-label">Year</label>
                                         </div>
                                     </div>
-                                    <div className="input-wrapper marginLeft-0" style={{ width: '92%', marginRight: '0' }}>
+                                    <div className="input-wrapper marginLeft-0" style={{ width: '89%', marginRight: '0' }}>
                                         <div className="input-holder">
                                             <select className="input-input" name="Month" value={monthYear['Month']} onChange={handelMonthYearChange}>
                                                 {option.map((item, index) => (
