@@ -68,14 +68,7 @@ th {
   background-color: var(--background-color) !important;
   height: 4px !important;
 }
-div h2 {
-  text-align: center;
-  text-shadow: -1px -1px 0px rgba(255, 255, 255, 0.3),
-    1px 2px 0px rgba(0, 0, 0, 1);
-  color: rgb(255, 255, 255);
-  opacity: 0.9;
-  font: 700 35px "Bitter";
-}
+
 .btn {
   background-color: var(--background-color) !important;
   color: var(--color) !important;

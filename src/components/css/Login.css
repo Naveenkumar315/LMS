@@ -143,7 +143,7 @@ textarea {
   transition: 0.3;
 }
 .login-container .login-button:hover {
-  background-color: #fff;
+  background-color: #fff !important;
   color: #0589a0 !important;
   outline: 1px solid #0589a0 !important;
   text-transform: capitalize;

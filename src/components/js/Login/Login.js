@@ -74,6 +74,7 @@ const Login = () => {
 
     const validate = () => {
         let isValid = true;
+        setAlert('');
         var validate_UN = '', validate_PWD = '';
         if (!input["email"]) {
             isValid = false;
@@ -118,14 +119,20 @@ const Login = () => {
                 <div className="title">Login</div>
                 <div className="input input--open" style={{ margin: '35px 0' }}>
                     <div className="input-holder">
-                        <input type="text" onChange={handleChange} className="input-input" id="name" name="email" />
+                        <input type="text" onChange={handleChange} className="input-input" id="name"
+                            onClick={(e) => {
+                                e.target.setSelectionRange(0, e.target.value.indexOf('@'))
+                            }} name="email" />
                         <div className={(errors.email ? 'text-danger' : '')}>{errors.email}</div>
                         <label className="Input-label">user name</label>
                     </div>
                 </div>
                 <div className="input input--open" style={{ margin: '25px 0 10px 0' }}>
                     <div className="input-holder">
-                        <input type={passwordType} onChange={handleChange} className="input-input" id="password" name="password" />
+                        <input type={passwordType} onChange={handleChange} className="input-input" id="password"
+                            onClick={(e) => {
+                                e.target.select()
+                            }} name="password" />
                         <span onClick={handelShowPwd} style={{ zIndex: '111111', cursor: 'pointer', position: 'absolute', right: '10px', top: '12px' }}>🙈</span>
                         <div className={(errors.password ? 'text-danger' : '')}>{errors.password}</div>
                         <label className="Input-label">password</label>

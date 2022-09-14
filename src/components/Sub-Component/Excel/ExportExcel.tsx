@@ -22,9 +22,9 @@ export class ExcelLibraryWorkingWithCells {
   static wb: Workbook;
   static canSave: boolean;
 
-  public static workbookSave(): void {
+  public static workbookSave(FileName: string): void {
     if (this.canSave) {
-      ExcelUtility.save(this.wb, "ExcelWorkbook").then(
+      ExcelUtility.save(this.wb, FileName).then(
         (f: any) => {
           console.log("Saved:" + f);
         },
@@ -60,16 +60,17 @@ export class ExcelLibraryWorkingWithCells {
   public static workbookCreate(
     TimeSheetDatas: any,
     WorkingDaysCount: any,
-    detailsRow: any
+    detailsRow: any,
+    FileName: any
   ): void {
     const wb = new Workbook(WorkbookFormat.Excel2007);
     const monthYear = new Date().toLocaleDateString("en-us", {
       year: "numeric",
       month: "short",
     });
-
+    let Period = FileName;
     const ReportDate = moment(new Date()).format("DD-MM-YYYY");
-    const SheetOne = wb.worksheets().add("Summary for " + monthYear); //WorkSheet Name
+    const SheetOne = wb.worksheets().add("Summary for " + Period); //WorkSheet Name
 
     //Row 1
     SheetOne.rows(1).setCellValue(6, "Report Date");
@@ -79,7 +80,8 @@ export class ExcelLibraryWorkingWithCells {
     SheetOne.mergedCellsRegions().add(2, 3, 2, 7);
     SheetOne.rows(2).setCellValue(
       3,
-      "Summary of Effort Metrics for " + monthYear
+      "Summary of Effort Metrics for " +
+        Period.replace("_", "-").replaceAll("-", "/")
     );
     SheetOne.rows(1).cells(3).cellFormat.font.bold = true;
     SheetOne.rows(1).cells(3).cellFormat.font.height = 22;
@@ -233,6 +235,6 @@ export class ExcelLibraryWorkingWithCells {
     }
 
     this.workbookParse(wb);
-    this.workbookSave();
+    this.workbookSave(FileName);
   }
 }

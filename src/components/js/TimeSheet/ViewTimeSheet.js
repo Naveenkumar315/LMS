@@ -61,8 +61,18 @@ export default function ViewTimeSheet() {
         return years;
     }
     const handelExport = () => {
+        let FileName = '';
+        if (value === 0) {
+            FileName = Moment(date).format('DD-MM-YYYY');
+        } else if (value === 1) {
+            FileName = Moment(dateRange['startDate']).format('DD-MM-YYYY') + '_' + Moment(dateRange['endDate']).format('DD-MM-YYYY');
+        } else if (value === 2) {
+            let SelectedMonth = document.querySelector('.input-input[name="Month"]').selectedOptions[0].text;
+            FileName = SelectedMonth + ' ' + monthYear['Year'];
+        }
+        alert(FileName);
         axios.post(nodeurl["nodeurl"], { query: "LM_GetExcelSheetInfo " + localStorage["EmpId"], }).then((result) => {
-            ExcelLibraryWorkingWithCells.workbookCreate(Rows, result.data[0][0]['WorkingDaysCount'], result.data[1]);
+            ExcelLibraryWorkingWithCells.workbookCreate(Rows, result.data[0][0]['WorkingDaysCount'], result.data[1], FileName);
         });
     }
     const Years = generateArrayOfYears();
@@ -89,7 +99,7 @@ export default function ViewTimeSheet() {
         { id: 'TaskDate', label: 'Date', minWidth: 100 },
         { id: 'ProjectName', label: 'Project', minWidth: 120 },
         { id: 'TaskDescription', label: 'Description', minWidth: 250 },
-        { id: '', label: 'Completion Date', minWidth: 120 },//Actual / Estimated
+        { id: 'ExpectedCompletiondate', label: 'Completion Date', minWidth: 120 },//Actual / Estimated
         { id: 'Status', label: 'Status', minWidth: 100 },
         { id: 'Issues', label: 'Objects Changed', minWidth: 150 },
         { id: 'Hours', label: 'Hours', minWidth: 80 }
