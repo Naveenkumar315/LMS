@@ -15,8 +15,16 @@ const Login = () => {
         window.addEventListener('keydown', (event) => {
             if (event.keyCode === 13) handleSubmit(event);
         });
+        document.documentElement.style.setProperty('--background-color', '#0589a0');
+        document.documentElement.style.setProperty('--color', '#fff');
     }, [])
     const handleChange = (event) => {
+        let value  = event.target.value;
+        if(value.substr(value.length - 1) === '@' && event.target.name === 'email'){
+            value=value+'analyticbrains.com';
+            event.target.value=value;
+        }
+        setAlert('');
         var validate_UN = '', validate_PWD = '';
         input[event.target.name] = event.target.value;
         setInput(input)
@@ -47,6 +55,10 @@ const Login = () => {
             var query = { query: "AB_LoginValidation '" + email + "','" + password + "'" };
             axios.post(nodeurl['nodeurl'], query)
                 .then(res => {
+                    if(res.data.length === 0){
+                        setAlert('Please enter valid username and password!');
+                        return false;
+                    }
                     var loginDetails = res.data[0][0];
                     if (loginDetails['AccStatus'] === 1) {
                         localStorage.clear();
@@ -123,7 +135,7 @@ const Login = () => {
                             onClick={(e) => {
                                 e.target.setSelectionRange(0, e.target.value.indexOf('@'))
                             }} name="email" />
-                        <div className={(errors.email ? 'text-danger' : '')}>{errors.email}</div>
+                        {errors.email && <div className={(errors.email ? 'text-danger' : '')}>{errors.email}</div>}
                         <label className="Input-label">user name</label>
                     </div>
                 </div>
@@ -134,7 +146,7 @@ const Login = () => {
                                 e.target.select()
                             }} name="password" />
                         <span onClick={handelShowPwd} style={{ zIndex: '111111', cursor: 'pointer', position: 'absolute', right: '10px', top: '12px' }}>🙈</span>
-                        <div className={(errors.password ? 'text-danger' : '')}>{errors.password}</div>
+                        {errors.password && <div className={(errors.password ? 'text-danger' : '')}>{errors.password}</div>}
                         <label className="Input-label">password</label>
                     </div>
                 </div>
