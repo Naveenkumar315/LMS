@@ -179,7 +179,7 @@ export default function Profile() {
 
         return (
             <Box sx={{ bgcolor: 'inherit' }}>
-                <AppBar position="static" style={{ width: '255px', marginLeft: '25px', backgroundColor: '#fff' }} >
+                <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
                     <Tabs
                         value={value}
                         onChange={handleChange}
