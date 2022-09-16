@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect,useMemo } from 'react';
 import Tabs from '@mui/material/Tabs';
 import axios from 'axios';
 import Tab from '@mui/material/Tab';
@@ -70,7 +70,9 @@ export default function ViewTimeSheet() {
             let SelectedMonth = document.querySelector('.input-input[name="Month"]').selectedOptions[0].text;
             FileName = SelectedMonth + ' ' + monthYear['Year'];
         }
-        alert(FileName);
+        FileName = 'Effort Metrics - ' +FileName;
+        alert(FileName.length)
+        //return
         axios.post(nodeurl["nodeurl"], { query: "LM_GetExcelSheetInfo " + localStorage["EmpId"], }).then((result) => {
             ExcelLibraryWorkingWithCells.workbookCreate(Rows, result.data[0][0]['WorkingDaysCount'], result.data[1], FileName);
         });
@@ -108,7 +110,7 @@ export default function ViewTimeSheet() {
         axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Range",' + localStorage['EmpId'] + ',"' + Moment(firstDate).format('YYYY-MM-DD') + '","' + Moment(new Date()).format('YYYY-MM-DD') + '",0,0' }).then(result => {
             setRows(result.data[0]);
         });
-    }, [firstDate])
+    }, [])
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -157,8 +159,8 @@ export default function ViewTimeSheet() {
 
     return (
         <>
-            <div style={{ textAlign: 'right', marginTop: '-25px' }}>
-                <button className="btn marginLeft-0 marginRight-0" onClick={handelExport}>Export To Excel</button>
+            <div style={{ textAlign: 'right', marginTop: '-25px' }} class={value === 2 ? '':'hidden'}>
+                <button className="btn marginLeft-0 marginRight-0"  onClick={handelExport}>Export To Excel</button>
             </div>
             <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex' }}>
                 <Box style={{ display: 'inline-block', marginRight: '-20px' }}>

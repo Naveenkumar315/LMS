@@ -64,7 +64,7 @@ export default function TimeSheet() {
         };
         return (
             <Box sx={{ bgcolor: 'inherit' }}>
-                <AppBar position="static" style={{ width: '300px', marginLeft: '25px', backgroundColor: '#fff', position: 'absolute', zIndex: '99' }} >
+                <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff', position: 'absolute', zIndex: '99' }} >
                     <Tabs
                         value={value}
                         onChange={handleChange}

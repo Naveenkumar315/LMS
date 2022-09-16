@@ -29,16 +29,16 @@ export default function EnterTimeSheet() {
         (new Date(new Date().setDate(new Date().getDate() - 2)).toLocaleDateString()).toString(),
         (new Date(new Date().setDate(new Date().getDate() - 3)).toLocaleDateString()).toString(),
         (new Date(new Date().setDate(new Date().getDate() - 4)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 5)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 6)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 7)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 8)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 9)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 10)).toLocaleDateString()).toString(),
+        // (new Date(new Date().setDate(new Date().getDate() - 5)).toLocaleDateString()).toString(),
+        // (new Date(new Date().setDate(new Date().getDate() - 6)).toLocaleDateString()).toString(),
+        // (new Date(new Date().setDate(new Date().getDate() - 7)).toLocaleDateString()).toString(),
+        // (new Date(new Date().setDate(new Date().getDate() - 8)).toLocaleDateString()).toString(),
+        // (new Date(new Date().setDate(new Date().getDate() - 9)).toLocaleDateString()).toString(),
+        // (new Date(new Date().setDate(new Date().getDate() - 10)).toLocaleDateString()).toString(),
     ];
 
     useEffect(() => {
-        axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '"' }).then(result => {
+        axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '",0' }).then(result => {
             if (result.data[0].length === 0) {
                 let index = 0;
                 // setDetails([{
@@ -128,11 +128,11 @@ export default function EnterTimeSheet() {
     const handelClick = () => {
         for (let i = 0; i < Details.length; i++) {
             Details[i] = { ...Details[i], TaskDate: moment(taskDate).format('YYYY-MM-DD') }
-            axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_SaveTimesheetDetail ', UpdateJson: JSON.stringify(Details[i]) }).then(result => {
+        }
+            axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_SaveTimesheetDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
                 setExpanded(-1);
                 alert.success("Details Saved successfully.");
             });
-        }
     }
     const handelOnChange = (event) => {
         const newState = Details.map((obj, index_) => {
@@ -191,7 +191,7 @@ export default function EnterTimeSheet() {
     }
     const handelTaskDateChange = (e) => {
         setTaskDate(e.target.value);
-        axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + e.target.value + '"' }).then(result => {
+        axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + e.target.value + '",1' }).then(result => {
             if (result.data[0].length === 0) {
                 let index = 0;
                 // setDetails([{

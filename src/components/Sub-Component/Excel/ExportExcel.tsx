@@ -63,14 +63,14 @@ export class ExcelLibraryWorkingWithCells {
     detailsRow: any,
     FileName: any
   ): void {
+
     const wb = new Workbook(WorkbookFormat.Excel2007);
-    const monthYear = new Date().toLocaleDateString("en-us", {
-      year: "numeric",
-      month: "short",
-    });
-    let Period = FileName;
+    // const monthYear = new Date().toLocaleDateString("en-us", {
+    //   year: "numeric",
+    //   month: "short",
+    // });
     const ReportDate = moment(new Date()).format("DD-MM-YYYY");
-    const SheetOne = wb.worksheets().add("Summary for " + Period); //WorkSheet Name
+    const SheetOne = wb.worksheets().add(FileName); //WorkSheet Name
 
     //Row 1
     SheetOne.rows(1).setCellValue(6, "Report Date");

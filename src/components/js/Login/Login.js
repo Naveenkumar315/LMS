@@ -21,7 +21,7 @@ const Login = () => {
     const handleChange = (event) => {
         let value  = event.target.value;
         if(value.substr(value.length - 1) === '@' && event.target.name === 'email'){
-            value=value+'analyticbrains.com';
+            value=value + 'analyticbrains.com';
             event.target.value=value;
         }
         setAlert('');
