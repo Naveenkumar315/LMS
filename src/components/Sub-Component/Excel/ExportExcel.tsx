@@ -81,7 +81,7 @@ export class ExcelLibraryWorkingWithCells {
     SheetOne.rows(2).setCellValue(
       3,
       "Summary of Effort Metrics for " +
-        Period.replace("_", "-").replaceAll("-", "/")
+      FileName.replace("_", "-").replaceAll("-", "/")
     );
     SheetOne.rows(1).cells(3).cellFormat.font.bold = true;
     SheetOne.rows(1).cells(3).cellFormat.font.height = 22;

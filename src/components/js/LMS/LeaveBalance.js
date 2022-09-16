@@ -45,7 +45,7 @@ export default function LeaveBalanceTab(props) {
         const [IsOpen, setIsOpen] = useState([false, false]);
         const [Details, setDetails] = useState({
             EmpId: localStorage['EmpId'], startDate: Moment(new Date()).format('MM-DD-YYYY'), endDate: Moment(new Date()).format('MM-DD-YYYY'),
-            Duration: 0, NoOfDays: 0, Reason: '', LeaveOption: 0, Dates: Moment(new Date()).format('MM-DD-YYYY'), LeaveId: 1
+            Duration: 0, NoOfDays: 1, Reason: '', LeaveOption: 0, Dates: Moment(new Date()).format('MM-DD-YYYY'), LeaveId: 1
         });
 
         const handelOnChange = (event) => {

@@ -71,7 +71,7 @@ export default function ViewTimeSheet() {
             FileName = SelectedMonth + ' ' + monthYear['Year'];
         }
         FileName = 'Effort Metrics - ' +FileName;
-        alert(FileName.length)
+        // alert(FileName.length)
         //return
         axios.post(nodeurl["nodeurl"], { query: "LM_GetExcelSheetInfo " + localStorage["EmpId"], }).then((result) => {
             ExcelLibraryWorkingWithCells.workbookCreate(Rows, result.data[0][0]['WorkingDaysCount'], result.data[1], FileName);
