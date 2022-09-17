@@ -35,7 +35,7 @@ export default function PermissionWFH() {
 
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder">
-                    <input type="text" className="input-input" name="StartDate" onFocus={() => { setIsOpen(true) }} value={Moment(DetailsWFH['StartDate']).format('DD-MM-YYYY')} onChange={handelOnChange} />
+                    <input type="text" className="input-input" name="StartDate" onFocus={() => { setIsOpen(true) }} value={Moment(new Date(DetailsWFH['StartDate'])).format('DD-MM-YYYY')} onChange={handelOnChange} />
                     <label className="input-label">Date</label>
                 </div>
                 {IsOpen && DetailsWFH['StartDate'] ? <InputDatePicker name="StartDate" Value={DetailsWFH['StartDate']} valueChange={handelOnChange} /> : ''}

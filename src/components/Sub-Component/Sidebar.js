@@ -15,7 +15,7 @@ const Sidebar = (props) => {
         localStorage.clear();
     };
     const options = {
-        timeout: 20000,
+        timeout: 7000,
         position: positions.BOTTOM_RIGHT
     };
     const [IsOpen, setIsOpen] = useState(false);

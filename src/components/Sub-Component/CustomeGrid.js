@@ -33,10 +33,13 @@ export default function StickyHeadTable(props) {
             axios.post(nodeurl['nodeurl'], { query: 'LM_PM_PermissionHistory ' + EmpId + '' }).then(result => {
                 setRows(result.data[0]);
             });
-        else if (tab === 'TaskDashBoard')
-            axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',1' }).then(result => {
+        else if (tab === 'TaskDashBoard'){
+        let IsInclude = 1;
+        if(props['IsInclude'])IsInclude = 0;
+            axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ','+IsInclude }).then(result => {
                 setRows(result.data[0])
             });
+        }
         else if (tab === 'viewTimesheet') {
             setRows(props['Rows']);
         }
@@ -174,7 +177,7 @@ export default function StickyHeadTable(props) {
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
                         />
-                        <TableBody >
+                        <TableBody>
                             {rows['length'] > 0 ? stableSort(rows, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
@@ -194,7 +197,9 @@ export default function StickyHeadTable(props) {
                                         </TableRow>
                                     );
                                 }) :
-                                <TableCell key={-1} colSpan={columns['length']} style={{ textAlign: "center" }}>No Rows Found...!</TableCell>}
+                                <TableRow>
+                                <TableCell key={-1} colSpan={columns['length']} style={{ textAlign: "center" }}>No Rows Found...!</TableCell>
+                                </TableRow>}
                         </TableBody>
                     </Table>
                 </TableContainer>

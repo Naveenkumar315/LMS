@@ -63,7 +63,7 @@ th {
 .MuiTablePagination-selectLabel {
   margin: 0;
 }
-.css-1aquho2-MuiTabs-indicator,
+.MuiTabs-indicator,
 .MuiTabs-indicator {
   background-color: var(--background-color) !important;
   height: 4px !important;
@@ -120,12 +120,12 @@ th {
   transition: 0.2s ease-in-out;
   background-color: #f1f3f4;
 }
-.input-input:focus {
+.input-input:focus,.react-datepicker-wrapper input:focus {
   outline: none;
   border: 0.1px solid #000c2f4d;
   box-shadow: 0px 5px 20px 0px #000c2f4d;
 }
-.input-input {
+.input-input,.react-datepicker-wrapper input {
   width: inherit;
   height: inherit;
   border-radius: 5px;
@@ -133,6 +133,29 @@ th {
   font-size: 1.05em;
   padding: 0 5%;
   box-shadow: 0px 1px 5px 0px #000c2f4d;
+}
+.react-datepicker-ignore-onclickoutside +.input-wrapper{  
+    z-index: -1;
+  }
+
+.react-datepicker-wrapper input{
+  height: 48px !important;
+
+}
+.react-datepicker__day--selected:hover, .react-datepicker__day--in-selecting-range:hover, .react-datepicker__day--in-range:hover, .react-datepicker__month-text--selected:hover, .react-datepicker__month-text--in-selecting-range:hover, .react-datepicker__month-text--in-range:hover, .react-datepicker__quarter-text--selected:hover, .react-datepicker__quarter-text--in-selecting-range:hover, .react-datepicker__quarter-text--in-range:hover, .react-datepicker__year-text--selected:hover, .react-datepicker__year-text--in-selecting-range:hover, .react-datepicker__year-text--in-range:hover
+,.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range
+,.react-datepicker__day--keyboard-selected:hover, .react-datepicker__quarter-text--keyboard-selected:hover, .react-datepicker__year-text--keyboard-selected:hover{
+  background-color: var(--background-color) !important;
+  color: #fff !important;
+
+}
+.react-datepicker__day--keyboard-selected{
+  background-color: #fff !important;
+  color: var(--background-color) !important;
+  border: 1px solid var(--background-color);
+}
+.react-datepicker__month-text--keyboard-selected:hover{
+  color: #fff ;
 }
 .input-wrapper .input-label {
   transform: translateY(-40px);
@@ -168,14 +191,14 @@ label {
   margin-top: 10px;
 }
 
-.css-1ualgfl-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused
+.MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused
   .MuiOutlinedInput-notchedOutline {
   border: none !important;
 }
-.css-r11z79-MuiDataGrid-root .MuiDataGrid-cell.MuiDataGrid-cell--editing {
+.MuiDataGrid-root .MuiDataGrid-cell.MuiDataGrid-cell--editing {
   box-shadow: none !important;
 }
-.css-bpeome-MuiSvgIcon-root-MuiSelect-icon {
+.MuiSvgIcon-root-MuiSelect-icon {
   display: none !important;
 }
 
@@ -239,10 +262,12 @@ label {
 .rdrDateDisplay {
   width: 90% !important;
 }
-#viewTimesheet .rdrCalendarWrapper {
+/* #viewTimesheet  */
+.rdrCalendarWrapper {
   width: 83% !important;
 }
-#viewTimesheet .rdrMonth {
+/* #viewTimesheet */
+ .rdrMonth {
   width: 26em;
 }
 #IdViewTimeSheetGrid .MuiPaper-root {
@@ -252,7 +277,7 @@ label {
 /* .MuiTypography-root {
   display: inline-block !important;
 } */
-.css-j204z7-MuiFormControlLabel-root {
+.MuiFormControlLabel-root {
   margin: 0 !important;
 }
 .activeLable {
@@ -269,8 +294,8 @@ label {
   left: auto !important;
   right: 10px !important;
 }
-.css-o4b71y-MuiAccordionSummary-content.Mui-expanded,
-.css-1elwnq4-MuiPaper-root-MuiAccordion-root.Mui-expanded {
+.MuiAccordionSummary-content.Mui-expanded,
+.MuiPaper-root-MuiAccordion-root.Mui-expanded {
   margin: 0 !important;
 }
 #LeaveBalance .MuiAccordionSummary-root.Mui-expanded {
@@ -316,16 +341,18 @@ label {
   background-color: var(--background-color) !important;
   color: var(--color) !important;
 }
-/* .scrollbar {
-  margin: 0 0 20px 0;
-  width: 100%;
-   height: 89vh;
-  max-height: 89vh; 
-  overflow-y: auto;
+.scrollbar {
+  /* margin: 0 0 20px 0;
+  width: 100%; */
+   /* height: 70vh;
+  max-height: 70vh;  */
+  /* overflow-y: auto;
   margin-left: 30px; 
-  background: #f5f5f5;
-} */
-
+  background: #f5f5f5; */
+}
+.MuiTableCell-root{
+  margin: 0 !important;
+}
 .scrollbar::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: inherit;
@@ -337,7 +364,7 @@ label {
   width: 4px;
   height: 5px;
   /* background-color: #f5f5f5; */
-  background:    hsl(0, 0%, 88%) 448px
+  background:    hsl(0, 0%, 88%) 480px
     
 }
 .scrollbar::-webkit-scrollbar {
@@ -346,12 +373,14 @@ label {
   /* background-color: #f5f5f5; */
   background: linear-gradient(
     to top,
-    hsl(0, 0%, 88%) 448px,
-    var(--background-color) 60px
+    hsl(0, 0%, 88%) 480px,
+    var(--background-color) 100px
   ) !important;
 }
 .MuiTableRow-head {
   height: 70px !important;
+  min-height: 70px !important;
+  max-height: 70px !important;
 }
 .react-swipeable-view-container div::-webkit-scrollbar-thumb {
   border-radius: 10px;
@@ -438,4 +467,10 @@ label {
 }
 .timeSheetDate {
   margin: 0;
+}
+.MuiCheckbox-root{
+  padding: 10px 0;
+}
+.MuiFormControlLabel-label{
+  padding: 0 !important;
 }

@@ -219,7 +219,7 @@ export default function EnterTimeSheet() {
                     <div className="input-holder">
                         <select className="input-input" style={{ width: '100%', fontSize: '17px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
                             {taskDateArr.map((item, index) => (
-                                <option key={index} value={item}>{moment(item).format('DD-MM-YYYY')}</option>
+                                 <option key={index} value={item}>{moment(new Date(item.replaceAll('/','-'))).format('DD-MM-YYYY')}</option>
                             ))}
                         </select>
                         <label className="input-label" style={{ height: '60px' }}>Task Date</label>

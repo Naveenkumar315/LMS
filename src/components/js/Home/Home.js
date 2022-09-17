@@ -10,6 +10,8 @@ import '../../css/style.css'
 import CustomGrid from '../../Sub-Component/CustomeGrid';
 import Loader from '../../Sub-Component/Loader';
 import setTheme from '../../Sub-Component/setTheme';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 export default function Home() {
     const columns = [
@@ -26,6 +28,7 @@ export default function Home() {
         { id: 'OTD', label: 'OTD', minWidth: 70 },
         { id: 'Create Sub-Task', label: 'Create Sub-Task', minWidth: 70, button: 'Re-Work', onclick: 'onclick("alert()")' }
     ];
+    const [IsInclude,SetIsInclude]=useState(false)
     useEffect(() => {
         setTheme();
     }, []);
@@ -78,7 +81,7 @@ export default function Home() {
 
         return (
             <Box sx={{ bgcolor: 'inherit' }}>
-                <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
+                <AppBar position="static" style={{ width: 'max-content',display:'inline-block', marginLeft: '25px', backgroundColor: '#fff' }} >
                     <Tabs
                         value={value}
                         onChange={handleChange}
@@ -93,7 +96,10 @@ export default function Home() {
                     onChangeIndex={handleChangeIndex}
                 >
                     <TabPanel value={value} index={0}>
-                        <CustomGrid Columns={columns} tab='TaskDashBoard' Pagination={true} />
+                        <div style={{ textAlign: 'right', marginTop: '-32px' }} >
+                                <FormControlLabel control={<Checkbox color="default" checked={IsInclude} onChange={()=>SetIsInclude(!IsInclude)}/>} label="Include Completed Task" />
+                        </div>
+                        <CustomGrid Columns={columns} tab='TaskDashBoard' IsInclude={IsInclude} Pagination={true} />
                     </TabPanel>
                 </SwipeableViews>
             </Box>

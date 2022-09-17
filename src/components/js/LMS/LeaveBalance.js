@@ -104,7 +104,7 @@ export default function LeaveBalanceTab(props) {
                 <div id='LMS' style={{ margin: '15px 0 0 0', width: '99%' }}>
                     <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
-                            <input type="text" className="input-input" name="startDate" onFocus={() => { setIsOpen([true, false]) }} value={Moment(Details['startDate']).format('DD-MM-YYYY')} onChange={handelOnChange} />
+                            <input type="text" className="input-input" name="startDate" onFocus={() => { setIsOpen([true, false]) }} value={Moment(new Date(Details['startDate'])).format('DD-MM-YYYY')} onChange={handelOnChange} />
                             <label className="input-label">Start Date</label>
                         </div>
                         {IsOpen[0] && Details['startDate'] ? <InputDatePicker name="startDate" Value={Details['startDate']} valueChange={handelOnChange} /> : ''}
@@ -112,7 +112,7 @@ export default function LeaveBalanceTab(props) {
 
                     <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
-                            <input type="text" className="input-input" name="endDate" onFocus={() => { setIsOpen([false, true]) }} value={Moment(Details['endDate']).format('DD-MM-YYYY')} onChange={handelOnChange} />
+                            <input type="text" className="input-input" name="endDate" onFocus={() => { setIsOpen([false, true]) }} value={Moment(new Date(Details['endDate'])).format('DD-MM-YYYY')} onChange={handelOnChange} />
                             <label className="input-label">End Date</label>
                         </div>
                         {IsOpen[1] && Details['endDate'] ? <InputDatePicker name="endDate" minDate_={new Date(Details['startDate'])} Value={Details['endDate']} valueChange={handelOnChange} /> : ''}

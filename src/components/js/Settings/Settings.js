@@ -89,7 +89,7 @@ export default function Settings() {
                 <div className="container" style={{ minWidth: '400px', textAlign: 'center' }}>
                     <div style={{ margin: '40px auto' }}>
                         {Color.map((color, index) => {
-                            return (<div div key={index} className='colorPaletteWrapper' >
+                            return (<div key={index} className='colorPaletteWrapper' >
                                 <div className='colorPalette' onClick={handelColorClick} index={index} style={{ backgroundColor: color['Primary'], border: '2px solid' + color['Primary'] }}>
                                     <div className='primary'></div>
                                     <div className='secondary' style={{ backgroundColor: color['Secondary'] }}></div>

@@ -13,6 +13,7 @@ import '../../css/style.css'
 import Moment from 'moment';
 import CustomeGrid from '../../Sub-Component/CustomeGrid';
 import { ExcelLibraryWorkingWithCells } from '../../Sub-Component/Excel/ExportExcel.tsx'
+import { useAlert } from "react-alert";
 
 function TabPanel(props) {
 
@@ -47,6 +48,7 @@ function a11yProps(index) {
     };
 }
 export default function ViewTimeSheet() {
+    const alert = useAlert();
     const [date, setDate] = useState(new Date());
     const firstDate = useMemo(() => (new Date(date.getFullYear(), date.getMonth(), 1)), [date]);
     const [value, setValue] = useState(1);
@@ -71,9 +73,9 @@ export default function ViewTimeSheet() {
             FileName = SelectedMonth + ' ' + monthYear['Year'];
         }
         FileName = 'Effort Metrics - ' +FileName;
-        // alert(FileName.length)
-        //return
-        axios.post(nodeurl["nodeurl"], { query: "LM_GetExcelSheetInfo " + localStorage["EmpId"], }).then((result) => {
+        alert.success('Please Wait...');
+        let type = 'Month';
+        axios.post(nodeurl["nodeurl"], { query: "LM_GetExcelSheetInfo " + localStorage["EmpId"] +",'"+type+"','"+JSON.stringify(monthYear)+"'" }).then((result) => {
             ExcelLibraryWorkingWithCells.workbookCreate(Rows, result.data[0][0]['WorkingDaysCount'], result.data[1], FileName);
         });
     }
@@ -159,7 +161,7 @@ export default function ViewTimeSheet() {
 
     return (
         <>
-            <div style={{ textAlign: 'right', marginTop: '-25px' }} class={value === 2 ? '':'hidden'}>
+            <div style={{ textAlign: 'right', marginTop: '-25px' }} className={value === 2 ? '':'hidden'}>
                 <button className="btn marginLeft-0 marginRight-0"  onClick={handelExport}>Export To Excel</button>
             </div>
             <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex' }}>

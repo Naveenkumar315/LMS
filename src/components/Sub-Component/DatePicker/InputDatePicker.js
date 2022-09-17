@@ -7,7 +7,7 @@ import Moment from 'moment';
 export default function InputDatePicker(props) {
     const [date, setDate] = useState(new Date(props['Value']));
     const valueChange = props['valueChange'];
-    const minDate = props['minDate_'] || '';
+    const minDate = props['minDate_'] || null;
     const handelDateChange = (value, e) => {
         var text = Moment(value).format('MM-DD-YYYY').toString();
         setDate(value);

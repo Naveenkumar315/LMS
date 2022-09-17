@@ -40,7 +40,7 @@ export default function PermissionWH() {
 
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder">
-                    <input type="text" className="input-input" name="StartDate" onFocus={() => { setIsOpen(true) }} value={Moment(DetailsWH['StartDate']).format('DD-MM-YYYY')} onChange={handelOnChange} />
+                    <input type="text" className="input-input" name="StartDate" onFocus={() => { setIsOpen(true) }} value={Moment(new Date(DetailsWH['StartDate'])).format('DD-MM-YYYY')} onChange={handelOnChange} />
                     <label className="input-label">Date</label>
                 </div>
                 {IsOpen && DetailsWH['StartDate'] ? <InputDatePicker name="StartDate" Value={DetailsWH['StartDate']} valueChange={handelOnChange} /> : ''}
