@@ -33,10 +33,10 @@ export default function StickyHeadTable(props) {
             axios.post(nodeurl['nodeurl'], { query: 'LM_PM_PermissionHistory ' + EmpId + '' }).then(result => {
                 setRows(result.data[0]);
             });
-        else if (tab === 'TaskDashBoard'){
-        let IsInclude = 1;
-        if(props['IsInclude'])IsInclude = 0;
-            axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ','+IsInclude }).then(result => {
+        else if (tab === 'TaskDashBoard') {
+            let IsInclude = 1;
+            if (props['IsInclude']) IsInclude = 0;
+            axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',' + IsInclude }).then(result => {
                 setRows(result.data[0])
             });
         }
@@ -100,6 +100,7 @@ export default function StickyHeadTable(props) {
         };
 
         return (
+
             <TableHead>
                 <TableRow>
                     {columns.map((headCell, index) => (
@@ -170,9 +171,17 @@ export default function StickyHeadTable(props) {
     return (
         <>
             <Paper sx={{ width: '100%', overflow: 'auto', border: '1px solid ' + localStorage['BgColor'], height: 'auto' }}>
+                {/* <Table>
+                    <EnhancedTableHead
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                    />
+                </Table> */}
                 <TableContainer className='scrollbar' >
-                    <Table stickyHeader aria-label="sticky table">
+                    <Table>
                         <EnhancedTableHead
+                            // component="div"
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
@@ -198,7 +207,7 @@ export default function StickyHeadTable(props) {
                                     );
                                 }) :
                                 <TableRow>
-                                <TableCell key={-1} colSpan={columns['length']} style={{ textAlign: "center" }}>No Rows Found...!</TableCell>
+                                    <TableCell key={-1} colSpan={columns['length']} style={{ textAlign: "center" }}>No Rows Found...!</TableCell>
                                 </TableRow>}
                         </TableBody>
                     </Table>
