@@ -44,7 +44,7 @@ export default function Profile() {
         }
 
         return (
-            <div style={{ margin: '30px 0', width: '99%' }}>
+            <div id="profile" style={{  width: '99%' }}>
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" className="input-input" name="FirstName" onFocus={() => { setIsOpen(false) }} value={Details['FirstName']} onChange={handelOnChange} />

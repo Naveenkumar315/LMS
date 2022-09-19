@@ -191,7 +191,7 @@ export default function ViewTimeSheet() {
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                             <>
-                                <div style={{ display: 'flex', flexDirection: 'column', width: '310px', marginTop: '20px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', width: '270px', marginTop: '20px' }}>
                                     <div className="input-wrapper marginLeft-0" style={{ width: '89%', marginRight: '0' }}>
                                         <div className="input-holder">
                                             <select className="input-input" name="Year" value={monthYear['Year']} onChange={handelMonthYearChange}>

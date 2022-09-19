@@ -54,7 +54,7 @@ export default function Lms() {
         { id: 'Reason', label: 'Reason', minWidth: 180 },
         { id: 'Leaveoptions', label: 'Leave Option', minWidth: 200, sort: true },
         { id: '', label: 'Action', minWidth: 100, button: 'Cancel', type: 1 },
-        { id: '', label: 'LOP', minWidth: 100, button: 'Cancel', type: 2 }
+        { id: '', label: 'LOP', minWidth: 70, button: 'Cancel', type: 2 }
     ];
     const PermissionHistoryColumn = [
         { id: 'PermissionType', label: 'Permission Type', minWidth: 200, sort: true },

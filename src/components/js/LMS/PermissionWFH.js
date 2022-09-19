@@ -31,7 +31,7 @@ export default function PermissionWFH() {
 
 
     return (
-        <div style={{ width: '99%', height: '50vh' }}>
+        <div style={{ width: '99%', height: '60vh' }}>
 
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder">

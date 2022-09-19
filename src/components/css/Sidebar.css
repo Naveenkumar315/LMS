@@ -14,7 +14,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 250px;
+  width: 220px;
   padding: 10px 14px;
   background: var(--background-color);
   transition: var(--color);
@@ -250,9 +250,10 @@ body.dark .mode .sun-moon i.moon {
 .body {
   /* position: absolute; */
   top: 60px;
-  left: 250px;
-  height: 89vh;
-  width: calc(100% - 250px);
+  left: 220px;
+  height: 86vh;
+  max-height: 89vh;
+  width: calc(100% - 220px);
   /* background-color: var(--color); */
   transition: var(--tran-05);
 }
@@ -265,7 +266,8 @@ body.dark .mode .sun-moon i.moon {
 
 .sidebar.close ~ .body {
   left: 88px;
-  height: 89vh;
+  height: 86vh;
+  max-height: 89vh;
   width: calc(100% - 88px);
 }
 body.dark .body .text {
