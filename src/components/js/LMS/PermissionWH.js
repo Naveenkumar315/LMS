@@ -2,11 +2,10 @@ import React, { useState, } from 'react';
 import axios from 'axios';
 import nodeurl from '../../../nodeServer.json'
 import Moment from 'moment';
-import InputDatePicker from '../../Sub-Component/DatePicker/InputDatePicker';
+import DatePicker from '../../Sub-Component/DatePicker/DatePicker';
 
 export default function PermissionWH() {
     const EmpId = localStorage['EmpId'];
-    const [IsOpen, setIsOpen] = useState(false);
     const [DetailsWH, setDetailsWH] = useState({ EmpId: EmpId, StartDate: Moment(new Date()).format('MM-DD-YYYY'), EndDate: Moment(new Date()).format('MM-DD-YYYY'), From: '09.00', To: '09.30', Duration: 0, TotalHours: '00.30', Reason: '', PermissionID: 1 })
     const TimeArr = [
         { value: "09.00", text: "09.00" }, { value: "09.30", text: "09.30" }, { value: "10.00", text: "10.00" }, { value: "10.30", text: "10.30" },
@@ -20,7 +19,6 @@ export default function PermissionWH() {
     ToOption = TimeArr.slice(TimeArr.findIndex(x => x.value === DetailsWH['From']) + 1, TimeArr.findIndex(x => x.value === DetailsWH['From']) + 5);
 
     const handelClick = () => {
-        setIsOpen(false);
         axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'LM_PM_PermissionApply ', UpdateJson: JSON.stringify(DetailsWH) }).then(result => {
             // let status = result.data[0];
             // if (status === 1) 
@@ -39,16 +37,15 @@ export default function PermissionWH() {
         <div style={{ width: '99%', height: '60vh' }}>
 
             <div className="input-wrapper marginLeft-0">
-                <div className="input-holder">
-                    <input type="text" className="input-input" name="StartDate" onFocus={() => { setIsOpen(true) }} value={Moment(new Date(DetailsWH['StartDate'])).format('DD-MM-YYYY')} onChange={handelOnChange} />
+                <div className="input-holder input-DatePicker">
+                    <DatePicker name="StartDate" Value={new Date(DetailsWH['StartDate'])} valueChange={handelOnChange} />
                     <label className="input-label">Date</label>
                 </div>
-                {IsOpen && DetailsWH['StartDate'] ? <InputDatePicker name="StartDate" Value={DetailsWH['StartDate']} valueChange={handelOnChange} /> : ''}
             </div>
 
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder">
-                    <select className="input-input" name="From" value={DetailsWH['From']} onFocus={() => { setIsOpen(false) }} onChange={handelOnChange}>
+                    <select className="input-input" name="From" value={DetailsWH['From']} onChange={handelOnChange}>
                         {TimeArr.map((item, index) => (
                             <option key={index} value={item['value']}>{item['text']}</option>
                         ))}
@@ -58,7 +55,7 @@ export default function PermissionWH() {
             </div>
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder">
-                    <select className="input-input" name="To" value={DetailsWH['To']} onFocus={() => { setIsOpen(false) }} onChange={handelOnChange}>
+                    <select className="input-input" name="To" value={DetailsWH['To']} onChange={handelOnChange}>
                         {ToOption.map((item, index) => (
                             <option key={index} value={item['value']}>{item['text']}</option>
                         ))}
@@ -75,7 +72,7 @@ export default function PermissionWH() {
 
             <div className="input-wrapper marginLeft-0">
                 <div className="input-holder">
-                    <input type="text" className="input-input" name="Reason" onFocus={() => { setIsOpen(false) }} value={DetailsWH['Reason']} onChange={handelOnChange} />
+                    <input type="text" className="input-input" name="Reason" value={DetailsWH['Reason']} onChange={handelOnChange} />
                     <label className="input-label">Reason</label>
                 </div>
             </div>

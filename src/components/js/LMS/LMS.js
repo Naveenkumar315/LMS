@@ -23,7 +23,6 @@ export default function Lms() {
 
     const handelAction = (id, type) => {
         let query = '';
-
         if (type === '1') query = 'SP_LM_CheckCancelStatus';
         else if (type === '2') query = 'SP_LM_LOP_Cancel_Request';
         else if (type === '4') query = 'LM_PM_ReturnCancelStatus';
@@ -114,7 +113,7 @@ export default function Lms() {
         return (
             <>
                 <Box sx={{ bgcolor: 'inherit' }}>
-                    <AppBar position="static" style={{ width:'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
+                    <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
                         <Tabs
                             value={value}
                             onChange={handleChange}

@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { useAlert } from "react-alert";
+import DatePicker from './../../Sub-Component/DatePicker/DatePicker';
 
 export default function EnterTimeSheet() {
     const EmpId = localStorage['EmpId'];
@@ -129,10 +130,10 @@ export default function EnterTimeSheet() {
         for (let i = 0; i < Details.length; i++) {
             Details[i] = { ...Details[i], TaskDate: moment(taskDate).format('YYYY-MM-DD') }
         }
-            axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_SaveTimesheetDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
-                setExpanded(-1);
-                alert.success("Details Saved successfully.");
-            });
+        axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_SaveTimesheetDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
+            setExpanded(-1);
+            alert.success("Details Saved successfully.");
+        });
     }
     const handelOnChange = (event) => {
         const newState = Details.map((obj, index_) => {
@@ -219,7 +220,7 @@ export default function EnterTimeSheet() {
                     <div className="input-holder">
                         <select className="input-input" style={{ width: '100%', fontSize: '17px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
                             {taskDateArr.map((item, index) => (
-                                 <option key={index} value={item}>{moment(new Date(item.replaceAll('/','-'))).format('DD-MM-YYYY')}</option>
+                                <option key={index} value={item}>{moment(new Date(item.replaceAll('/', '-'))).format('DD-MM-YYYY')}</option>
                             ))}
                         </select>
                         <label className="input-label" style={{ height: '60px' }}>Task Date</label>
@@ -318,7 +319,7 @@ export default function EnterTimeSheet() {
                                                     </div>
                                                 </div>
 
-                                                <div className="input-wrapper marginLeft-0" style={{ width: '40%' }}>
+                                                <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
                                                     <div className="input-holder">
                                                         <select className="input-input" name="StatusId" index={index} value={Details[index]['StatusId']} onChange={handelOnChange}>
                                                             {Status.map((item, index) => (
@@ -332,6 +333,12 @@ export default function EnterTimeSheet() {
                                                     <div className="input-holder">
                                                         <input type="text" className="input-input" name="Issues" index={index} value={Details[index]['Issues']} onChange={handelOnChange} />
                                                         <label className="input-label">Issue</label>
+                                                    </div>
+                                                </div>
+                                                <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
+                                                    <div className="input-holder">
+                                                        <DatePicker name="CompletionDate" minDate_={new Date()} Value={new Date(Details[index]['CompletionDate'])} index={index} valueChange={handelOnChange} />
+                                                        <label className="input-label">Completion Date</label>
                                                     </div>
                                                 </div>
                                                 <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>

@@ -25,19 +25,21 @@ export default function StickyHeadTable(props) {
     const handelAction = props['onclick']
 
     useEffect(() => {
-        if (tab === 'LeaveHistory')
+        if (tab === 'LeaveHistory') {
             axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveHistory ' + EmpId + '' }).then(result => {
                 setRows(result.data[0]);
             });
-        else if (tab === 'PermissionHistory')
+        }
+        else if (tab === 'PermissionHistory') {
             axios.post(nodeurl['nodeurl'], { query: 'LM_PM_PermissionHistory ' + EmpId + '' }).then(result => {
                 setRows(result.data[0]);
             });
-        else if (tab === 'TaskDashBoard'){
-        let IsInclude = 1;
-        if(props['IsInclude'])IsInclude = 0;
-            axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ','+IsInclude }).then(result => {
-                setRows(result.data[0])
+        }
+        else if (tab === 'TaskDashBoard') {
+            let IsInclude = 1;
+            if (props['IsInclude']) IsInclude = 0;
+            axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',' + IsInclude }).then(result => {
+                setRows(result.data[0]);
             });
         }
         else if (tab === 'viewTimesheet') {
@@ -198,7 +200,7 @@ export default function StickyHeadTable(props) {
                                     );
                                 }) :
                                 <TableRow>
-                                <TableCell key={-1} colSpan={columns['length']} style={{ textAlign: "center" }}>No Rows Found...!</TableCell>
+                                    <TableCell key={-1} colSpan={columns['length']} style={{ textAlign: "center" }}>No Rows Found...!</TableCell>
                                 </TableRow>}
                         </TableBody>
                     </Table>

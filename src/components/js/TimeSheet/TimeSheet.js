@@ -1,5 +1,4 @@
 import React, { useState, useEffect, } from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@mui/material/AppBar';
@@ -7,19 +6,14 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import nodeurl from '../../../nodeServer.json'
 import ViewTimeSheet from './ViewTimeSheet'
-import Loader from '../../Sub-Component/Loader';
 import setTheme from '../../Sub-Component/setTheme';
 import EnterTimeSheet from './EnterTimeSheet';
 
 
 export default function TimeSheet() {
-    const [isLoading, setIsLoading] = useState(true);
-
     useEffect(() => {
         setTheme();
-        setIsLoading(false);
     }, []);
 
     function TabPanel(props) {
@@ -91,8 +85,5 @@ export default function TimeSheet() {
         );
     }
 
-    if (isLoading)
-        return (<Loader />);
-    else
-        return (<FullWidthTabs val="2" />);
+    return (<FullWidthTabs val="2" />);
 }

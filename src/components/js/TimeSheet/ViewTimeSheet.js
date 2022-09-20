@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Tabs from '@mui/material/Tabs';
 import axios from 'axios';
 import Tab from '@mui/material/Tab';
@@ -72,10 +72,10 @@ export default function ViewTimeSheet() {
             let SelectedMonth = document.querySelector('.input-input[name="Month"]').selectedOptions[0].text;
             FileName = SelectedMonth + ' ' + monthYear['Year'];
         }
-        FileName = 'Effort Metrics - ' +FileName;
+        FileName = 'Effort Metrics - ' + FileName;
         alert.success('Please Wait...');
         let type = 'Month';
-        axios.post(nodeurl["nodeurl"], { query: "LM_GetExcelSheetInfo " + localStorage["EmpId"] +",'"+type+"','"+JSON.stringify(monthYear)+"'" }).then((result) => {
+        axios.post(nodeurl["nodeurl"], { query: "LM_GetExcelSheetInfo " + localStorage["EmpId"] + ",'" + type + "','" + JSON.stringify(monthYear) + "'" }).then((result) => {
             ExcelLibraryWorkingWithCells.workbookCreate(Rows, result.data[0][0]['WorkingDaysCount'], result.data[1], FileName);
         });
     }
@@ -109,7 +109,7 @@ export default function ViewTimeSheet() {
         { id: 'Hours', label: 'Hours', minWidth: 80 }
     ];
     useEffect(() => {
-        axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Range",' + localStorage['EmpId'] + ',"' + Moment(firstDate).format('YYYY-MM-DD') + '","' + Moment(new Date()).format('YYYY-MM-DD') + '",0,0' }).then(result => {
+        axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Range",' + localStorage['EmpId'] + ',"' + Moment(new Date(new Date().getFullYear(), new Date().getMonth(), 1)).format('YYYY-MM-DD') + '","' + Moment(new Date()).format('YYYY-MM-DD') + '",0,0' }).then(result => {
             setRows(result.data[0]);
         });
     }, [])
@@ -161,8 +161,8 @@ export default function ViewTimeSheet() {
 
     return (
         <>
-            <div style={{ textAlign: 'right', marginTop: '-25px' }} className={value === 2 ? '':'hidden'}>
-                <button className="btn marginLeft-0 marginRight-0"  onClick={handelExport}>Export To Excel</button>
+            <div style={{ textAlign: 'right', marginTop: '-25px' }} className={value === 2 ? '' : 'hidden'}>
+                <button className="btn marginLeft-0 marginRight-0" onClick={handelExport}>Export To Excel</button>
             </div>
             <div id="viewTimesheet" style={{ flexDirection: 'row', display: 'flex' }}>
                 <Box style={{ display: 'inline-block', marginRight: '-20px' }}>

@@ -10,13 +10,13 @@ export default function PoliciesProc() {
                     <ol id="l1">
                         <li>
                             <h1>
-                                <a name="bookmark0">Welcome Aboard</a>
+                                <a href="#" name="bookmark0">Welcome Aboard</a>
                             </h1>
                             <p>We, at Analytic Brains are happy to welcome you aboard. We, assure you that you will find the time you spend working with us, both personally rewarding and productive for the organization.</p>
                         </li>
                         <li>
                             <h1>
-                                <a name="bookmark1">Introduction</a>
+                                <a href="#" name="bookmark1">Introduction</a>
                             </h1>
                             <p>This employee handbook is a summary of policies, procedures and practices related to human resource and infrastructure management at <b>Analytic Brains Technologies Pvt. Ltd</b>.</p>
                             <p>The Managing Director Mr. <b>Sundaresan Subramanian </b>leads the staff team in the development and implementation of the policies outlined in this manual. He will be assisted by Managers who should reference this manual to ensure organizational consistency in the application of these practices.
@@ -27,7 +27,7 @@ export default function PoliciesProc() {
                         </li>
                         <li>
                             <h1>
-                                <a name="bookmark2">About the Organization</a>
+                                <a href="#" name="bookmark2">About the Organization</a>
                             </h1>
                             <h3>Analytic Brains Technologies Pvt. Ltd <span className="p">was established in 2010, by </span>Sundaresan Subramanyan<span className="p">, a financial technologist with two decades of experience in providing solutions to international clients in the Financial Services industry. The company is, today is a boutique organization, serving several local and international clients, providing them the following services:</span></h3>
                             <ul id="l2">
@@ -50,7 +50,7 @@ export default function PoliciesProc() {
                         </li>
                         <li>
                             <h1>
-                                <a name="bookmark3">Statement of Philosophy</a>
+                                <a href="#" name="bookmark3">Statement of Philosophy</a>
                             </h1>
                             <p>Analytic Brains wishes to maintain a work environment that fosters personal and professional growth for all employees. Maintaining such an environment is the responsibility of every employee. Because of their role, managers and supervisors have the additional responsibility to lead in a manner which fosters such an environment.</p>
                             <p>It is the responsibility of all employees and managers to:</p>
@@ -77,7 +77,7 @@ export default function PoliciesProc() {
                         </li>
                         <li>
                             <h1>
-                                <a name="bookmark4">HR Processes</a>
+                                <a href="#" name="bookmark4">HR Processes</a>
                             </h1>
                             <p>Though a small organization, we scrupulously follow HR processes. On joining the organization, to make you productive, from day-1, you will be provided with the following.</p>
                             <h2>Documents – Company to Employee</h2>
@@ -92,7 +92,7 @@ export default function PoliciesProc() {
                                 <li>
                                     <p>Upon joining the organization, the employee will be informed of the path where this document (Employee Handbook) is available for reference, in the shared location and a soft copy of this document will be emailed to the employee.</p>
                                     <h2>
-                                        <a name="bookmark5">Documents – Employee to Company</a>
+                                        <a href="#" name="bookmark5">Documents – Employee to Company</a>
                                     </h2>
                                 </li>
                                 <li>
@@ -109,7 +109,7 @@ export default function PoliciesProc() {
                                 <li>
                                     <p>Passport size photo of the employee</p>
                                     <h2>
-                                        <a name="bookmark6">Induction</a>
+                                        <a href="#" name="bookmark6">Induction</a>
                                     </h2>
                                 </li>
                                 <li>
@@ -118,7 +118,7 @@ export default function PoliciesProc() {
                                 <li>
                                     <p>On completion of the induction, the employee will be assigned duties to be performed</p>
                                     <h2>
-                                        <a name="bookmark7">Employee Designation</a>
+                                        <a href="#" name="bookmark7">Employee Designation</a>
                                     </h2>
                                     <p>Employees joining Analytic Brains maybe classified as:</p>
                                     <ul id="l5">
@@ -152,16 +152,16 @@ export default function PoliciesProc() {
                                             <p>Project Leader</p>
                                             <p>A fresher joining as programmer trainee maybe on probation for a period of 6 months, at the end of which, (s)he may be confirmed in service, subject to satisfactory performance. Based on the designation, duties would be assigned to the employees.</p>
                                             <h2>
-                                                <a name="bookmark8">Employee Duties</a>
+                                                <a href="#" name="bookmark8">Employee Duties</a>
                                             </h2>
                                             <p>Attached to the Offer of Employment, is a broad description of the job and the associated responsibilities, along with any additional tasks that may possibly be required. This document will be used to evaluate performance of the employee, both during the probation period and after. Employees are advised to seek clarification, if they are unclear of the contents.</p>
                                             <p>From time to time, it may be necessary to amend an employee’s job description. These amendments will be discussed with the employee in advance however; the final decision on implementation will be made by management.</p>
                                             <h2>
-                                                <a name="bookmark9">Performance Appraisals</a>
+                                                <a href="#" name="bookmark9">Performance Appraisals</a>
                                             </h2>
                                             <p>Performance reviews, for all employees, will occur near the end of March, and annually thereafter. However, every employee will be provided regular feedback of their performance, by the manager concerned. The purpose of the annual performance review meeting is to review successes and challenges from the preceding year, and to establish the objectives for the coming year. This would also be the opportunity for either party to identify and recommend professional development opportunities which may assist the employee in their day to day work and to grow within the organization. Once complete, both parties shall sign off on the final document and it shall be added to the employee’s personnel file.</p>
                                             <h2>
-                                                <a name="bookmark10">Payroll and Salary Revision</a>
+                                                <a href="#" name="bookmark10">Payroll and Salary Revision</a>
                                             </h2>
                                         </li>
                                     </ul>
@@ -175,17 +175,17 @@ export default function PoliciesProc() {
                                 <li>
                                     <p>Revision of salary and bonus payment (if any) will occur every year in the month of April, following performance appraisal</p>
                                     <h2>
-                                        <a name="bookmark11">Hours of Work</a>
+                                        <a href="#" name="bookmark11">Hours of Work</a>
                                     </h2>
                                     <p>The regular office hours for the organization are 9.30 a.m. to 6:30 p.m., Monday through Friday inclusive (excluding holidays). However, on days when there are meetings with the client, or where deliverables are to be made, employees may be required to come early or leave late, on completion of work. All employees are expected to work a minimum of 8 hours per day, <b>excluding </b>one hour of lunch and tea break in between.</p>
                                     <p>Employees are required to notify their supervisor, in advance, of planned leave. Unplanned absences from the office should be reported to the employee’s supervisor as soon as could reasonably  be  expected.  At  the  discretion  of  the  Managing  Director,  depending  on circumstances, employees may be allowed to work from home for specific periods of time.</p>
                                     <p>In case of unforeseen circumstances (such as heavy rains or other causes), the office cannot be opened, employees may be required to compensate for the same, by attending office on weekly holidays (Saturday or Sunday), so that clients are not inconvenienced and the work proceeds as originally planned.</p>
                                     <h2>
-                                        <a name="bookmark12">List of Holidays</a>
+                                        <a href="#" name="bookmark12">List of Holidays</a>
                                     </h2>
                                     <p>The list of holidays (including statutory holidays) will be published by the organization and sent by mail to all employees, before the beginning of each calendar year.</p>
                                     <h2>
-                                        <a name="bookmark13">Time Sheet and Leave</a>
+                                        <a href="#" name="bookmark13">Time Sheet and Leave</a>
                                     </h2>
                                 </li>
                                 <li>
@@ -238,7 +238,7 @@ export default function PoliciesProc() {
                                 <li>
                                     <p>Work from home will be granted on case to case basis upon genuine circumstances and approval of the concerned project manager. No work from home will granted for the 1<span className="s1">st</span> one year of service.</p>
                                     <h2>
-                                        <a name="bookmark14">Travel</a>
+                                        <a href="#" name="bookmark14">Travel</a>
                                     </h2>
                                 </li>
                                 <li>
@@ -250,7 +250,7 @@ export default function PoliciesProc() {
                         </li>
                         <li data-list-text={6}>
                             <h1>
-                                <a name="bookmark15">Infrastructure</a>
+                                <a href="#" name="bookmark15">Infrastructure</a>
                             </h1>
                             <p>Analytic Brains Technologies Pvt. Ltd is located at Old No.1, New No.1, Sambasivam Street, T.Nagar, Chennai, India 600 017
                             </p>
@@ -301,7 +301,7 @@ export default function PoliciesProc() {
                         </li>
                         <li data-list-text={7}>
                             <h1>
-                                <a name="bookmark16">Dress Code</a>
+                                <a href="#" name="bookmark16">Dress Code</a>
 
                             </h1>
                             <p>Employees should dress and behave appropriately. In order to create and maintain a professional image, employees are expected to wear clothing that is not offensive or distracting to clients and colleagues. This includes maintaining appropriate and commonly accepted standards of dressing and grooming that reflects a professional and business like image at all times.</p>
@@ -325,12 +325,12 @@ export default function PoliciesProc() {
                                 </li>
                                 <li>
                                     <h3>
-                                        <a name="bookmark17">Monday and Tuesday – Business Formals</a>
+                                        <a href="#" name="bookmark17">Monday and Tuesday – Business Formals</a>
                                     </h3>
                                 </li>
                                 <li>
                                     <h3>
-                                        <a name="bookmark18">Wednesday through Friday - Business Casuals</a>
+                                        <a href="#" name="bookmark18">Wednesday through Friday - Business Casuals</a>
                                     </h3>
                                     <p>The intent of the policy is to create a comfortable work environment that is also professional and free from distractions. Business Casual is defined as clean, neat and professional in appearance.</p>
                                     <p>Below are some general guidelines for both men and women regarding what attire is appropriate.</p>
@@ -393,7 +393,7 @@ export default function PoliciesProc() {
                             </ul>
                         </li>
                         <li data-list-text={8}><h1>
-                            <a name="bookmark19">Professionalism and Discipline</a>
+                            <a href="#" name="bookmark19">Professionalism and Discipline</a>
                         </h1>
                             <p>When representing the organization, employees should dress and behave appropriately. Excessive use of profanity is neither professional nor respectful to clients or co-workers and will not be tolerated.</p>
                             <p>Discipline at the organization shall be progressive, depending on the nature of the problem. Its purpose is to identify unsatisfactory performance and / or unacceptable behaviour. The stages may be:
@@ -413,7 +413,7 @@ export default function PoliciesProc() {
                         </li>
                         <li data-list-text={9}>
                             <h1>
-                                <a name="bookmark20">Business Communication</a>
+                                <a href="#" name="bookmark20">Business Communication</a>
                             </h1>
                             <ul id="l9">
                                 <li>
@@ -435,7 +435,7 @@ export default function PoliciesProc() {
                         </li>
                         <li data-list-text={10}>
                             <h1>
-                                <a name="bookmark21">InternetUsage</a>
+                                <a href="#" name="bookmark21">InternetUsage</a>
                             </h1>
                             <p>There are no restrictions on the usage of internet at the office. However, with freedom comes responsibility. Employees are expected to:</p>
                             <ul id="l10">
@@ -458,47 +458,47 @@ export default function PoliciesProc() {
                         </li>
                     </ol>
                     <h1>
-                        <a name="bookmark22">11 Confidentiality</a>
+                        <a href="#" name="bookmark22">11 Confidentiality</a>
                     </h1>
                     <h2>
-                        <a name="bookmark23">Confidential Information</a>
+                        <a href="#" name="bookmark23">Confidential Information</a>
                     </h2>
                     <p>From time to time, employees of the organization may come into contact with confidential information, including but not limited to information about the organization’s customers, partners, finances and business plans. Employees are required to keep any such matters strictly confidential.</p>
                     <p>Furthermore, any such confidential information, obtained through employment with the organization must not be used by an employee for personal gain or to further an outside enterprise.</p>
                     <h2>
-                        <a name="bookmark24">Intellectual Property</a>
+                        <a href="#" name="bookmark24">Intellectual Property</a>
                     </h2>
                     <p>Any intellectual property, such as trademarks, copyrights and patents, and any work created by an employee in the course of employment at the organization shall be the property of the organization and the employee is deemed to have waived all rights in favour of the organization. Work, for the purpose of this policy refers to written, creative or media work. All source material used in presentation or documents in any devise must be duly acknowledged and accounted for. Office consumables such as stationery/ printer etc should be used strictly for official purposes.</p>
-                    <h2><a name="bookmark25">IT Information Storage and Security</a>
+                    <h2><a href="#" name="bookmark25">IT Information Storage and Security</a>
                     </h2>
                     <p>Any storage devices (CD’s, USB’s, Floppy Discs) used by employees at Analytic Brains Technologies Pvt. Ltd are the property of the organization. Furthermore, it should be understood by employees, that company equipment should be used for company business only during normal working hours. Downloading of personal materials on company equipment can be harmful to the said equipment and is strictly prohibited. Installation of any software/apps in workstations without prior approval is also prohibited.</p>
                     <h1>
-                        <a name="bookmark26">12 Health and Safety</a>
+                        <a href="#" name="bookmark26">12 Health and Safety</a>
                     </h1>
                     <p>The Organization, along with its employees, must take reasonable precautions to ensure that the workplace is safe. The organization complies with all requirements for creating a healthy and safe workplace.</p>
                     <p>Employees who have health and safety concerns or identify potential hazards should promptly inform the same to Admin and/ or their managers concerned.</p>
                     <p>Upon completion of one year of service, employees will be enrolled in the company’s group insurance policy as per prevailing norms.</p>
                     <p>In Pandemic situations, social distancing and wearing of face masks is compulsory wherever applicable. Employees are encouraged to follows all safety protocols recommended by the company and the government. The organization will put in place necessary safety measures depending on the situation.</p>
                     <h2>
-                        <a name="bookmark27">Alcohol Consumption and Illegal Drug Use</a>
+                        <a href="#" name="bookmark27">Alcohol Consumption and Illegal Drug Use</a>
                     </h2>
                     <p>Alcohol consumption or illegal drug use is not permitted during work hours on the office premises.</p>
                     <h2>
-                        <a name="bookmark28">Air Quality and Smoke Free Environment</a>
+                        <a href="#" name="bookmark28">Air Quality and Smoke Free Environment</a>
                     </h2>
                     <p>Indoor air quality can lead to many health issues. The organization recognizes this and attempts to minimize the risks associated with indoor air quality and the effects on its employees. Issues pertaining to air quality should be promptly reported to the Admin
                         <span className="s4">.</span>
                     </p>
                     <p>Smoking inside the office premises is not permitted at any time.</p>
                     <h2>
-                        <a name="bookmark29">Harassment</a>
+                        <a href="#" name="bookmark29">Harassment</a>
                     </h2>
                     <p>The organization wants to provide a harassment-free environment for its employees. Mutual respect, along with cooperation and understanding, must be the basis of interaction between employees among themselves and with their reporting managers. The organization will neither tolerate, nor condone behaviour that is likely to undermine the dignity or self-esteem of an individual, or create an intimidating, hostile or offensive environment.</p>
                     <p>There are several forms of harassment but all can be defined as any unwelcome action by any person, whether verbal or physical, on a single or repeated basis, which humiliates insults or degrades. “Unwelcome”, for the purposes of this policy, refers to any action which the harasser knows, or ought to reasonably know is not desired by the victim of the harassment.</p>
                     <p>Specifically, racial harassment is defined as any unwelcome comments, racist statements, slurs, jokes, graffiti or literature or pictures and posters which may intentionally or unintentionally offend another person.</p>
                     <p>Sexual harassment is any unwanted attention of a sexual nature such as remarks about appearance or personal life, offensive written or visual actions like graffiti or degrading pictures, physical contact of any kind, or sexual demands.</p>
                     <h2>
-                        <a name="bookmark30">Workplace Violence and Abuse</a>
+                        <a href="#" name="bookmark30">Workplace Violence and Abuse</a>
                     </h2><p>Workplace violence can be defined as a threat or an act of aggression resulting in physical or psychological damage, pain or injury to a worker, which arises during the course of work.</p>
                     <p>Abuse can be verbal, psychological or sexual in nature. Verbal abuse is the use of unwelcome, embarrassing, offensive, threatening or degrading comments. Psychological abuse is an act which provokes fear or diminishes a person’s dignity or self-esteem. Finally, sexual abuse is any unwelcome verbal or physical advance or sexually explicit statement.</p>
                     <p>The organization has a zero tolerance limit with regards to harassment and violence. Employees or volunteers engaging in either harassing or violent activities will be subject to discipline, which may include termination of employment and possibly criminal charges.</p>

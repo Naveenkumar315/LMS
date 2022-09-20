@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import setTheme from '../../Sub-Component/setTheme';
 import "../../../components/css/Settings.css"
 import axios from 'axios';

@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import nodeurl from '../../../nodeServer.json'
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
-import AppBar from '@mui/material/AppBar';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import setTheme from '../../Sub-Component/setTheme';
 import Swatch from '../../Sub-Component/Swatch';
 import PermissionWH from './PermissionWH';
 import PermissionWFH from './PermissionWFH';

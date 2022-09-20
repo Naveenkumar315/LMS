@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import '../../css/style.css'
 import CustomGrid from '../../Sub-Component/CustomeGrid';
-import Loader from '../../Sub-Component/Loader';
 import setTheme from '../../Sub-Component/setTheme';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -105,6 +104,5 @@ export default function Home() {
             </Box>
         );
     }
-    // if (isLoading) return (<NavBar Component={<Loader />} />);
     return (<FullWidthTabs />);
 }

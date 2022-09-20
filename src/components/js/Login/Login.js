@@ -12,17 +12,17 @@ const Login = () => {
     const [alert, setAlert] = useState('');
     const [passwordType, setPasswordType] = useState("password");
     useEffect(() => {
-        window.addEventListener('keydown', (event) => {
-            if (event.keyCode === 13) handleSubmit(event);
-        });
+        // window.addEventListener('keydown', (event) => {
+        //     if (event.keyCode === 13) handleSubmit(event);
+        // });
         document.documentElement.style.setProperty('--background-color', '#0589a0');
         document.documentElement.style.setProperty('--color', '#fff');
     }, [])
     const handleChange = (event) => {
-        let value  = event.target.value;
-        if(value.substr(value.length - 1) === '@' && event.target.name === 'email'){
-            value=value + 'analyticbrains.com';
-            event.target.value=value;
+        let value = event.target.value;
+        if (value.substr(value.length - 1) === '@' && event.target.name === 'email') {
+            value = value + 'analyticbrains.com';
+            event.target.value = value;
         }
         setAlert('');
         var validate_UN = '', validate_PWD = '';
@@ -55,7 +55,7 @@ const Login = () => {
             var query = { query: "AB_LoginValidation '" + email + "','" + password + "'" };
             axios.post(nodeurl['nodeurl'], query)
                 .then(res => {
-                    if(res.data.length === 0){
+                    if (res.data.length === 0) {
                         setAlert('Please enter valid username and password!');
                         return false;
                     }
@@ -83,7 +83,9 @@ const Login = () => {
                 });
         }
     }
-
+    window.addEventListener('keydown', (event) => {
+        if (event.keyCode === 13) handleSubmit(event);
+    });
     const validate = () => {
         let isValid = true;
         setAlert('');

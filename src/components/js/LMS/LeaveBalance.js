@@ -7,10 +7,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Moment from 'moment';
 import axios from 'axios';
 import nodeurl from '../../../nodeServer.json';
-import InputDatePicker from '../../Sub-Component/DatePicker/InputDatePicker';
+import DatePicker from '../../Sub-Component/DatePicker/DatePicker';
 import { useAlert } from "react-alert";
 
-export default function LeaveBalanceTab(props) {
+export default function LeaveBalanceTab() {
     let EmpId = localStorage['EmpId'];
     const alert = useAlert();
     const [expanded, setExpanded] = useState(false);
@@ -42,7 +42,6 @@ export default function LeaveBalanceTab(props) {
     const LeaveApplyTab = () => {
         const [isVisavle, setIsVisavle] = useState(false);
         const [Option, setOption] = useState([{}]);
-        const [IsOpen, setIsOpen] = useState([false, false]);
         const [Details, setDetails] = useState({
             EmpId: localStorage['EmpId'], startDate: Moment(new Date()).format('MM-DD-YYYY'), endDate: Moment(new Date()).format('MM-DD-YYYY'),
             Duration: 0, NoOfDays: 1, Reason: '', LeaveOption: 0, Dates: Moment(new Date()).format('MM-DD-YYYY'), LeaveId: 1
@@ -72,7 +71,6 @@ export default function LeaveBalanceTab(props) {
             }
         }
         const handelClick = () => {
-            setIsOpen([false, false]);
             setExpanded(-1);
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Sp_LM_Leaveapplication ', UpdateJson: JSON.stringify(Details) }).then(result => {
                 // let IsSubmit = result.data[0];
@@ -102,24 +100,22 @@ export default function LeaveBalanceTab(props) {
         return (
             <>
                 <div id='LMS' style={{ margin: '15px 0 0 0', width: '99%' }}>
-                    <div className="input-wrapper marginLeft-0">
-                        <div className="input-holder">
-                            <input type="text" className="input-input" name="startDate" onFocus={() => { setIsOpen([true, false]) }} value={Moment(new Date(Details['startDate'])).format('DD-MM-YYYY')} onChange={handelOnChange} />
+                    <div className="input-wrapper marginLeft-0 mWidth-190">
+                        <div className="input-holder input-DatePicker">
+                            <DatePicker name="startDate" Value={new Date(Details['startDate'])} valueChange={handelOnChange} />
                             <label className="input-label">Start Date</label>
                         </div>
-                        {IsOpen[0] && Details['startDate'] ? <InputDatePicker name="startDate" Value={Details['startDate']} valueChange={handelOnChange} /> : ''}
                     </div>
 
-                    <div className="input-wrapper marginLeft-0">
-                        <div className="input-holder">
-                            <input type="text" className="input-input" name="endDate" onFocus={() => { setIsOpen([false, true]) }} value={Moment(new Date(Details['endDate'])).format('DD-MM-YYYY')} onChange={handelOnChange} />
+                    <div className="input-wrapper marginLeft-0 mWidth-190">
+                        <div className="input-holder input-DatePicker">
+                            <DatePicker name="endDate" minDate_={new Date(Details['startDate'])} Value={new Date(Details['endDate'])} valueChange={handelOnChange} />
                             <label className="input-label">End Date</label>
                         </div>
-                        {IsOpen[1] && Details['endDate'] ? <InputDatePicker name="endDate" minDate_={new Date(Details['startDate'])} Value={Details['endDate']} valueChange={handelOnChange} /> : ''}
                     </div>
-                    <div className="input-wrapper marginLeft-0">
+                    <div className="input-wrapper marginLeft-0 mWidth-190">
                         <div className="input-holder">
-                            <select className="input-input" name="Duration" disabled={Details['NoOfDays'] <= 1 && Details['NoOfDays'] !== 0 ? false : true} value={Details['Duration']} onFocus={() => { setIsOpen([false, false]) }} onChange={handelOnChange}>
+                            <select className="input-input" name="Duration" disabled={Details['NoOfDays'] <= 1 && Details['NoOfDays'] !== 0 ? false : true} value={Details['Duration']} onChange={handelOnChange}>
                                 <option value="1">Full Day</option>
                                 <option value="0.5">1st Half</option>
                                 <option value="0.5">2nd Half</option>
@@ -127,21 +123,21 @@ export default function LeaveBalanceTab(props) {
                             <label className="input-label">Duration</label>
                         </div>
                     </div>
-                    <div className="input-wrapper marginLeft-0">
+                    <div className="input-wrapper marginLeft-0 mWidth-190">
                         <div className="input-holder">
-                            <input type="text" className="input-input" disabled name="NoOfDays" value={Details['NoOfDays']} onFocus={() => { setIsOpen([false, false]) }} onChange={handelOnChange} />
+                            <input type="text" className="input-input" disabled name="NoOfDays" value={Details['NoOfDays']} onChange={handelOnChange} />
                             <label className="input-label">No.of Days</label>
                         </div>
                     </div>
                     <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
-                            <input type="text" className="input-input" name="Reason" value={Details['Reason']} onFocus={() => { setIsOpen([false, false]) }} onChange={handelOnChange} />
+                            <input type="text" className="input-input" name="Reason" value={Details['Reason']} onChange={handelOnChange} />
                             <label className="input-label">Reason</label>
                         </div>
                     </div>
                     <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
-                            <select className="input-input" name="LeaveOption" value={Details['LeaveOption']} onFocus={() => { setIsOpen([false, false]) }} onChange={handelOnChange}>
+                            <select className="input-input" name="LeaveOption" value={Details['LeaveOption']} onChange={handelOnChange}>
                                 <option value="0">Deduct from my leave balance</option>
                                 <option value="1">Compensate leave in upcoming week</option>
                                 <option value="2">Use Previously Compensated working day</option>
@@ -151,10 +147,10 @@ export default function LeaveBalanceTab(props) {
                     </div>
                     {isVisavle && <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
-                            <select className="input-input" name="Dates" value={Details['Dates']} onFocus={() => { setIsOpen([false, false]) }} onChange={handelOnChange}>
+                            <select className="input-input" name="Dates" value={Details['Dates']} onChange={handelOnChange}>
                                 {Option.length > 0 ? Option.map((item, index) => (
                                     <option key={index} value={item['Date_']}>{item['Date']}</option>
-                                )) : <option value="1" disabled selected>No Dates Available</option>}
+                                )) : <option value="-1" disabled selected>No Dates Available</option>}
                             </select>
                             <label className="input-label">Dates</label>
                         </div>
@@ -201,22 +197,22 @@ export default function LeaveBalanceTab(props) {
                             aria-controls="panel2bh-content"
                             id="panel2bh-header"
                         >
-                            <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '15.8%' : '16%'}`, flexShrink: 0 }}>
+                            <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '16.2%' : '16.5%'}`, flexShrink: 0 }}>
                                 {column['LeaveType']}
                             </Typography>
-                            <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '15.5%' : '16%'}`, flexShrink: 0, padding: '0 30px' }}>
+                            <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '16.2%' : '16.5%'}`, flexShrink: 0, padding: '0 30px' }}>
                                 {column['OpeningBalance']}
                             </Typography>
-                            <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '15.8%' : '16%'}`, flexShrink: 0, padding: '0 30px' }}>
+                            <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '16.2%' : '16.5%'}`, flexShrink: 0, padding: '0 30px' }}>
                                 {column['EarnedLeave']}
                             </Typography>
-                            <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '15.8%' : '16%'}`, flexShrink: 0, padding: '0 30px' }}>
+                            <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '16%' : '16.5%'}`, flexShrink: 0, padding: '0 30px' }}>
                                 {column['LeavesTaken']}
                             </Typography>
                             <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '15.5%' : '16%'}`, flexShrink: 0, padding: '0 30px' }}>
                                 {column['currentblc']}
                             </Typography>
-                            <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '15.5%' : '16%'}`, flexShrink: 0, padding: '0 30px' }}>
+                            <Typography component={"span"} sx={{ width: `${column['LeaveType'] === 'Total' ? '16%' : '16%'}`, flexShrink: 0, padding: '0 30px' }}>
                                 {column['LOP']}
                             </Typography>
                         </AccordionSummary>

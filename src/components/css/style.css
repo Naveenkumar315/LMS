@@ -32,13 +32,15 @@ div.sc-hTtwUo.LeBlV {
 .loader div:nth-child(1) {
   display: inline-block !important;
   top: 40%;
+  position: fixed;
+  left: 50%;
 }
 .loader {
   position: fixed;
   width: 100%;
   height: 100%;
   z-index: 9999;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: #ffffffb3;
 }
 .ihLnEL {
   margin-right: 0 !important;
@@ -113,12 +115,16 @@ th {
   width: 100%;
   height: 100%;
   position: absolute;
+  z-index: 1;
   top: 0;
   left: 0;
   border-radius: 5px;
   will-change: transform, box-shadow;
   transition: 0.2s ease-in-out;
   background-color: #f1f3f4;
+}
+.input-DatePicker {
+  z-index: 11 !important;
 }
 .input-input:focus,
 .react-datepicker-wrapper input:focus {
@@ -291,14 +297,20 @@ label {
   width: 83% !important;
 }
 
-#LMS .input-wrapper{
+/* #LMS .input-wrapper {
   max-width: 295px !important;
+} */
+.mWidth-190 {
+  max-width: 200px !important;
 }
-#profile .input-wrapper{
+.input-wrapper .input-Date {
+  width: 245px !important;
+}
+#profile .input-wrapper {
   max-width: 330px !important;
 }
 /* #viewTimesheet  */
-.rdrMonth{
+.rdrMonth {
   width: 17rem !important;
 }
 .rdrMonth {
@@ -383,15 +395,7 @@ label {
   background-color: var(--background-color) !important;
   color: var(--color) !important;
 }
-.scrollbar {
-  /* margin: 0 0 20px 0;
-  width: 100%; */
-  /* height: 70vh;
-  max-height: 70vh;  */
-  /* overflow-y: auto;
-  margin-left: 30px; 
-  background: #f5f5f5; */
-}
+
 .MuiTableCell-root {
   margin: 0 !important;
   padding: 5px 6px !important;
@@ -402,36 +406,32 @@ label {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: inherit;
   position: absolute;
-  /* border-radius: 10px; */
   margin: 68px 0 0 0;
 }
-.react-swipeable-view-container div::-webkit-scrollbar {
-  width: 4px;
-  height: 5px;
-  /* background-color: #f5f5f5; */
-}
+
 .scrollbar::-webkit-scrollbar:vertical {
   width: 4px;
   height: 5px;
-  /* background-color: #f5f5f5; */
   background: linear-gradient(
     to top,
     #e0e0e0 calc(100% - 69px),
     var(--background-color) 20px
   ) !important;
 }
-.MuiTableRow-head,.MuiTableCell-head {
+.MuiTableRow-head,
+.MuiTableCell-head {
   height: 70px !important;
   min-height: 70px !important;
   max-height: 70px !important;
 }
+.react-swipeable-view-container div::-webkit-scrollbar {
+  width: 4px;
+  height: 5px;
+}
+.scrollbar::-webkit-scrollbar-thumb,
 .react-swipeable-view-container div::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #fff;
-}
-.scrollbar::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #fff;
+  background-color: #e0e0e0;
   background-image: -webkit-gradient(
     linear,
     40% 0%,
