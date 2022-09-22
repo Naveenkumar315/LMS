@@ -101,7 +101,8 @@ export default function EnterTimeSheet() {
         }];
         setDetails(newArr);
         setExpanded(index);
-
+        setModule([]);
+        setTasks([]);
         // setTimeout(() => {
         //     let ele = document.querySelector('select[name="ProjectId"][index="' + index + '"]');
         //     ele.dispatchEvent(new Event('change', { bubbles: true }));

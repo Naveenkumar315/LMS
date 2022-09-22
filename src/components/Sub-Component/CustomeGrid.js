@@ -50,7 +50,6 @@ export default function StickyHeadTable(props) {
                 setRows(result.data[0]);
             });
         }
-        debugger
     }, [EmpId, tab, props]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
