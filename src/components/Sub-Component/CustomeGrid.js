@@ -21,9 +21,9 @@ export default function StickyHeadTable(props) {
     const columns = props['Columns'];
     const tab = props['tab']
     const [rows, setRows] = useState([]);
+    const [paperWidth, setPaperWidth] = useState('100%');
     const Pagination = props['Pagination'];
     const handelAction = props['onclick'];
-
     useEffect(() => {
         if (tab === 'LeaveHistory') {
             axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveHistory ' + EmpId + '' }).then(result => {
@@ -45,10 +45,12 @@ export default function StickyHeadTable(props) {
         else if (tab === 'viewTimesheet') {
             setRows(props['Rows']);
         } else if (tab === 'HoliDayList') {
+            setPaperWidth('35%');
             axios.post(nodeurl['nodeurl'], { query: 'Menus_HolidayList' }).then(result => {
                 setRows(result.data[0]);
             });
         }
+        debugger
     }, [EmpId, tab, props]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -179,7 +181,7 @@ export default function StickyHeadTable(props) {
     }
     return (
         <>
-            <Paper sx={{ width: 'max-content', maxWidth: '100%', overflow: 'auto', border: '1px solid ' + localStorage['BgColor'], height: 'auto' }}>
+            <Paper sx={{ width: paperWidth, overflow: 'auto', border: '1px solid ' + localStorage['BgColor'], height: 'auto' }}>
                 <TableContainer className='scrollbar' >
                     <Table stickyHeader aria-label="sticky table">
                         <EnhancedTableHead
