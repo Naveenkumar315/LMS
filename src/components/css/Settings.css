@@ -56,15 +56,18 @@
   justify-content: center;
 }
 .image-upload {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   color: white;
   border-radius: 50%;
-  margin: 20px;
+  margin: 15px;
   background-color: var(--background-color);
   /* text-align: center; */
   cursor: pointer;
   font-size: 18px;
+}
+.img-up svg {
+  font-size: 14px;
 }
 .choosephoto {
   display: flex;
@@ -93,4 +96,76 @@
 }
 .colorPaletteWrapper {
   display: inline-block;
+}
+
+.img-up {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+.Img-profile {
+  border-radius: 50%;
+  cursor: pointer;
+}
+.Img-profile:hover + .img-up,
+.img:hover + .img-up,
+.img-up:hover {
+  display: flex;
+}
+@media only screen and (min-width: 1300px) {
+  #applybtn {
+    margin-top: -27px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .page {
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .container_1 {
+    min-width: 80% !important;
+    position: sticky;
+  }
+  .container_2 {
+    min-width: 80% !important;
+    height: auto !important;
+  }
+  .img {
+    width: 120px;
+    height: 120px;
+    padding: 0px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px var(--background-color) solid;
+    position: absolute;
+    top: 50% !important;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .container_1 {
+    height: 70% !important;
+  }
+  .colorPalette {
+    height: 40px;
+    width: 40px;
+    margin: 10px;
+    display: flex;
+    border-radius: 50%;
+  }
+
+  .colorPalette .primary {
+    width: 40px;
+    height: 40px;
+    border-radius: 75px 0 0 75px;
+  }
+
+  .colorPalette .secondary {
+    width: 40px;
+    height: 36px;
+    border-radius: 0px 75px 75px 0px;
+  }
 }

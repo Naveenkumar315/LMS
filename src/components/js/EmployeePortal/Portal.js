@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import setTheme from '../../Sub-Component/setTheme';
 import PoliciesProc from './Policies&Proc';
-
+import CustomGrid from '../../Sub-Component/CustomeGrid'
 export default function Portal() {
     useEffect(() => {
         setTheme();
@@ -54,6 +54,10 @@ export default function Portal() {
         const handleChangeIndex = (index) => {
             setValue(index);
         };
+        const columns = [
+            { id: 'Holiday_Date', label: 'Date', minWidth: 150, sort: false },
+            { id: 'Holiday_Name', label: 'Day', minWidth: 250, sort: false }
+        ];
         return (
             <Box sx={{ bgcolor: 'inherit' }}>
                 <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
@@ -65,8 +69,7 @@ export default function Portal() {
                     >
                         <Tab label="Policies & Procedures" className='tab' {...a11yProps(0)} />
                         <Tab label="Request PaySlips" className='tab'  {...a11yProps(1)} />
-
-
+                        <Tab label="Holiday List" className='tab'  {...a11yProps(1)} />
                     </Tabs>
                 </AppBar>
                 <SwipeableViews
@@ -75,12 +78,15 @@ export default function Portal() {
                     className="scrollbar"
                 >
                     <TabPanel value={value} index={0}>
-                       <PoliciesProc/>
+                        <PoliciesProc />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <div >
                             <h1>Under Construction</h1>
                         </div>
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
+                        <CustomGrid Columns={columns} tab='HoliDayList' Pagination={false} />
                     </TabPanel>
                 </SwipeableViews >
             </Box >

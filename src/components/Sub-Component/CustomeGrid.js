@@ -21,8 +21,8 @@ export default function StickyHeadTable(props) {
     const columns = props['Columns'];
     const tab = props['tab']
     const [rows, setRows] = useState([]);
-    const Pagination = props['Pagination']
-    const handelAction = props['onclick']
+    const Pagination = props['Pagination'];
+    const handelAction = props['onclick'];
 
     useEffect(() => {
         if (tab === 'LeaveHistory') {
@@ -44,6 +44,10 @@ export default function StickyHeadTable(props) {
         }
         else if (tab === 'viewTimesheet') {
             setRows(props['Rows']);
+        } else if (tab === 'HoliDayList') {
+            axios.post(nodeurl['nodeurl'], { query: 'Menus_HolidayList' }).then(result => {
+                setRows(result.data[0]);
+            });
         }
     }, [EmpId, tab, props]);
     const [page, setPage] = React.useState(0);
@@ -52,7 +56,23 @@ export default function StickyHeadTable(props) {
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
+    const handelPostCancel = async (id, type) => {
+        const result = await handelAction(id, type);
+        if (result) {
+            setTimeout(() => {
+                if (type === '1') {
+                    axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveHistory ' + EmpId + '' }).then(result => {
+                        setRows(result.data[0]);
+                    });
+                }
+                else if (type === '4') {
+                    axios.post(nodeurl['nodeurl'], { query: 'LM_PM_PermissionHistory ' + EmpId + '' }).then(result => {
+                        setRows(result.data[0]);
+                    });
+                }
+            }, 200);
+        }
+    }
 
     const handelCancelAction = (e) => {
         let id, type;
@@ -63,19 +83,7 @@ export default function StickyHeadTable(props) {
             id = e.target.id;
             type = e.target.attributes.clicktype.value;
         }
-        handelAction(id, type);
-        setTimeout(() => {
-            if (type === '1') {
-                axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveHistory ' + EmpId + '' }).then(result => {
-                    setRows(result.data[0]);
-                });
-            }
-            else if (type === '4') {
-                axios.post(nodeurl['nodeurl'], { query: 'LM_PM_PermissionHistory ' + EmpId + '' }).then(result => {
-                    setRows(result.data[0]);
-                });
-            }
-        }, 10);
+        handelPostCancel(id, type);
     }
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
@@ -171,7 +179,7 @@ export default function StickyHeadTable(props) {
     }
     return (
         <>
-            <Paper sx={{ width: '100%', overflow: 'auto', border: '1px solid ' + localStorage['BgColor'], height: 'auto' }}>
+            <Paper sx={{ width: 'max-content', maxWidth: '100%', overflow: 'auto', border: '1px solid ' + localStorage['BgColor'], height: 'auto' }}>
                 <TableContainer className='scrollbar' >
                     <Table stickyHeader aria-label="sticky table">
                         <EnhancedTableHead
@@ -189,8 +197,8 @@ export default function StickyHeadTable(props) {
                                                 const value = row[column.id];
                                                 return (
                                                     <TableCell key={index_} align={column.align} style={{ padding: '9px' }}>
-                                                        {column.type === 1 ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faLocationArrow} /></button> : value}
-                                                        {column.type === 2 && row.Reason === 'Timesheet not filled' ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : ''}
+                                                        {column.type === 1 ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : value}
+                                                        {column.type === 2 && row.Reason === 'Timesheet not filled' ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faLocationArrow} /></button> : ''}
                                                         {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handelCancelAction}>{column.button}</button> : ''}
                                                         {column.type === 4 ? <button className='btnAction' ><FontAwesomeIcon id={row.PermissionApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : ''}
                                                     </TableCell>

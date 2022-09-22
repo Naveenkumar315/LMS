@@ -9,7 +9,9 @@ h1 {
   font-weight: bold;
   text-decoration: none;
   font-size: 14pt;
+  padding-left: 5px;
 }
+
 p,
 .p {
   font-family: Calibri, sans-serif;
@@ -22,17 +24,16 @@ p,
   text-align: justify;
   padding-left: 15px;
   padding-top: 5px;
+  margin-bottom: 10px;
 }
-h1 a {
-  padding-left: 5px;
-}
+
 h3 {
   font-family: Calibri, sans-serif;
   font-style: normal;
   font-weight: bold;
   text-decoration: none;
   padding-left: 15px;
-
+  margin-bottom: 10px;
   font-size: 11pt;
 }
 
@@ -45,6 +46,7 @@ h2 {
   text-decoration: none;
   font-size: 13pt;
 }
+
 .s1 {
   font-family: Calibri, sans-serif;
   font-style: normal;
@@ -84,38 +86,84 @@ li {
 #l2 {
   padding-left: 0pt;
 }
+#l2 li {
+  padding-left: 30px;
+  text-decoration: dotted !important;
+}
 
 #l3 {
   padding-left: 0pt;
+}
+#l3 li {
+  padding-left: 30px;
+  text-decoration: dotted !important;
 }
 
 #l4 {
   padding-left: 0pt;
 }
+#l4 li {
+  padding-left: 30px;
+  text-decoration: dotted !important;
+}
 
 #l5 {
   padding-left: 0pt;
+}
+#l5 li {
+  padding-left: 30px;
+  text-decoration: dotted !important;
 }
 
 #l6 {
   padding-left: 0pt;
 }
+#l6 li {
+  padding-left: 30px;
+  text-decoration: dotted !important;
+}
 #l7 {
   padding-left: 0pt;
+}
+#l7 li {
+  padding-left: 30px;
+  text-decoration: dotted !important;
 }
 #l8 {
   padding-left: 0pt;
 }
+#l8 li {
+  padding-left: 30px;
+  text-decoration: dotted !important;
+}
 #l9 {
   padding-left: 0pt;
 }
+#l9 li {
+  padding-left: 30px;
+  text-decoration: dotted !important;
+}
 #l10 {
   padding-left: 0pt;
+}
+#l10 li {
+  padding-left: 30px;
+  text-decoration: dotted !important;
 }
 
 #l11 {
   padding-left: 0pt;
 }
+#l12 {
+  padding-left: 30px;
+}
+#l13 {
+  padding-left: 30px;
+}
+#l14 {
+  padding-left: 30px;
+}
+
 table,
 tbody {
   vertical-align: top;

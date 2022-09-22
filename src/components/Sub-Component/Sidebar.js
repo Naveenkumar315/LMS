@@ -33,8 +33,8 @@ const Sidebar = (props) => {
         { text: 'LMS', link: '/LMS', icon: faLevelUpAlt },
         { text: 'Employee Portal', link: '/EmployeePortal', icon: faUserDoctor },
         { text: 'Profile', link: '/Profile', icon: faUser },
-        { text: 'Settings', link: '/Settings', icon: faUserGear },
-        { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
+        { text: 'Settings', link: '/Settings', icon: faUserGear }
+        // { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
     const getName = () => {
         return (<span className="name"> {localStorage["Name"]} </span>)

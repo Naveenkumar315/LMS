@@ -22,13 +22,12 @@ export default function EnterTimeSheet() {
     const [Tasks, setTasks] = useState([]);
     const [Status, setStatus] = useState([]);
     const [taskDate, setTaskDate] = useState((new Date().toLocaleDateString()).toString());
-    const date = new Date();
     const taskDateArr = [
-        (new Date(date.setDate(date.getDate())).toLocaleDateString()).toString(),
-        (new Date(date.setDate(date.getDate() - 1)).toLocaleDateString()).toString(),
-        (new Date(date.setDate(date.getDate() - 2)).toLocaleDateString()).toString(),
-        (new Date(date.setDate(date.getDate() - 3)).toLocaleDateString()).toString(),
-        (new Date(date.setDate(date.getDate() - 4)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate())).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 2)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 3)).toLocaleDateString()).toString(),
+        (new Date(new Date().setDate(new Date().getDate() - 4)).toLocaleDateString()).toString(),
     ];
 
     useEffect(() => {

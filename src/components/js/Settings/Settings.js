@@ -69,35 +69,40 @@ export default function Settings() {
     return (
         <>
             <div className="page">
-                <div className="container" style={{ width: '30%', minWidth: '250px' }}>
+                <div className="container container_1" style={{ width: '30%', minWidth: '250px' }}>
                     <div className="img-holder">
-                        <img src={loadImage()} alt="" id="img" className="img" />
+                        <div className="Img-profile">
+                            <img src={loadImage()} alt="" id="img" className="img" />
+                            <div className='img-up'>
+                                <label className="image-upload choosephoto" htmlFor="input">
+                                    <FontAwesomeIcon icon={faUpload} className="icon" />
+                                </label>
+                                <label className="image-upload choosephoto" onClick={imagedeleteHandler}>
+                                    <FontAwesomeIcon icon={faTrash} className="icon" />
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <h1 className="heading">{localStorage['Name']}</h1>
                     <input type="file" accept="image/png" name="image-upload" id="input" onChange={imageHandler} />
                     <div className="label">
-                        <label className="image-upload choosephoto" htmlFor="input">
-                            <FontAwesomeIcon icon={faUpload} className="icon" />
-                        </label>
-                        <label className="image-upload choosephoto" onClick={imagedeleteHandler}>
-                            <FontAwesomeIcon icon={faTrash} className="icon" />
-                        </label>
+
                     </div>
                 </div>
 
 
-                <div className="container" style={{ minWidth: '400px', textAlign: 'center' }}>
+                <div className="container container_2" style={{ minWidth: '400px', textAlign: 'center' }}>
                     <div style={{ margin: '40px auto' }}>
                         {Color.map((color, index) => {
                             return (<div key={index} className='colorPaletteWrapper' >
-                                <div className='colorPalette' onClick={handelColorClick} index={index} style={{ backgroundColor: color['Primary'], border: '2px solid' + color['Primary'] }}>
+                                <div className='colorPalette col-sm' onClick={handelColorClick} index={index} style={{ backgroundColor: color['Primary'], border: '2px solid' + color['Primary'] }}>
                                     <div className='primary'></div>
                                     <div className='secondary' style={{ backgroundColor: color['Secondary'] }}></div>
                                 </div>
                             </div>)
                         })}
                         <div style={{ marginTop: '30px' }}>
-                            <button className="btn" style={{ float: 'right' }} onClick={handelClick}>Apply</button>
+                            <button id='applybtn' className="btn" style={{ float: 'right' }} onClick={handelClick}>Apply</button>
                         </div>
                     </div>
                 </div>

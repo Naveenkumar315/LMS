@@ -519,3 +519,30 @@ label {
 .radio {
   display: block !important;
 }
+.confirm-box {
+  position: fixed !important;
+}
+.confirm-box__content {
+  background-color: #f1f3f4 !important;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%) !important;
+}
+.confirm-box__actions {
+  margin-top: 1em;
+  padding-top: 10px !important;
+  border-top: 1px solid var(--background-color);
+}
+.confirm-box__overlay {
+  background-color: rgb(0 0 0 / 24%) !important;
+}
+button[role="confirmable-button"] {
+  background-color: green;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+}
+button[role="cancellable-button"] {
+  background-color: red;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+}

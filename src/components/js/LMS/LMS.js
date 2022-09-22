@@ -13,34 +13,56 @@ import setTheme from '../../Sub-Component/setTheme';
 import Permission from './Permission';
 import LeaveBalanceTab from './LeaveBalance';
 import { useAlert } from "react-alert";
-
+import { confirm } from "react-confirm-box";
 
 export default function Lms() {
     const alert = useAlert();
+    const optionsWithLabelChange = {
+        closeOnOverlayClick: true,
+        labels: {
+            confirmable: "Confirm",
+            cancellable: "Cancel"
+        }
+    };
+
     useEffect(() => {
         setTheme();
     }, []);
 
-    const handelAction = (id, type) => {
-        let query = '';
-        if (type === '1') query = 'SP_LM_CheckCancelStatus';
-        else if (type === '2') query = 'SP_LM_LOP_Cancel_Request';
-        else if (type === '4') query = 'LM_PM_ReturnCancelStatus';
-        axios.post(nodeurl['nodeurl'], { query: query + ' ' + id }).then(result => {
-            let status = result.data[0][0]['Result'];
-            if (type === '1') {
-                if (status === 0) alert.show("Leave Cancellation Request has been sent to the Reporting Manager.");
-                else if (status === 1) alert.success("Leave has been cancelled successfully.");
-                else alert.error("You are Not Allowed to Cancel this Leave.");
-            }
-            else if (type === '2') {
 
-            } else if (type === '4') {
-                if (status === 0) { alert.show("Permission Cancellation Request has been Sent to the Reporting Manager."); }
-                else if (status === 1) { alert.success("Permission has been Cancelled Successfully.") }
-                else { alert.error("You are Not Allowed to Cancel this Leave.") }
-            }
-        });
+    const handelConfirm = async (msg, id, type, query) => {
+        const result = await confirm(msg, optionsWithLabelChange);
+        if (result) {
+            axios.post(nodeurl['nodeurl'], { query: query + ' ' + id }).then(result => {
+                let status = result.data[0][0]['Result'];
+                if (type === '1') {
+                    if (status === 0) alert.show("Leave Cancellation Request has been sent to the Reporting Manager.");
+                    else if (status === 1) alert.success("Leave has been cancelled successfully.");
+                    else alert.error("You are Not Allowed to Cancel this Leave.");
+                }
+                else if (type === '2') {
+
+                } else if (type === '4') {
+                    if (status === 0) { alert.show("Permission Cancellation Request has been Sent to the Reporting Manager."); }
+                    else if (status === 1) { alert.success("Permission has been Cancelled Successfully.") }
+                    else { alert.error("You are Not Allowed to Cancel this Leave.") }
+                }
+            });
+        }
+        return result;
+    };
+    const handelAction = async (id, type) => {
+        let query = '', msg = 'Aru you surely want to cancel?';
+        if (type === '1') {
+            query = 'SP_LM_CheckCancelStatus';
+        }
+        else if (type === '2') {
+            query = 'SP_LM_LOP_Cancel_Request';
+        }
+        else if (type === '4') {
+            query = 'LM_PM_ReturnCancelStatus';
+        }
+        return handelConfirm(msg, id, type, query);
     }
 
     const LeaveHistoryColumn = [
