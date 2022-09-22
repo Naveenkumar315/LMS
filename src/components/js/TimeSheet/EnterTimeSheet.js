@@ -16,50 +16,39 @@ export default function EnterTimeSheet() {
     const EmpId = localStorage['EmpId'];
     const alert = useAlert();
     const [expanded, setExpanded] = useState(false);
-    // const [ActiveTab, setActiveTab] = useState(1);
     const [Details, setDetails] = useState([]);
     const [Project, setProject] = useState([]);
     const [Module, setModule] = useState([]);
     const [Tasks, setTasks] = useState([]);
     const [Status, setStatus] = useState([]);
     const [taskDate, setTaskDate] = useState((new Date().toLocaleDateString()).toString());
+    const date = new Date();
     const taskDateArr = [
-        // (new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate())).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 2)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 3)).toLocaleDateString()).toString(),
-        (new Date(new Date().setDate(new Date().getDate() - 4)).toLocaleDateString()).toString(),
-        // (new Date(new Date().setDate(new Date().getDate() - 5)).toLocaleDateString()).toString(),
-        // (new Date(new Date().setDate(new Date().getDate() - 6)).toLocaleDateString()).toString(),
-        // (new Date(new Date().setDate(new Date().getDate() - 7)).toLocaleDateString()).toString(),
-        // (new Date(new Date().setDate(new Date().getDate() - 8)).toLocaleDateString()).toString(),
-        // (new Date(new Date().setDate(new Date().getDate() - 9)).toLocaleDateString()).toString(),
-        // (new Date(new Date().setDate(new Date().getDate() - 10)).toLocaleDateString()).toString(),
+        (new Date(date.setDate(date.getDate())).toLocaleDateString()).toString(),
+        (new Date(date.setDate(date.getDate() - 1)).toLocaleDateString()).toString(),
+        (new Date(date.setDate(date.getDate() - 2)).toLocaleDateString()).toString(),
+        (new Date(date.setDate(date.getDate() - 3)).toLocaleDateString()).toString(),
+        (new Date(date.setDate(date.getDate() - 4)).toLocaleDateString()).toString(),
     ];
 
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + taskDate + '",0' }).then(result => {
-            if (result.data[0].length === 0) {
-                let index = 0;
-                // setDetails([{
-                //     Row: index, EmpId: EmpId, Id: 0, ProjectName: '', ProjectId: 1, ModuleId: 1,
-                //     ModuleName: '', TaskName: '', TaskId: 1, TaskDate: moment(taskDate).format('YYYY-MM-DD'), Issues: '',
-                //     Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2
-                // }]);
-                setTimeout(() => {
-                    // setExpanded(index);
-                    let ele = document.querySelector('select[name="ProjectId"][index="' + index + '"]');
-                    if (ele !== null)
-                        ele.dispatchEvent(new Event('change', { bubbles: true }));
-                }, 100);
+            setProject(result.data[1]);
+            setStatus(result.data[3]);
+            if (result.data[0].length === 0 && taskDate === (new Date().toLocaleDateString()).toString()) {
+                setDetails([{
+                    Row: 0, EmpId: EmpId, Id: 0, ProjectName: '--Select--', ProjectId: '-1', ModuleId: '-1',
+                    ModuleName: '--Select--', TaskName: '--Select--', TaskId: '-1', TaskDate: moment(new Date(taskDate)).format('YYYY-MM-DD'), Issues: '',
+                    Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2, CompletionDate: new Date()
+                }]);
+                setExpanded(0);
+                setModule([]);
+                setTasks([]);
             }
             else {
                 setDetails(result.data[0]);
+                setModule(result.data[2]);
             }
-            setProject(result.data[1]);
-            setModule(result.data[2]);
-            setStatus(result.data[3]);
         });
     }, [EmpId, taskDate]);
     const handleRemove = (index) => {
@@ -105,30 +94,23 @@ export default function EnterTimeSheet() {
         // setActiveTab(panel + 1);
     };
     const handelAddClick = () => {
-        let newRow = Details[Details.length - 1] || -1;
-        let index = Details.length;
-        if (newRow === -1) {
-            setDetails([...Details, {
-                Row: index, EmpId: EmpId, Id: 0, ProjectName: '', ProjectId: 1, ModuleId: 1,
-                ModuleName: '', TaskName: '', TaskId: 1, TaskDate: moment(taskDate).format('YYYY-MM-DD'), Issues: '',
-                Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2
-            }]);
-        } else {
-            setDetails([...Details, {
-                Row: Details.length, EmpId: EmpId, Id: 0, ProjectName: newRow['ProjectName'], ProjectId: newRow['ProjectId'], ModuleId: newRow['ModuleId'],
-                ModuleName: newRow['ModuleName'], TaskName: newRow['TaskName'], TaskId: newRow['TaskId'], TaskDate: moment(taskDate).format('YYYY-MM-DD'), Issues: '',
-                Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2
-            }]);
-        }
-        setTimeout(() => {
-            setExpanded(index);
-            let ele = document.querySelector('select[name="ProjectId"][index="' + index + '"]');
-            ele.dispatchEvent(new Event('change', { bubbles: true }));
-        }, 100);
+        let index = Details['length'];
+        let newArr = [...Details, {
+            Row: index, EmpId: EmpId, Id: 0, ProjectName: '--Select--', ProjectId: '-1', ModuleId: '-1',
+            ModuleName: '--Select--', TaskName: '--Select--', TaskId: '-1', TaskDate: moment(new Date(taskDate)).format('YYYY-MM-DD'), Issues: '',
+            Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2, CompletionDate: new Date()
+        }];
+        setDetails(newArr);
+        setExpanded(index);
+
+        // setTimeout(() => {
+        //     let ele = document.querySelector('select[name="ProjectId"][index="' + index + '"]');
+        //     ele.dispatchEvent(new Event('change', { bubbles: true }));
+        // }, 100);
     }
     const handelClick = () => {
         for (let i = 0; i < Details.length; i++) {
-            Details[i] = { ...Details[i], TaskDate: moment(taskDate).format('YYYY-MM-DD') }
+            Details[i] = { ...Details[i], TaskDate: moment(new Date(taskDate)).format('YYYY-MM-DD') }
         }
         axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_SaveTimesheetDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
             setExpanded(-1);
@@ -155,34 +137,57 @@ export default function EnterTimeSheet() {
     }
 
     const handelProjectChange = (event) => {
+        if (event.target.value === '-1') {
+            const newState = Details.map((obj, index_) => {
+                if (parseInt(event.target.attributes.index.value) === index_)
+                    return { ...obj, 'ModuleId': '-1', 'ModuleName': '--Select--', 'ProjectName': '--Select--', 'ProjectId': '-1', 'TaskId': '-1', 'TaskName': '--Select--' };
+                return obj;
+            });
+            setModule([]);
+            setTasks([]);
+            setDetails(newState);
+            return;
+        }
+        handelOnChange(event);
         axios.post(nodeurl['nodeurl'], { query: 'AB_ModuleList ' + event.target.value }).then(Module_ => {
             setModule(Module_.data[0]);
-            axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + event.target.value + ',' + Module_.data[0][0]['ModuleId'] + ',' + 0 + ',' + EmpId }).then(Tasks_ => {
-                setTasks(Tasks_.data[0]);
-                const newState = Details.map((obj, index_) => {
-                    if (parseInt(event.target.attributes.index.value) === index_)
-                        return { ...obj, 'ModuleId': Module_.data[0][0]['ModuleId'], 'ModuleName': Module_.data[0][0]['ModuleName'], 'ProjectName': event.target.options[event.target.selectedIndex].text, 'ProjectId': event.target.value, 'TaskId': Tasks_.data[0][0]['TaskId'], 'TaskName': Tasks_.data[0][0]['TaskName'] };
-                    return obj;
+            setTimeout(() => {
+                axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + event.target.value + ',' + Module_.data[0][0]['ModuleId'] + ',' + 0 + ',' + EmpId }).then(Tasks_ => {
+                    setTasks(Tasks_.data[0]);
+                    setTimeout(() => {
+                        const newState = Details.map((obj, index_) => {
+                            if (parseInt(event.target.attributes.index.value) === index_)
+                                return { ...obj, 'ModuleId': Module_.data[0][0]['ModuleId'], 'ModuleName': Module_.data[0][0]['ModuleName'], 'ProjectName': event.target.options[event.target.selectedIndex].text, 'ProjectId': event.target.value, 'TaskId': Tasks_.data[0][0]['TaskId'], 'TaskName': Tasks_.data[0][0]['TaskName'] };
+                            return obj;
+                        });
+                        setDetails(newState);
+                    }, 0);
                 });
-                setDetails(newState);
-            });
+            }, 0);
         });
-        handelOnChange(event);
-
     }
     const handelModuleChange = (event) => {
+        if (event.target.value === '-1') {
+            const newState = Details.map((obj, index_) => {
+                if (parseInt(event.target.attributes.index.value) === index_)
+                    return { ...obj, 'ModuleId': '-1', 'ModuleName': '--Select--', 'TaskId': '-1', 'TaskName': '--Select--' };
+                return obj;
+            });
+            setTasks([]);
+            setDetails(newState);
+            return;
+        }
         handelOnChange(event);
         axios.post(nodeurl['nodeurl'], { query: 'AB_TaskList ' + Details[parseInt(event.target.attributes.index.value)]['ProjectId'] + ',' + event.target.value + ',' + 0 + ',' + EmpId }).then(result => {
             setTasks(result.data[0]);
             const newState = Details.map((obj, index_) => {
                 if (parseInt(event.target.attributes.index.value) === index_) {
-                    let TaskId = '', TaskName = '';
+                    let TaskId = '-1', TaskName = '--Select--';
                     if (result.data[0].length > 0) {
                         TaskId = result.data[0][0]['TaskId'];
                         TaskName = result.data[0][0]['TaskName'];
-                    } else {
-                        TaskId = ''; TaskName = '';
                     }
+
                     return { ...obj, [event.target.name]: event.target.value, 'ModuleName': event.target.options[event.target.selectedIndex].text, 'TaskId': TaskId, 'TaskName': TaskName };
                 }
                 return obj;
@@ -193,25 +198,40 @@ export default function EnterTimeSheet() {
     const handelTaskDateChange = (e) => {
         setTaskDate(e.target.value);
         axios.post(nodeurl['nodeurl'], { query: 'AB_Inprogressgrid ' + EmpId + ',"' + e.target.value + '",1' }).then(result => {
-            if (result.data[0].length === 0) {
-                let index = 0;
-                // setDetails([{
-                //     Row: index, EmpId: EmpId, Id: 0, ProjectName: '', ProjectId: 1, ModuleId: 1,
-                //     ModuleName: '', TaskName: '', TaskId: 1, TaskDate: moment(e.target.value).format('YYYY-MM-DD'), Issues: '',
-                //     Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2
-                // }]);
-                setDetails(result.data[0]);
-
-                setTimeout(() => {
-                    // setExpanded(index);
-                    let ele = document.querySelector('select[name="ProjectId"][index="' + index + '"]');
-                    ele.dispatchEvent(new Event('change', { bubbles: true }));
-                }, 100);
+            if (result.data[0].length === 0 && taskDate === (new Date().toLocaleDateString()).toString()) {
+                setDetails([{
+                    Row: Details.length, EmpId: EmpId, Id: 0, ProjectName: '--Select--', ProjectId: '-1', ModuleId: '-1',
+                    ModuleName: '--Select--', TaskName: '--Select--', TaskId: '-1', TaskDate: moment(new Date(taskDate)).format('YYYY-MM-DD'), Issues: '',
+                    Object: '', TaskDescription: '', Hours: '0.00', Status: 'In Progress', StatusId: 2, CompletionDate: new Date()
+                }]);
+                setExpanded(0);
+                setModule([]);
+                setTasks([]);
             }
             else {
                 setDetails(result.data[0]);
+                setExpanded(-1);
             }
         });
+    }
+    const isDisable = (flag) => {
+        let isValidate = false;
+        if (flag === 0 && Details.length > 0) {
+            let lastRow = Details[Details.length - 1];
+            if (lastRow['ProjectId'] === '-1' || lastRow['ModuleId'] === '-1' || lastRow['TaskId'] === '-1' ||
+                lastRow['TaskDescription'] === '' || lastRow['StatusId'] === '0') {
+                isValidate = true;
+            }
+        } else if (flag === 1 && Details.length > 0) {
+            for (let i = 0; i < Details.length; i++) {
+                let row = Details[i];
+                if (row['ProjectId'] === '-1' || row['ModuleId'] === '-1' || row['TaskId'] === '-1' ||
+                    row['TaskDescription'] === '' || row['StatusId'] === '0') {
+                    isValidate = true;
+                }
+            }
+        }
+        return { disabled: isValidate };
     }
     return (
         <>
@@ -275,10 +295,10 @@ export default function EnterTimeSheet() {
                                 {column['Status']}
                             </Typography>
                             <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
-                                {column['Hours']}
+                                {(parseFloat(column['Hours'])).toFixed(2)}
                             </Typography>
                             <div className='Remove' style={{ marginTop: '10px' }} index={index} onClick={handlePanelChange(-1)}>
-                                <FontAwesomeIcon icon={faTrashAlt} index={index} style={{ color: localStorage['BgColor'], fontSize: '18px' }} className="icon" />
+                                <FontAwesomeIcon icon={faTrashAlt} index={index} style={{ color: localStorage['BgColor'], fontSize: '18px' }} onClick={handlePanelChange(-1)} className="icon" />
                             </div>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -289,7 +309,8 @@ export default function EnterTimeSheet() {
                                             <div style={{ width: '70%' }}>
                                                 <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
                                                     <div className="input-holder">
-                                                        <select className="input-input" name="ProjectId" index={index} value={Details[index]['ProjectId']} onChange={handelProjectChange}>
+                                                        <select className={"input-input " + (Details[index]['ProjectId'] === '-1' ? 'input-warning' : '')} name="ProjectId" index={index} value={Details[index]['ProjectId']} onChange={handelProjectChange}>
+                                                            <option key={-1} value={-1}>--Select--</option>
                                                             {Project.map((item, index) => (
                                                                 <option key={index} value={item['ProjectId']}>{item['ProjectName']}</option>
                                                             ))}
@@ -300,7 +321,8 @@ export default function EnterTimeSheet() {
 
                                                 <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
                                                     <div className="input-holder">
-                                                        <select className="input-input" name="ModuleId" index={index} value={Details[index]['ModuleId']} onChange={handelModuleChange} >
+                                                        <select className={"input-input " + (Details[index]['ModuleId'] === '-1' ? 'input-warning' : '')} name="ModuleId" index={index} value={Details[index]['ModuleId']} onChange={handelModuleChange} >
+                                                            <option key={-1} value={-1}>--Select--</option>
                                                             {Module.map((item, index) => (
                                                                 <option key={index} value={item['ModuleId']}>{item['ModuleName']}</option>
                                                             ))}
@@ -310,7 +332,8 @@ export default function EnterTimeSheet() {
                                                 </div>
                                                 <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
                                                     <div className="input-holder">
-                                                        <select className="input-input" name="TaskId" index={index} value={Details[index]['TaskId']} onChange={handelOnChange}>
+                                                        <select className={"input-input " + (Details[index]['TaskId'] === '-1' ? 'input-warning' : '')} name="TaskId" index={index} value={Details[index]['TaskId']} onChange={handelOnChange}>
+                                                            <option key={-1} value={-1}>--Select--</option>
                                                             {Tasks.map((item, index) => (
                                                                 <option key={index} value={item['TaskId']}>{item['TaskName']}</option>
                                                             ))}
@@ -321,7 +344,7 @@ export default function EnterTimeSheet() {
 
                                                 <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
                                                     <div className="input-holder">
-                                                        <select className="input-input" name="StatusId" index={index} value={Details[index]['StatusId']} onChange={handelOnChange}>
+                                                        <select className={"input-input " + (Details[index]['StatusId'] === '0' ? 'input-warning' : '')} name="StatusId" index={index} value={Details[index]['StatusId']} onChange={handelOnChange}>
                                                             {Status.map((item, index) => (
                                                                 <option key={index} value={item['TypeOptionID']}>{item['TypeName']}</option>
                                                             ))}
@@ -343,7 +366,19 @@ export default function EnterTimeSheet() {
                                                 </div>
                                                 <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
                                                     <div className="input-holder">
-                                                        <input type="text" className="input-input" name="Hours" index={index} value={Details[index]['Hours']} onChange={handelOnChange} />
+                                                        <input type="text" className="input-input" name="Hours" index={index}
+                                                            onBlur={(e) => {
+                                                                if (e.target.value === '') e.target.value = 0.00;
+                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                handelOnChange(e);
+                                                            }}
+                                                            value={Details[index]['Hours']}
+                                                            onChange={(event) => {
+                                                                let value = event.target.value;
+                                                                if ((isNaN(value.substr(value.length - 1)) && value.substr(value.length - 1) !== '.')) return;
+                                                                handelOnChange(event);
+                                                            }
+                                                            } />
                                                         <label className="input-label">Hours</label>
                                                     </div>
                                                 </div>
@@ -351,7 +386,7 @@ export default function EnterTimeSheet() {
                                             <div style={{ width: '35%' }}>
                                                 <div className="input-wrapper marginLeft-0" style={{ width: '100%' }} >
                                                     <div className="input-holder">
-                                                        <textarea type="text" className="input-input" name="TaskDescription" index={index} value={Details[index]['TaskDescription']} onChange={handelOnChange} style={{ height: '155px' }} />
+                                                        <textarea type="text" className={"input-input " + (Details[index]['TaskDescription'] === '' ? 'input-warning' : '')} name="TaskDescription" index={index} value={Details[index]['TaskDescription']} onChange={handelOnChange} style={{ height: '155px' }} />
                                                         <label className="input-label">Task Description</label>
                                                     </div>
                                                 </div>
@@ -373,8 +408,8 @@ export default function EnterTimeSheet() {
                 }
             </div>
             <div style={{ textAlign: 'right' }}>
-                <button className="btn marginLeft-0 " onClick={handelAddClick}>Add New</button>
-                <button className="btn marginLeft-0 marginRight-0 " onClick={handelClick}>Save Details</button>
+                <button className="btn marginLeft-0 " {...isDisable(1)} onClick={handelAddClick}>Add Row</button>
+                <button className="btn marginLeft-0 marginRight-0 " {...isDisable(1)} onClick={handelClick}>Save</button>
             </div>
         </>
     );

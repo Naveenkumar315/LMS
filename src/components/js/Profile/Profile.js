@@ -11,17 +11,28 @@ import Box from '@mui/material/Box';
 import ChangePassword from './ChangePassword';
 import setTheme from '../../Sub-Component/setTheme';
 import DatePicker from '../../Sub-Component/DatePicker/DatePicker';
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { useAlert } from "react-alert";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
     const EmpId = localStorage['EmpId'];
     const alert = useAlert();
+    // if (localStorage['isProfileChanged']) console.log('fds');
+    const navigate = useNavigate();
+    const Navigate = (path) => {
+        navigate(path);
+    }
     const DetailsFields = () => {
+
         const [Details, setDetails] = useState({ Empid: 0, FirstName: '', LastName: '', PhoneNumber: '', EmailID: '', Address: '', DateOfBirth: '', DateOfJoin: '', UserName: '', Password: '', Gender: 2, Hintans: '', Question: 0 });
         useEffect(() => {
             setTheme();
             axios.post(nodeurl['nodeurl'], { query: 'AB_ViewEmpProfile ' + EmpId }).then(result => {
                 setDetails(result.data[0][0]);
+                console.log(result.data[0][0]);
             });
         }, []);
         const handelOnChange = (event) => {
@@ -35,15 +46,44 @@ export default function Profile() {
         }
         const handelClick = () => {
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_UpdateEmployeeDetail ', UpdateJson: JSON.stringify(Details) }).then(result => {
+                let Details = result['data']['recordset'][0];
+                setDetails(Details);
+                localStorage.setItem('Name', Details['SurName'] + ' ' + Details['AliceName']);
+                localStorage.setItem('Gender', Details['Gender'] === '1' ? 'Female' : 'Male');
+                localStorage.setItem('isProfileChanged', true);
                 alert.success("Your details Updated successfully.");
+                Navigate('/Profile')
             });
         }
 
+        const Color = () => {
+            return {
+                sx: {
+                    color: localStorage['BgColor'],
+                    '&.Mui-checked': {
+                        color: localStorage['BgColor'],
+
+                    }
+                }
+            }
+        }
+        const isDisable = () => {
+            let isValidate = false;
+            if (Details['FirstName'] === '' || Details['LastName'] === '' || Details['AliceName'] === '' || Details['PhoneNumber'] === '' || Details['Hintans'] === '')
+                isValidate = true;
+            return { disabled: isValidate };
+        }
         return (
             <div id="profile" style={{ width: '99%' }}>
                 <div className="input-wrapper marginLeft-0">
-                    <div className="input-holder">
-                        <input type="text" className="input-input" name="FirstName" value={Details['FirstName']} onChange={handelOnChange} />
+                    <div className="input-holder input2-holder" style={{ boxShadow: '#000c2f4d 1px 2px 5px 0px' }} >
+                        <select id="exampleList" className="input-input" name="SurName" value={Details['SurName']} onChange={handelOnChange} style={{ border: 'none', height: '48px', boxShadow: 'none', width: '20%', padding: '0 0 0 10px', borderTopRightRadius: 0, borderBottomRightRadius: 0 }}>
+                            <option selected >Mr.</option>
+                            <option>Mrs.</option>
+                            <option>Ms.</option>
+                            <option>Miss.</option>
+                        </select>
+                        <input type="text" className="input-input" list="exampleList" style={{ border: 'none', height: '47px', boxShadow: 'none', width: '80%', padding: '0 10px', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} name="FirstName" value={Details['FirstName']} onChange={handelOnChange} />
                         <label className="input-label">First Name</label>
                     </div>
                 </div>
@@ -55,46 +95,68 @@ export default function Profile() {
                     </div>
                 </div>
 
+                <div className="input-wrapper marginLeft-0">
+                    <div className="input-holder">
+                        <input type="text" className="input-input" name="AliceName" value={Details['AliceName']} onChange={handelOnChange} />
+                        <label className="input-label">Alice Name</label>
+                    </div>
+                </div>
 
                 <div className="input-wrapper marginLeft-0">
-                    <div className="input-holder  input-DatePicker">
+                    <div className="input-holder  input-DatePicker" style={{ width: '48%', float: 'left' }}>
                         {Details['DateOfBirth'] ? <DatePicker name="DateOfBirth" dd={(Details['DateOfBirth'])} Value={((Details['DateOfBirth']).split('-').reverse().join('-'))} valueChange={handelOnChange} /> : <></>}
                         <label className="input-label">Date Of Birth</label>
                     </div>
+                    <div className="input-holder" style={{ width: '48%', float: 'right', position: 'relative' }}>
+                        <input type="text" className="input-input" style={{ width: '100%' }} disabled name="DateOfJoin" value={Details['DateOfJoin']} onChange={handelOnChange} />
+                        <label className="input-label">Date Of Joining</label>
+                    </div>
                 </div>
+
+                {/* <div className="input-wrapper marginLeft-0">
+                    <div className="input-holder">
+                        <input type="text" className="input-input" disabled name="DateOfJoin" value={Details['DateOfJoin']} onChange={handelOnChange} />
+                        <label className="input-label">Date Of Joining</label>
+                    </div>
+                </div> */}
+
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" className="input-input" name="PhoneNumber" value={Details['PhoneNumber']} onChange={handelOnChange} />
                         <label className="input-label">Mobile No.</label>
                     </div>
                 </div>
+
                 <div className="input-wrapper marginLeft-0">
-                    <div className="input-holder">
-                        <select className="input-input" name="Gender" value={Details['Gender']} onChange={handelOnChange}>
-                            <option value="2">Male</option>
-                            <option value="1">Female</option>
-                        </select>
+                    <div className="input-holder" style={{ backgroundColor: 'inherit' }}>
+                        <RadioGroup
+                            className='radio'
+                            aria-labelledby="Gender"
+                            name="Gender"
+                            value={Details['Gender']}
+                            onChange={handelOnChange}
+                        >
+                            <FormControlLabel value="2" control={<Radio {...Color()} />} label="Male" />
+                            <FormControlLabel value="1" control={<Radio {...Color()} />} label="Female" />
+                        </RadioGroup>
                         <label className="input-label">Gender</label>
                     </div>
                 </div>
+
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" className="input-input" name="EmailID" value={Details['EmailID']} onChange={handelOnChange} />
                         <label className="input-label">Personal Email Id</label>
                     </div>
                 </div>
+
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <textarea className="input-input textarea" name="Address" value={Details['Address']} onChange={handelOnChange} />
                         <label className="input-label">Address</label>
                     </div>
                 </div>
-                <div className="input-wrapper marginLeft-0">
-                    <div className="input-holder">
-                        <input type="text" className="input-input" disabled name="DateOfJoin" value={Details['DateOfJoin']} onChange={handelOnChange} />
-                        <label className="input-label">Date Of Joining</label>
-                    </div>
-                </div>
+
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
                         <input type="text" className="input-input" disabled name="UserName" value={Details['UserName']} onChange={handelOnChange} />
@@ -121,7 +183,7 @@ export default function Profile() {
                     </div>
                 </div>
                 <div>
-                    <button className="btn marginLeft-0" onClick={handelClick}>Save Details</button>
+                    <button className="btn marginLeft-0" {...isDisable()} onClick={handelClick}>Save Details</button>
                 </div>
             </div>
         );

@@ -67,10 +67,11 @@ const Login = () => {
                         localStorage.setItem('Name', loginDetails['Name']);
                         localStorage.setItem('Gender', loginDetails['Gender']);
                         localStorage.setItem('Designation', loginDetails['Designation']);
+                        localStorage.setItem('isProfileChanged', false);
                         const color = loginDetails['Theme'].split(',');
                         localStorage.setItem('BgColor', color[0]);
                         localStorage.setItem('Color', color[1]);
-                        Navigate('/Home')
+                        Navigate('/Home');
                     } else if (loginDetails['AccStatus'] === 0) {
                         setAlert('Please enter the correct User Name and Password!');
                     } else if (loginDetails['AccStatus'] === 2) {

@@ -15,7 +15,7 @@ const Sidebar = (props) => {
         localStorage.clear();
     };
     const options = {
-        timeout: 7000,
+        timeout: 5000,
         position: positions.BOTTOM_RIGHT
     };
     const [IsOpen, setIsOpen] = useState(false);
@@ -36,6 +36,9 @@ const Sidebar = (props) => {
         { text: 'Settings', link: '/Settings', icon: faUserGear },
         { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
+    const getName = () => {
+        return (<span className="name"> {localStorage["Name"]} </span>)
+    }
     return (
         <>
             <Provider template={AlertTemplate} {...options}>
@@ -53,7 +56,7 @@ const Sidebar = (props) => {
                                         </span>
                                     </NavLink>
                                     <div className="text logo-text">
-                                        <span className="name">{localStorage["Name"]}</span>
+                                        {getName()}
                                         <span className="profession">{localStorage["Designation"]}</span>
                                     </div>
                                 </div>

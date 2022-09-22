@@ -31,7 +31,11 @@ export default function PermissionWH() {
         if (event.target.name === 'To') DetailsWH['TotalHours'] = (((parseFloat(event.target.value)) - parseFloat(DetailsWH['From'])).toFixed(2)).replace('.7', '.3');
         setDetailsWH({ ...DetailsWH, [event.target.name]: event.target.value });
     }
-
+    const isDisable = () => {
+        let isValidate = false;
+        if (DetailsWH['Reason'] === '') isValidate = true;
+        return { disabled: isValidate };
+    }
 
     return (
         <div style={{ width: '99%', height: '60vh' }}>
@@ -78,7 +82,7 @@ export default function PermissionWH() {
             </div>
 
             <div>
-                <button className="btn marginLeft-0" onClick={handelClick}>Apply</button>
+                <button className="btn marginLeft-0" {...isDisable()} onClick={handelClick}>Apply</button>
             </div>
         </div>
     );

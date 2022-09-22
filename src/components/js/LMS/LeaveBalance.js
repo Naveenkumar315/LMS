@@ -56,19 +56,21 @@ export default function LeaveBalanceTab() {
             else if (event.target.name === 'Duration')
                 Details['NoOfDays'] = event.target.value;
             if (Details['NoOfDays'] <= 1) Details['Duration'] = 1;
-            setDetails({ ...Details, [event.target.name]: event.target.value });
             if (event.target.name === 'LeaveOption') {
                 if (event.target.value === '1') {
+                    Details['Dates'] = ComDate[0]['Date'];
                     setOption(ComDate);
                     setIsVisavle(true);
                 }
                 else if (event.target.value === '2') {
+                    Details['Dates'] = '-1';
                     setOption(PrevComDate);
                     setIsVisavle(true);
                 } else {
                     setIsVisavle(false);
                 }
             }
+            setDetails({ ...Details, [event.target.name]: event.target.value });
         }
         const handelClick = () => {
             setExpanded(-1);
@@ -85,7 +87,6 @@ export default function LeaveBalanceTab() {
             let count = 0;
             let curDate = +startDate;
             let holiDay = ComDate.filter((item) => { return item['Day'] !== "Sunday" && item['Day'] !== "Saturday" });
-            console.log(holiDay);
             while (curDate <= +endDate) {
                 const dayOfWeek = new Date(curDate).getDay();
                 const isWeekend = (dayOfWeek === 6) || (dayOfWeek === 0);
@@ -96,7 +97,11 @@ export default function LeaveBalanceTab() {
             }
             return count;
         }
-
+        const isDisable = () => {
+            let isValidate = false;
+            if (Details['Reason'] === '' || Details['Dates'] === '-1') isValidate = true;
+            return { disabled: isValidate };
+        }
         return (
             <>
                 <div id='LMS' style={{ margin: '15px 0 0 0', width: '99%' }}>
@@ -156,7 +161,7 @@ export default function LeaveBalanceTab() {
                         </div>
                     </div>}
                     <div>
-                        <button className="btn" style={{ margin: '0' }} onClick={handelClick}>Apply</button>
+                        <button className="btn" style={{ margin: '0' }} {...isDisable()} onClick={handelClick}>Apply</button>
                     </div>
                 </div>
             </>
