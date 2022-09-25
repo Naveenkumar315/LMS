@@ -548,3 +548,28 @@ button[role="cancellable-button"] {
   padding: 5px;
   border-radius: 5px;
 }
+.task-container {
+  margin: 10px 10px 10px 0px;
+  padding: 10px 10px 0 10px;
+  border-radius: 5px;
+  border: 1px solid var(--background-color);
+}
+.task-container h1 {
+  padding: 10px;
+  border-radius: 5px;
+  color: var(--color);
+  font-size: 18px;
+  background-color: var(--background-color);
+}
+.body-Container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - 180px);
+}
+#TimeSheet #full-width-tabpanel-0 .MuiBox-root,
+#Task #full-width-tabpanel-0 .MuiBox-root {
+  padding-right: 1px !important;
+}
+#Task .react-swipeable-view-container {
+  max-height: 83vh !important;
+}

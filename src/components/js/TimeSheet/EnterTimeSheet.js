@@ -235,7 +235,7 @@ export default function EnterTimeSheet() {
     }
     return (
         <>
-            <div style={{ textAlign: 'right' }}>
+            <div style={{ textAlign: 'right', marginRight: '10px' }}>
                 <div className="input-wrapper timeSheetDate" style={{ width: '15%', height: '35px' }} >
                     <div className="input-holder">
                         <select className="input-input" style={{ width: '100%', fontSize: '17px' }} onChange={handelTaskDateChange} value={taskDate} name="taskDate">
@@ -247,167 +247,169 @@ export default function EnterTimeSheet() {
                     </div>
                 </div>
             </div>
-            <div id="EnterTimeSheet" style={{ marginTop: '20px', border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px' }}>
-                <Accordion expanded={false} onChange={handlePanelChange(-1)}>
-                    <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], maxHeight: '48px', minHeight: '48px' }}>
-                        <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>
-                            Project
-                        </Typography>
-                        <Typography component={"span"} sx={{ width: '12%', flexShrink: 0 }}>
-                            Module
-                        </Typography>
-                        <Typography component={"span"} sx={{ width: '12%', flexShrink: 0 }}>
-                            Task
-                        </Typography>
-                        <Typography component={"span"} sx={{ width: '29%', flexShrink: 0 }}>
-                            Task Description
-                        </Typography>
-                        <Typography component={"span"} sx={{ width: '15%', flexShrink: 0 }}>
-                            Status
-                        </Typography>
-                        <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
-                            Hours
-                        </Typography>
-
-                    </AccordionSummary>
-                </Accordion>
-
-                {Details.length > 0 ? Details.map((column, index) => (
-                    <Accordion key={index} expanded={expanded === index} className={expanded === index ? 'activeAcc' : ''} onChange={handlePanelChange(index)} >
-                        <AccordionSummary className={expanded === index ? 'activeAccSum' : ''}
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2bh-content"
-                            id="panel2bh-header"
-                        >
+            <div class="body-Container" style={{ marginTop: '20px', maxHeight: 'calc(100vh - 245px)' }}>
+                <div id="EnterTimeSheet" style={{ border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px', marginRight: '10px' }}>
+                    <Accordion expanded={false} onChange={handlePanelChange(-1)}>
+                        <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], maxHeight: '48px', minHeight: '48px' }}>
                             <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>
-                                {column['ProjectName']}
+                                Project
                             </Typography>
-                            <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
-                                {column['ModuleName']}
+                            <Typography component={"span"} sx={{ width: '12%', flexShrink: 0 }}>
+                                Module
                             </Typography>
-                            <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
-                                {column['TaskName']}
+                            <Typography component={"span"} sx={{ width: '12%', flexShrink: 0 }}>
+                                Task
                             </Typography>
-                            <Typography component={"span"} sx={{ width: '30%', flexShrink: 0, padding: '0 30px' }}>
-                                {column['TaskDescription']}
+                            <Typography component={"span"} sx={{ width: '29%', flexShrink: 0 }}>
+                                Task Description
                             </Typography>
-                            <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
-                                {column['Status']}
+                            <Typography component={"span"} sx={{ width: '15%', flexShrink: 0 }}>
+                                Status
                             </Typography>
-                            <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
-                                {(parseFloat(column['Hours'])).toFixed(2)}
+                            <Typography component={"span"} sx={{ width: '16%', flexShrink: 0 }}>
+                                Hours
                             </Typography>
-                            <div className='Remove' style={{ marginTop: '10px' }} index={index} onClick={handlePanelChange(-1)}>
-                                <FontAwesomeIcon icon={faTrashAlt} index={index} style={{ color: localStorage['BgColor'], fontSize: '18px' }} onClick={handlePanelChange(-1)} className="icon" />
-                            </div>
+
                         </AccordionSummary>
-                        <AccordionDetails>
-                            <Typography component={"span"}>
-                                {
-                                    <div style={{ margin: '15px 0 0 0' }}>
-                                        <div style={{ display: 'flex' }}>
-                                            <div style={{ width: '70%' }}>
-                                                <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
-                                                    <div className="input-holder">
-                                                        <select className={"input-input " + (Details[index]['ProjectId'] === '-1' ? 'input-warning' : '')} name="ProjectId" index={index} value={Details[index]['ProjectId']} onChange={handelProjectChange}>
-                                                            <option key={-1} value={-1}>--Select--</option>
-                                                            {Project.map((item, index) => (
-                                                                <option key={index} value={item['ProjectId']}>{item['ProjectName']}</option>
-                                                            ))}
-                                                        </select>
-                                                        <label className="input-label">Project</label>
-                                                    </div>
-                                                </div>
+                    </Accordion>
 
-                                                <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
-                                                    <div className="input-holder">
-                                                        <select className={"input-input " + (Details[index]['ModuleId'] === '-1' ? 'input-warning' : '')} name="ModuleId" index={index} value={Details[index]['ModuleId']} onChange={handelModuleChange} >
-                                                            <option key={-1} value={-1}>--Select--</option>
-                                                            {Module.map((item, index) => (
-                                                                <option key={index} value={item['ModuleId']}>{item['ModuleName']}</option>
-                                                            ))}
-                                                        </select>
-                                                        <label className="input-label">Module</label>
+                    {Details.length > 0 ? Details.map((column, index) => (
+                        <Accordion key={index} expanded={expanded === index} className={expanded === index ? 'activeAcc' : ''} onChange={handlePanelChange(index)} >
+                            <AccordionSummary className={expanded === index ? 'activeAccSum' : ''}
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel2bh-content"
+                                id="panel2bh-header"
+                            >
+                                <Typography component={"span"} sx={{ width: '10%', flexShrink: 0 }}>
+                                    {column['ProjectName']}
+                                </Typography>
+                                <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
+                                    {column['ModuleName']}
+                                </Typography>
+                                <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
+                                    {column['TaskName']}
+                                </Typography>
+                                <Typography component={"span"} sx={{ width: '30%', flexShrink: 0, padding: '0 30px' }}>
+                                    {column['TaskDescription']}
+                                </Typography>
+                                <Typography component={"span"} sx={{ width: '16%', flexShrink: 0, padding: '0 30px' }}>
+                                    {column['Status']}
+                                </Typography>
+                                <Typography component={"span"} sx={{ width: '12%', flexShrink: 0, padding: '0 30px' }}>
+                                    {(parseFloat(column['Hours'])).toFixed(2)}
+                                </Typography>
+                                <div className='Remove' style={{ marginTop: '10px' }} index={index} onClick={handlePanelChange(-1)}>
+                                    <FontAwesomeIcon icon={faTrashAlt} index={index} style={{ color: localStorage['BgColor'], fontSize: '18px' }} onClick={handlePanelChange(-1)} className="icon" />
+                                </div>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Typography component={"span"}>
+                                    {
+                                        <div style={{ margin: '15px 0 0 0' }}>
+                                            <div style={{ display: 'flex' }}>
+                                                <div style={{ width: '70%' }}>
+                                                    <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                                        <div className="input-holder">
+                                                            <select className={"input-input " + (Details[index]['ProjectId'] === '-1' ? 'input-warning' : '')} name="ProjectId" index={index} value={Details[index]['ProjectId']} onChange={handelProjectChange}>
+                                                                <option key={-1} value={-1}>--Select--</option>
+                                                                {Project.map((item, index) => (
+                                                                    <option key={index} value={item['ProjectId']}>{item['ProjectName']}</option>
+                                                                ))}
+                                                            </select>
+                                                            <label className="input-label">Project</label>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
-                                                    <div className="input-holder">
-                                                        <select className={"input-input " + (Details[index]['TaskId'] === '-1' ? 'input-warning' : '')} name="TaskId" index={index} value={Details[index]['TaskId']} onChange={handelOnChange}>
-                                                            <option key={-1} value={-1}>--Select--</option>
-                                                            {Tasks.map((item, index) => (
-                                                                <option key={index} value={item['TaskId']}>{item['TaskName']}</option>
-                                                            ))}
-                                                        </select>
-                                                        <label className="input-label">Task</label>
-                                                    </div>
-                                                </div>
 
-                                                <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
-                                                    <div className="input-holder">
-                                                        <select className={"input-input " + (Details[index]['StatusId'] === '0' ? 'input-warning' : '')} name="StatusId" index={index} value={Details[index]['StatusId']} onChange={handelOnChange}>
-                                                            {Status.map((item, index) => (
-                                                                <option key={index} value={item['TypeOptionID']}>{item['TypeName']}</option>
-                                                            ))}
-                                                        </select>
-                                                        <label className="input-label">Status</label>
+                                                    <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                                        <div className="input-holder">
+                                                            <select className={"input-input " + (Details[index]['ModuleId'] === '-1' ? 'input-warning' : '')} name="ModuleId" index={index} value={Details[index]['ModuleId']} onChange={handelModuleChange} >
+                                                                <option key={-1} value={-1}>--Select--</option>
+                                                                {Module.map((item, index) => (
+                                                                    <option key={index} value={item['value']}>{item['text']}</option>
+                                                                ))}
+                                                            </select>
+                                                            <label className="input-label">Module</label>
+                                                        </div>
+                                                    </div>
+                                                    <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                                        <div className="input-holder">
+                                                            <select className={"input-input " + (Details[index]['TaskId'] === '-1' ? 'input-warning' : '')} name="TaskId" index={index} value={Details[index]['TaskId']} onChange={handelOnChange}>
+                                                                <option key={-1} value={-1}>--Select--</option>
+                                                                {Tasks.map((item, index) => (
+                                                                    <option key={index} value={item['value']}>{item['text']}</option>
+                                                                ))}
+                                                            </select>
+                                                            <label className="input-label">Task</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
+                                                        <div className="input-holder">
+                                                            <select className={"input-input " + (Details[index]['StatusId'] === '0' ? 'input-warning' : '')} name="StatusId" index={index} value={Details[index]['StatusId']} onChange={handelOnChange}>
+                                                                {Status.map((item, index) => (
+                                                                    <option key={index} value={item['TypeOptionID']}>{item['TypeName']}</option>
+                                                                ))}
+                                                            </select>
+                                                            <label className="input-label">Status</label>
+                                                        </div>
+                                                    </div>
+                                                    <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
+                                                        <div className="input-holder">
+                                                            <input type="text" className="input-input" name="Issues" index={index} value={Details[index]['Issues']} onChange={handelOnChange} />
+                                                            <label className="input-label">Issue</label>
+                                                        </div>
+                                                    </div>
+                                                    <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
+                                                        <div className="input-holder">
+                                                            <DatePicker name="CompletionDate" minDate_={new Date()} Value={new Date(Details[index]['CompletionDate'])} index={index} valueChange={handelOnChange} />
+                                                            <label className="input-label">Completion Date</label>
+                                                        </div>
+                                                    </div>
+                                                    <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
+                                                        <div className="input-holder">
+                                                            <input type="text" className="input-input" name="Hours" index={index}
+                                                                onBlur={(e) => {
+                                                                    if (e.target.value === '') e.target.value = 0.00;
+                                                                    e.target.value = parseFloat(e.target.value).toFixed(2);
+                                                                    handelOnChange(e);
+                                                                }}
+                                                                value={Details[index]['Hours']}
+                                                                onChange={(event) => {
+                                                                    let value = event.target.value;
+                                                                    if ((isNaN(value.substr(value.length - 1)) && value.substr(value.length - 1) !== '.')) return;
+                                                                    handelOnChange(event);
+                                                                }
+                                                                } />
+                                                            <label className="input-label">Hours</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
-                                                    <div className="input-holder">
-                                                        <input type="text" className="input-input" name="Issues" index={index} value={Details[index]['Issues']} onChange={handelOnChange} />
-                                                        <label className="input-label">Issue</label>
-                                                    </div>
-                                                </div>
-                                                <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
-                                                    <div className="input-holder">
-                                                        <DatePicker name="CompletionDate" minDate_={new Date()} Value={new Date(Details[index]['CompletionDate'])} index={index} valueChange={handelOnChange} />
-                                                        <label className="input-label">Completion Date</label>
-                                                    </div>
-                                                </div>
-                                                <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
-                                                    <div className="input-holder">
-                                                        <input type="text" className="input-input" name="Hours" index={index}
-                                                            onBlur={(e) => {
-                                                                if (e.target.value === '') e.target.value = 0.00;
-                                                                e.target.value = parseFloat(e.target.value).toFixed(2);
-                                                                handelOnChange(e);
-                                                            }}
-                                                            value={Details[index]['Hours']}
-                                                            onChange={(event) => {
-                                                                let value = event.target.value;
-                                                                if ((isNaN(value.substr(value.length - 1)) && value.substr(value.length - 1) !== '.')) return;
-                                                                handelOnChange(event);
-                                                            }
-                                                            } />
-                                                        <label className="input-label">Hours</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div style={{ width: '35%' }}>
-                                                <div className="input-wrapper marginLeft-0" style={{ width: '100%' }} >
-                                                    <div className="input-holder">
-                                                        <textarea type="text" className={"input-input " + (Details[index]['TaskDescription'] === '' ? 'input-warning' : '')} name="TaskDescription" index={index} value={Details[index]['TaskDescription']} onChange={handelOnChange} style={{ height: '155px' }} />
-                                                        <label className="input-label">Task Description</label>
+                                                <div style={{ width: '35%' }}>
+                                                    <div className="input-wrapper marginLeft-0" style={{ width: '100%' }} >
+                                                        <div className="input-holder">
+                                                            <textarea type="text" className={"input-input " + (Details[index]['TaskDescription'] === '' ? 'input-warning' : '')} name="TaskDescription" index={index} value={Details[index]['TaskDescription']} onChange={handelOnChange} style={{ height: '155px' }} />
+                                                            <label className="input-label">Task Description</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                }
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                )) :
-                    <Accordion expanded={false} onChange={handlePanelChange(-1)}>
-                        <AccordionSummary style={{ maxHeight: '48px', minHeight: '48px' }}>
-                            <Typography component={"span"} sx={{ width: '100%', textAlign: 'center' }}>
-                                No Rows Found...!
-                            </Typography>
-                        </AccordionSummary>
-                    </Accordion>
-                }
+                                    }
+                                </Typography>
+                            </AccordionDetails>
+                        </Accordion>
+                    )) :
+                        <Accordion expanded={false} onChange={handlePanelChange(-1)}>
+                            <AccordionSummary style={{ maxHeight: '48px', minHeight: '48px' }}>
+                                <Typography component={"span"} sx={{ width: '100%', textAlign: 'center' }}>
+                                    No Rows Found...!
+                                </Typography>
+                            </AccordionSummary>
+                        </Accordion>
+                    }
+                </div>
             </div>
-            <div style={{ textAlign: 'right' }}>
+            <div style={{ textAlign: 'right', marginRight: '10px' }}>
                 <button className="btn marginLeft-0 " {...isDisable(1)} onClick={handelAddClick}>Add Row</button>
                 <button className="btn marginLeft-0 marginRight-0 " {...isDisable(1)} onClick={handelClick}>Save</button>
             </div>
