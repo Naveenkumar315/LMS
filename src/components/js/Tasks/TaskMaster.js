@@ -38,7 +38,7 @@ export default function TaskAssignment() {
         return (
             <div className="input-wrapper marginLeft-0  marginRight-0" style={{ width: '100%' }}>
                 <div className="input-holder">
-                    <input type="text" className="input-input" name={props['name']} onChange={props['onChange']} />
+                    <input type="text" className="input-input" name={props['name']} value={props['value']} onChange={props['onChange']} />
                     <label className="input-label">{props['label']}</label>
                 </div>
             </div>
@@ -64,8 +64,9 @@ export default function TaskAssignment() {
             return { disabled: isValidate };
         }
         const handelClientClick = () => {
-            axios.post(nodeurl['nodeurl'], { query: 'AB_AddNewModuleList ' + ClientDetails['ClientName'] + ',' + ClientDetails['ClientCode'] }).then(result => {
-                let value = result.data.recordset[0]['Result'];
+            axios.post(nodeurl['nodeurl'], { query: 'AB_AddNewClientlist ' + ClientDetails['ClientName'] + ',' + ClientDetails['ClientCode'] }).then(result => {
+                setClientDetails({ ...ClientDetails, ClientName: '', ClientCode: '' });
+                let value = result.data[0][0]['Result'];
                 if (value === 1)
                     alert.show("Client Name already exist!!!");
                 else
@@ -100,7 +101,8 @@ export default function TaskAssignment() {
         }
         const handelProjectClick = () => {
             axios.post(nodeurl['nodeurl'], { query: 'AB_AddNewProjectList ' + NewProjectDetails['ProjectName'] + ',' + NewProjectDetails['ClientID'] }).then(result => {
-                let value = result.data.recordset[0]['Result'];
+                let value = result.data[0][0]['Result'];
+                setNewProjectDetails({ ...NewProjectDetails, ClientID: '-1', ProjectName: '' });
                 if (value === 1)
                     alert.show("Project already exist!!!");
                 else
@@ -136,7 +138,8 @@ export default function TaskAssignment() {
         }
         const handelModuleClick = () => {
             axios.post(nodeurl['nodeurl'], { query: 'AB_AddNewModuleList ' + NewModuleDetails['ModuleName'] + ',' + NewModuleDetails['ProjectID'] }).then(result => {
-                let value = result.data.recordset[0]['Result'];
+                setNewModuleDetails({ ...NewModuleDetails, ClientID: '-1', ProjectID: '-1', ModuleName: '' });
+                let value = result.data[0][0]['Result'];
                 if (value === 1)
                     alert.show("Module already exist!!!");
                 else
@@ -182,7 +185,8 @@ export default function TaskAssignment() {
         }
         const handelTaskClick = () => {
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'AB_AddNewTaskList ', UpdateJson: JSON.stringify(NewTaskDetails) }).then(result => {
-                let value = result.data.recordset[0]['Result'];
+                setNewTaskDetails({ ...NewTaskDetails, ClientID: '-1', ProjectID: '-1', ModuleID: '-1', TaskName: '', TaskDescription: '', TaskPriority: '-1', StartDate: new Date(), EndDate: new Date() });
+                let value = result.data[0][0]['Result'];
                 if (value === 1)
                     alert.show("Task already exist!!!");
                 else
