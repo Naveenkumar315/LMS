@@ -124,14 +124,25 @@ const StickyHeadTable = forwardRef((props, ref) => {
             }
             Row_.forEach((item) => {
                 item['isApproved'] = isApprove;
+                // item['whoApproved'] = EmpId;
             });
             let SP = '';
             if (tab === 4) SP = 'LM_LeaveApproveReject_Wrapper';
             else if (tab === 5) SP = '';
             else if (tab === 6) SP = '';
-            axios.post(nodeurl['nodeurl'] + 'Update', { SP: SP, UpdateJson: JSON.stringify(rows) }).then(result => {
+            // console.log(Row_);
+            axios.post(nodeurl['nodeurl'] + 'Update', { SP: SP, UpdateJson: JSON.stringify(Row_) }).then(result => {
                 if (isApprove === 1) alert.success('Approved Successfully.')
                 else alert.show('Rejected Successfully.');
+                if (tab === 4) {
+                    setTimeout(() => {
+                        axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LEAVEDECISION ' + EmpId }).then(result => {
+                            console.log('dsadbsagj');
+                            console.log(result.data[0]);
+                            setRows(result.data[0]);
+                        });
+                    }, 500);
+                }
             });
         },
 
@@ -259,19 +270,26 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                                         {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handelCancelAction}>{column.button}</button> : ''}
                                                         {column.type === 4 ? <button className='btnAction' ><FontAwesomeIcon id={row.PermissionApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : ''}
                                                         {column.type === 5 ?
-                                                            <Switch size="small" name="checked" index={index} onChange={(e) => {
+                                                            <Switch size="small" name="checked" checked={row['checked']} index={index} onChange={(e) => {
 
                                                                 const switch_ = e.target.closest('.MuiSwitch-switchBase')
                                                                 rows[parseInt(switch_.attributes.index.value)]['checked'] = e.target.checked;
                                                                 let arr = rows.filter((item) => { return item['checked'] });
-                                                                console.log(arr);
-
+                                                                setRows(rows);
                                                                 if (arr['length'] === 0)
                                                                     setIsApproveRejectAll(true);
                                                                 else
                                                                     setIsApproveRejectAll(false);
                                                             }} /> : null}
-                                                        {column.type === 6 ? <textarea value={row.comments} rows={2} cols={15} /> : ''}
+                                                        {column.type === 6 ? <textarea value={row.comments} index={index} name="comments" onChange={(e) => {
+                                                            const Row_ = rows.map((item, index) => {
+                                                                if (index === parseInt(e.target.attributes.index.value)) {
+                                                                    return { ...item, [e.target.name]: e.target.value };
+                                                                }
+                                                                return item;
+                                                            });
+                                                            setRows(Row_);
+                                                        }} rows={2} cols={15} /> : ''}
                                                     </TableCell>
                                                 );
                                             })}

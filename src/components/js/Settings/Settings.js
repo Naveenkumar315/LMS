@@ -19,24 +19,34 @@ export default function Settings() {
     //1f456e", "151e3d", "0589a0", "444791", "f48225", "428bca", "911844
     const Color = [
         { Primary: '#444791', Secondary: '#fff' },
-        // { Primary: '#1f456e', Secondary: '#fff' },
         { Primary: '#151e3d', Secondary: '#fff' },
         { Primary: '#0589a0', Secondary: '#fff' },
         { Primary: '#f48225', Secondary: '#fff' },
         { Primary: '#428bca', Secondary: '#fff' },
+
         { Primary: '#911844', Secondary: '#fff' },
         { Primary: '#0d3560', Secondary: '#fff' },
         { Primary: '#6fbb80', Secondary: '#fff' },
         { Primary: '#e30b5d', Secondary: '#fff' },
-
-        { Primary: '#4fb8c0', Secondary: '#111' },
-        { Primary: '#ffdd50', Secondary: '#111' },
-        { Primary: '#00bfff', Secondary: '#0c090a' },
-        { Primary: '#82ade2', Secondary: '#111' },
-        { Primary: '#306754', Secondary: '#fbcfcd' },
-        { Primary: '#111', Secondary: '#ffdfba' },
         { Primary: '#111', Secondary: '#fff' },
-        // { Primary: '#111', Secondary: '#fbcfcd' },
+
+        { Primary: '#82ade2', Secondary: '#111' },
+        { Primary: '#4fb8c0', Secondary: '#111' },
+        { Primary: '#ffcf05', Secondary: '#111' },
+        { Primary: '#00bfff', Secondary: '#0c090a' },
+        { Primary: '#673ab7', Secondary: '#fff' },
+
+        { Primary: '#ff6f00', Secondary: '#111' },
+        { Primary: '#f8bbd0', Secondary: '#111' },
+        { Primary: '#8bc34a', Secondary: '#111' },
+        { Primary: '#0288d1', Secondary: '#111' },
+        { Primary: '#FF69B4', Secondary: '#111' },
+
+        { Primary: '#FF6347', Secondary: '#111' },
+        { Primary: '#BDB76B', Secondary: '#111' },
+        { Primary: '#6A5ACD', Secondary: '#111' },
+        { Primary: '#008080', Secondary: '#111' },
+        { Primary: '#F08080', Secondary: '#111' },
     ];
     useEffect(() => { setTheme(); }, []);
     const imageHandler = (e) => {
@@ -66,48 +76,59 @@ export default function Settings() {
             console.log("Theme Saved");
         });
     }
+    const getDesignation = () => {
+        // <span className="profession" style={{ positio, top: '12%', left: '4%', fontSize: '20px' }}>{localStorage["Designation"]}</span>
+
+        return (<><div style={{ padding: '0 15px' }}><span className="profession">{localStorage["Designation"].split('-')[0]}</span><br />
+            {localStorage["Designation"].split('-')[1] && <span className="profession" >{localStorage["Designation"].split('-')[1]}</span>}
+        </div></>);
+    }
     return (
         <>
-            <div style={{ maxHeight: '83vh' }}>
-                <div className="page">
-                    <div className="container container_1" style={{ width: '30%', minWidth: '250px' }}>
-                        <div className="img-holder">
-                            <div className="Img-profile">
-                                <img src={loadImage()} alt="" id="img" className="img" />
-                                <div className='img-up'>
-                                    <label className="image-upload choosephoto" htmlFor="input">
-                                        <FontAwesomeIcon icon={faUpload} className="icon" />
-                                    </label>
-                                    <label className="image-upload choosephoto" onClick={imagedeleteHandler}>
-                                        <FontAwesomeIcon icon={faTrash} className="icon" />
-                                    </label>
-                                </div>
+            <div className="page">
+                <div className="container container_1" style={{ width: '30%', minWidth: '250px' }}>
+                    <div className="img-holder">
+                        <div className="Img-profile">
+                            <img src={loadImage()} alt="" id="img" className="img" />
+                            <div className='img-up'>
+                                <label className="image-upload choosephoto" htmlFor="input">
+                                    <FontAwesomeIcon icon={faUpload} className="icon" />
+                                </label>
+                                <label className="image-upload choosephoto" onClick={imagedeleteHandler}>
+                                    <FontAwesomeIcon icon={faTrash} className="icon" />
+                                </label>
                             </div>
                         </div>
+                    </div>
+                    <div>
                         <h1 className="heading">{localStorage['Name']}</h1>
-                        <input type="file" accept="image/png" name="image-upload" id="input" onChange={imageHandler} />
-                        <div className="label">
+                        {getDesignation()}
+                    </div>
+                    <input type="file" accept="image/png" name="image-upload" id="input" onChange={imageHandler} />
+                    <div className="label">
 
+                    </div>
+                    <div style={{ margin: '20% 0 0 4%' }}>
+                        {Color.map((color, index) => {
+                            return (<div key={index} className='colorPaletteWrapper' >
+                                <div className='colorPalette col-sm' onClick={handelColorClick} index={index} style={{ backgroundColor: color['Primary'], border: '2px solid' + color['Primary'] }}>
+                                    <div className='primary'></div>
+
+                                    <div className='secondary' style={{ backgroundColor: color['Secondary'] }}></div>
+                                </div>
+                            </div>)
+                        })}
+                        <div style={{ marginTop: '30px' }}>
+                            <button id='applybtn' className="btn" style={{ float: 'right' }} onClick={handelClick}>Apply</button>
                         </div>
                     </div>
 
-
-                    <div className="container container_2" style={{ minWidth: '400px', textAlign: 'center' }}>
-                        <div style={{ margin: '40px auto' }}>
-                            {Color.map((color, index) => {
-                                return (<div key={index} className='colorPaletteWrapper' >
-                                    <div className='colorPalette col-sm' onClick={handelColorClick} index={index} style={{ backgroundColor: color['Primary'], border: '2px solid' + color['Primary'] }}>
-                                        <div className='primary'></div>
-                                        <div className='secondary' style={{ backgroundColor: color['Secondary'] }}></div>
-                                    </div>
-                                </div>)
-                            })}
-                            <div style={{ marginTop: '30px' }}>
-                                <button id='applybtn' className="btn" style={{ float: 'right' }} onClick={handelClick}>Apply</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+
+
+                {/* <div className="container container_2" style={{ minWidth: '400px', textAlign: 'center' }}> */}
+
+                {/* </div> */}
             </div>
         </>
     );
