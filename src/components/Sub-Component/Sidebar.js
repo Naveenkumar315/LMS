@@ -37,7 +37,12 @@ const Sidebar = (props) => {
         // { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
     const getName = () => {
-        return (<span className="name"> {localStorage["Name"]} </span>)
+        return (<span className="name"> {localStorage["Name"]} </span>);
+    }
+    const getDesignation = () => {
+        return (<><span className="profession">{localStorage["Designation"].split('-')[0]}</span>
+            {localStorage["Designation"].split('-')[1] && <span className="profession">{localStorage["Designation"].split('-')[1]}</span>}
+        </>);
     }
     return (
         <>
@@ -57,7 +62,7 @@ const Sidebar = (props) => {
                                     </NavLink>
                                     <div className="text logo-text">
                                         {getName()}
-                                        <span className="profession">{localStorage["Designation"]}</span>
+                                        {getDesignation()}
                                     </div>
                                 </div>
                                 {<FontAwesomeIcon className="icon Side-toggle" icon={faChevronRight} onClick={() => { setIsOpen(!IsOpen); }} />}

@@ -107,6 +107,7 @@ svg.icon {
 .sidebar header .image-text {
   display: inline-flex;
   align-items: center;
+  margin-left: -13px;
 }
 .sidebar header .logo-text {
   display: flex;

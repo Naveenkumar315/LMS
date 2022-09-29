@@ -12,9 +12,6 @@ const Login = () => {
     const [alert, setAlert] = useState('');
     const [passwordType, setPasswordType] = useState("password");
     useEffect(() => {
-        // window.addEventListener('keydown', (event) => {
-        //     if (event.keyCode === 13) handleSubmit(event);
-        // });
         document.documentElement.style.setProperty('--background-color', '#0589a0');
         document.documentElement.style.setProperty('--color', '#fff');
     }, [])
@@ -22,6 +19,9 @@ const Login = () => {
         let value = event.target.value;
         if (value.substr(value.length - 1) === '@' && event.target.name === 'email') {
             value = value + 'analyticbrains.com';
+            value = value.split('@').filter(function (item, i, allItems) {
+                return i === allItems.indexOf(item);
+            }).join('@');
             event.target.value = value;
         }
         setAlert('');

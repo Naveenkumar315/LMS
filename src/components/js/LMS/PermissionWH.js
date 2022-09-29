@@ -3,9 +3,11 @@ import axios from 'axios';
 import nodeurl from '../../../nodeServer.json'
 import Moment from 'moment';
 import DatePicker from '../../Sub-Component/DatePicker/DatePicker';
+import { useAlert } from "react-alert";
 
 export default function PermissionWH() {
     const EmpId = localStorage['EmpId'];
+    const alert = useAlert();
     const [DetailsWH, setDetailsWH] = useState({ EmpId: EmpId, StartDate: Moment(new Date()).format('MM-DD-YYYY'), EndDate: Moment(new Date()).format('MM-DD-YYYY'), From: '09.00', To: '09.30', Duration: 0, TotalHours: '00.30', Reason: '', PermissionID: 1 })
     const TimeArr = [
         { value: "09.00", text: "09.00" }, { value: "09.30", text: "09.30" }, { value: "10.00", text: "10.00" }, { value: "10.30", text: "10.30" },

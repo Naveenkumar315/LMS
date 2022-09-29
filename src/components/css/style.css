@@ -398,10 +398,12 @@ label {
 
 .MuiTableCell-root {
   margin: 0 !important;
-  padding: 5px 6px !important;
+  padding: 5px 6px ;
   line-height: 1.2rem !important;
 }
-
+.MuiSwitch-input{
+  cursor: pointer;
+}
 .scrollbar::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: inherit;

@@ -30,7 +30,7 @@ export default function Settings() {
         { Primary: '#e30b5d', Secondary: '#fff' },
 
         { Primary: '#4fb8c0', Secondary: '#111' },
-        { Primary: '#ffcf05', Secondary: '#111' },
+        { Primary: '#ffdd50', Secondary: '#111' },
         { Primary: '#00bfff', Secondary: '#0c090a' },
         { Primary: '#82ade2', Secondary: '#111' },
         { Primary: '#306754', Secondary: '#fbcfcd' },

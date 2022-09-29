@@ -247,7 +247,7 @@ export default function EnterTimeSheet() {
                     </div>
                 </div>
             </div>
-            <div class="body-Container" style={{ marginTop: '20px', maxHeight: 'calc(100vh - 245px)' }}>
+            <div className="body-Container" style={{ marginTop: '20px', maxHeight: 'calc(100vh - 245px)' }}>
                 <div id="EnterTimeSheet" style={{ border: '1px solid' + localStorage['BgColor'], borderTopRightRadius: '5px', borderTopLeftRadius: '5px', marginRight: '10px' }}>
                     <Accordion expanded={false} onChange={handlePanelChange(-1)}>
                         <AccordionSummary style={{ color: localStorage['Color'], backgroundColor: localStorage['BgColor'], maxHeight: '48px', minHeight: '48px' }}>

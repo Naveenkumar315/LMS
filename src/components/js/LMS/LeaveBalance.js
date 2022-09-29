@@ -128,7 +128,7 @@ export default function LeaveBalanceTab() {
             endDate = new Date(endDate);
             let count = 0;
             let curDate = +startDate;
-            let holiDay = ComDate.filter((item) => { return item['Day'] !== "Sunday" && item['Day'] !== "Saturday" });
+            //let holiDay = ComDate.filter((item) => { return item['Day'] !== "Sunday" && item['Day'] !== "Saturday" });
             while (curDate <= +endDate) {
                 const dayOfWeek = new Date(curDate).getDay();
                 const isWeekend = (dayOfWeek === 6) || (dayOfWeek === 0);

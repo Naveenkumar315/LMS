@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
 import axios from 'axios';
 import nodeurl from '../../nodeServer.json'
 import Paper from '@mui/material/Paper';
@@ -15,15 +15,23 @@ import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationArrow, faXmark } from "@fortawesome/free-solid-svg-icons";
+import Switch from '@mui/material/Switch';
+import { useAlert } from "react-alert";
 
-export default function StickyHeadTable(props) {
+const StickyHeadTable = forwardRef((props, ref) => {
+
     let EmpId = localStorage['EmpId'];
     const columns = props['Columns'];
-    const tab = props['tab']
-    const [rows, setRows] = useState([]);
+    const tab = props['tab'];
+    const alert = useAlert();
+    const [rows, setRows] = useState(props['Rows'] || []);
+
     const [paperWidth, setPaperWidth] = useState('100%');
     const Pagination = props['Pagination'];
     const handelAction = props['onclick'];
+    const IsInclude = props['IsInclude']
+    const setIsApproveRejectAll = props['setIsApproveRejectAll'];
+    //  const [isheaderChecked, setIsheaderChecked] = useState(true);
     useEffect(() => {
         if (tab === 'LeaveHistory') {
             axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveHistory ' + EmpId + '' }).then(result => {
@@ -36,21 +44,36 @@ export default function StickyHeadTable(props) {
             });
         }
         else if (tab === 'TaskDashBoard') {
-            let IsInclude = 1;
-            if (props['IsInclude']) IsInclude = 0;
-            axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',' + IsInclude }).then(result => {
+            let IsInclude_ = 1;
+            if (IsInclude) IsInclude_ = 0;
+            axios.post(nodeurl['nodeurl'], { query: 'AB_Employee_Tasksummary ' + EmpId + ',' + IsInclude_ }).then(result => {
                 setRows(result.data[0]);
             });
         }
         else if (tab === 'viewTimesheet') {
-            setRows(props['Rows']);
+            // setRows();
         } else if (tab === 'HoliDayList') {
             setPaperWidth('35%');
             axios.post(nodeurl['nodeurl'], { query: 'Menus_HolidayList' }).then(result => {
                 setRows(result.data[0]);
             });
+        } else if (tab === 'LeaveApprovels') {
+            axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LEAVEDECISION ' + EmpId }).then(result => {
+                console.log(result.data[0]);
+                setRows(result.data[0]);
+            });
+        } else if (tab === 'PermissionApprovels') {
+            axios.post(nodeurl['nodeurl'], { query: 'LM_PM_PermissionApproval ' + EmpId }).then(result => {
+                setRows(result.data[0]);
+            });
         }
-    }, [EmpId, tab, props]);
+        else if (tab === 'LOP') {
+            axios.post(nodeurl['nodeurl'], { query: 'SP_LM_Lop_Bind ' + EmpId }).then(result => {
+                console.log(result.data[0]);
+                setRows(result.data[0]);
+            });
+        }
+    }, [EmpId, tab, IsInclude]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -86,10 +109,34 @@ export default function StickyHeadTable(props) {
         }
         handelPostCancel(id, type);
     }
+
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
-    };
+    }
+    useImperativeHandle(ref, () => ({
+        handelApproveReject(isAll, isApprove, tab) {
+            let Row_ = [];
+            if (isAll) {
+                Row_ = rows;
+            } else {
+                Row_ = rows.filter((item) => { return item['checked'] })
+            }
+            Row_.forEach((item) => {
+                item['isApproved'] = isApprove;
+            });
+            let SP = '';
+            if (tab === 4) SP = 'LM_LeaveApproveReject_Wrapper';
+            else if (tab === 5) SP = '';
+            else if (tab === 6) SP = '';
+            axios.post(nodeurl['nodeurl'] + 'Update', { SP: SP, UpdateJson: JSON.stringify(rows) }).then(result => {
+                if (isApprove === 1) alert.success('Approved Successfully.')
+                else alert.show('Rejected Successfully.');
+            });
+        },
+
+    }));
+
     const getPagination = () => {
         if (Pagination)
             return (<TablePagination
@@ -119,22 +166,31 @@ export default function StickyHeadTable(props) {
                             style={{ minWidth: headCell.minWidth, backgroundColor: localStorage['BgColor'], color: '#fff', padding: '10px' }}
                             sortDirection={orderBy === headCell['id'] ? order : false}
                         >
-                            {headCell['sort'] ? <TableSortLabel
-                                active={orderBy === headCell['id']}
-                                direction={orderBy === headCell['id'] ? order : 'asc'}
-                                onClick={createSortHandler(headCell['id'])}
-                            >
-                                {headCell['label']}
-                                {orderBy === headCell['id'] ? (
-                                    <Box component="span" sx={visuallyHidden}>
-                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                    </Box>
-                                ) : null}
-                            </TableSortLabel> : (headCell['label'])}
+                            {/* {headCell['field'] === 'CheckBox' && headCell['type'] === 5 ? <input type="checkbox"
+                                checked={isheaderChecked}
+                                onChange={(e) => {
+                                    setIsheaderChecked(e.target.checked);
+                                    for (let i = 0; i < rows.length; i++) {
+                                        rows[i]['checked'] = e.target.checked;
+                                    }
+                                }}></input> : null} */}
+                            {
+                                headCell['sort'] ? <TableSortLabel
+                                    active={orderBy === headCell['id']}
+                                    direction={orderBy === headCell['id'] ? order : 'asc'}
+                                    onClick={createSortHandler(headCell['id'])}
+                                >
+                                    {headCell['label']}
+                                    {orderBy === headCell['id'] ? (
+                                        <Box component="span" sx={visuallyHidden}>
+                                            {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                        </Box>
+                                    ) : null}
+                                </TableSortLabel> : (headCell['label'])}
                         </TableCell>
                     ))}
                 </TableRow>
-            </TableHead>
+            </TableHead >
         );
     }
 
@@ -197,11 +253,25 @@ export default function StickyHeadTable(props) {
                                             {columns.map((column, index_) => {
                                                 const value = row[column.id];
                                                 return (
-                                                    <TableCell key={index_} align={column.align} style={{ padding: '9px' }}>
+                                                    <TableCell key={index_} align={column.align} style={column.type === 6 ? { padding: '0' } : { padding: '9px' }}>
                                                         {column.type === 1 ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : value}
                                                         {column.type === 2 && row.Reason === 'Timesheet not filled' ? <button className='btnAction' ><FontAwesomeIcon id={row.EmpleaveApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faLocationArrow} /></button> : ''}
                                                         {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handelCancelAction}>{column.button}</button> : ''}
                                                         {column.type === 4 ? <button className='btnAction' ><FontAwesomeIcon id={row.PermissionApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : ''}
+                                                        {column.type === 5 ?
+                                                            <Switch size="small" name="checked" index={index} onChange={(e) => {
+
+                                                                const switch_ = e.target.closest('.MuiSwitch-switchBase')
+                                                                rows[parseInt(switch_.attributes.index.value)]['checked'] = e.target.checked;
+                                                                let arr = rows.filter((item) => { return item['checked'] });
+                                                                console.log(arr);
+
+                                                                if (arr['length'] === 0)
+                                                                    setIsApproveRejectAll(true);
+                                                                else
+                                                                    setIsApproveRejectAll(false);
+                                                            }} /> : null}
+                                                        {column.type === 6 ? <textarea value={row.comments} rows={2} cols={15} /> : ''}
                                                     </TableCell>
                                                 );
                                             })}
@@ -219,4 +289,5 @@ export default function StickyHeadTable(props) {
 
         </>
     );
-}
+});
+export default StickyHeadTable
