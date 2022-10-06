@@ -146,8 +146,14 @@ export default function ViewTimeSheet() {
     const handelMonthYearChange = (event) => {
         setMonthYear({ ...monthYear, [event.target.name]: parseInt(event.target.value) });
         let month = date.getMonth() + 1, year = date.getFullYear();
-        if (event.target.name === 'Month') month = parseInt(event.target.value);
-        else if (event.target.name === 'Year') year = parseInt(event.target.value);
+        if (event.target.name === 'Month') {
+            month = parseInt(event.target.value);
+            year = monthYear['Year'];
+        }
+        else if (event.target.name === 'Year') {
+            month = monthYear['Month'];
+            year = parseInt(event.target.value);
+        }
         axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Month",' + localStorage['EmpId'] + ',"' + Moment(date).format('YYYY-DD-MM') + '","' + Moment(date).format('YYYY-DD-MM') + '",' + month + ',' + year }).then(result => {
             setRows(result.data[0]);
         });

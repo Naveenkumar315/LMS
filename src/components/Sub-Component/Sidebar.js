@@ -31,6 +31,7 @@ const Sidebar = (props) => {
         { text: 'Time Sheet', link: '/EnterTimeSheet', icon: faTableList },
         { text: 'Tasks', link: '/Tasks', icon: faTasks },
         { text: 'LMS', link: '/LMS', icon: faLevelUpAlt },
+        { text: 'Approvals', link: '/Approvals', icon: faLevelUpAlt },
         { text: 'Employee Portal', link: '/EmployeePortal', icon: faUserDoctor },
         { text: 'Profile', link: '/Profile', icon: faUser },
         { text: 'Settings', link: '/Settings', icon: faUserGear }

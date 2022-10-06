@@ -21,17 +21,19 @@ import { useAlert } from "react-alert";
 const StickyHeadTable = forwardRef((props, ref) => {
 
     let EmpId = localStorage['EmpId'];
-    const columns = props['Columns'];
+    var columns = props['Columns'];
     const tab = props['tab'];
     const alert = useAlert();
-    const [rows, setRows] = useState(props['Rows'] || []);
+    const [rows, setRows] = useState([]);
 
+    const selectedEmpId = 0;
     const [paperWidth, setPaperWidth] = useState('100%');
     const Pagination = props['Pagination'];
     const handelAction = props['onclick'];
     const IsInclude = props['IsInclude']
     const setIsApproveRejectAll = props['setIsApproveRejectAll'];
     //  const [isheaderChecked, setIsheaderChecked] = useState(true);
+
     useEffect(() => {
         if (tab === 'LeaveHistory') {
             axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveHistory ' + EmpId + '' }).then(result => {
@@ -51,7 +53,7 @@ const StickyHeadTable = forwardRef((props, ref) => {
             });
         }
         else if (tab === 'viewTimesheet') {
-            // setRows();
+            setRows(props['Rows']);
         } else if (tab === 'HoliDayList') {
             setPaperWidth('35%');
             axios.post(nodeurl['nodeurl'], { query: 'Menus_HolidayList' }).then(result => {
@@ -115,6 +117,18 @@ const StickyHeadTable = forwardRef((props, ref) => {
         setPage(0);
     }
     useImperativeHandle(ref, () => ({
+        setSelectedEmpId_(selectedEmpId, tab) {
+            if (selectedEmpId !== 0 && tab === 3) {
+                axios.post(nodeurl['nodeurl'], { query: 'LM_Emp_LeaveHistory ' + selectedEmpId + '' }).then(result => {
+                    setRows(result.data[0]);
+                });
+            } else if (selectedEmpId !== 0 && tab === 4) {
+                axios.post(nodeurl['nodeurl'], { query: 'LM_PM_EmpPermissionHistory ' + selectedEmpId + '' }).then(result => {
+                    setRows(result.data[0]);
+                });
+            }
+        }
+        ,
         handelApproveReject(isAll, isApprove, tab) {
             let Row_ = [];
             if (isAll) {
@@ -124,25 +138,22 @@ const StickyHeadTable = forwardRef((props, ref) => {
             }
             Row_.forEach((item) => {
                 item['isApproved'] = isApprove;
-                // item['whoApproved'] = EmpId;
             });
             let SP = '';
-            if (tab === 4) SP = 'LM_LeaveApproveReject_Wrapper';
-            else if (tab === 5) SP = '';
-            else if (tab === 6) SP = '';
-            // console.log(Row_);
+            if (tab === 0) SP = 'LM_LeaveApproveReject_Wrapper';
+            else if (tab === 1) SP = 'LM_PremessionApproveReject_Wrapper';
+            else if (tab === 2) SP = 'Sp_LM_Lop_Lopupdate_Wrapper';
             axios.post(nodeurl['nodeurl'] + 'Update', { SP: SP, UpdateJson: JSON.stringify(Row_) }).then(result => {
                 if (isApprove === 1) alert.success('Approved Successfully.')
                 else alert.show('Rejected Successfully.');
-                if (tab === 4) {
-                    setTimeout(() => {
-                        axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LEAVEDECISION ' + EmpId }).then(result => {
-                            console.log('dsadbsagj');
-                            console.log(result.data[0]);
-                            setRows(result.data[0]);
-                        });
-                    }, 500);
-                }
+                let SP = '';
+                if (tab === 0) SP = 'SP_LM_LEAVEDECISION ';
+                else if (tab === 1) SP = 'LM_PM_PermissionApproval ';
+                else if (tab === 2) SP = 'SP_LM_Lop_Bind ';
+
+                axios.post(nodeurl['nodeurl'], { query: SP + EmpId }).then(result => {
+                    setRows(result.data[0]);
+                });
             });
         },
 
