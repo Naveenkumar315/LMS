@@ -142,7 +142,7 @@ export default function Approvals() {
     }
 
     function FullWidthTabs(props) {
-        const [value, setValue] = useState(5);
+        const [value, setValue] = useState(0);
         const [Rows, setRows] = useState([]);
 
         const handleChange = (event, newValue) => {
