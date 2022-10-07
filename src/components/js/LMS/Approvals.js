@@ -197,6 +197,9 @@ export default function Approvals() {
                                 });
                                 axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Ab_MgrApproval_Status', UpdateJson: JSON.stringify(Row_) }).then(result => {
                                     alert.success('Approved Successfully.')
+                                    axios.post(nodeurl['nodeurl'], { query: 'AB_WorkHoursApproval ' + EmpId }).then(result => {
+                                        setRows(result.data[0]);
+                                    });
                                 });
                             } else
                                 approvelRef.current.handelApproveReject(ApproveRejectAll, 1, value)
