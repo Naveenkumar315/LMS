@@ -48,9 +48,9 @@ div.sc-hTtwUo.LeBlV {
 .head-div {
   padding: 11px 30px !important;
 }
-table tr:nth-child(even) {
+/* table tr:nth-child(even) {
   background-color: var(--background-color-lighter) !important;
-}
+} */
 th {
   position: sticky;
   top: 0;
@@ -58,7 +58,7 @@ th {
 .MuiTableContainer-root {
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: calc(100vh - 240px);
+  max-height: calc(100vh - 180px);
 }
 
 .MuiTablePagination-displayedRows,
@@ -398,10 +398,10 @@ label {
 
 .MuiTableCell-root {
   margin: 0 !important;
-  padding: 5px 6px ;
+  padding: 5px 6px;
   line-height: 1.2rem !important;
 }
-.MuiSwitch-input{
+.MuiSwitch-input {
   cursor: pointer;
 }
 .scrollbar::-webkit-scrollbar-track {
@@ -566,7 +566,7 @@ button[role="cancellable-button"] {
 .body-Container {
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: calc(100vh - 180px);
+  max-height: calc(100vh - 240px);
 }
 #TimeSheet #full-width-tabpanel-0 .MuiBox-root,
 #Task #full-width-tabpanel-0 .MuiBox-root {

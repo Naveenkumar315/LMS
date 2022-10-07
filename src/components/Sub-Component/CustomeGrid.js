@@ -10,6 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import Moment from 'moment';
 import Box from '@mui/material/Box';
 import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
@@ -61,7 +62,6 @@ const StickyHeadTable = forwardRef((props, ref) => {
             });
         } else if (tab === 'LeaveApprovels') {
             axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LEAVEDECISION ' + EmpId }).then(result => {
-                console.log(result.data[0]);
                 setRows(result.data[0]);
             });
         } else if (tab === 'PermissionApprovels') {
@@ -71,10 +71,16 @@ const StickyHeadTable = forwardRef((props, ref) => {
         }
         else if (tab === 'LOP') {
             axios.post(nodeurl['nodeurl'], { query: 'SP_LM_Lop_Bind ' + EmpId }).then(result => {
-                console.log(result.data[0]);
                 setRows(result.data[0]);
             });
         }
+        //  else if (tab == 'TimesheetApprovels') {
+        //     // setPaperWidth('25%');
+        //     axios.post(nodeurl['nodeurl'], { query: 'AB_WorkHoursApproval ' + EmpId }).then(result => {
+        //         console.log(result.data[0]);
+        //         setRows(result.data[0]);
+        //     });
+        // }
     }, [EmpId, tab, IsInclude]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -116,6 +122,11 @@ const StickyHeadTable = forwardRef((props, ref) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     }
+    const getLastWeekMonday = (dayNo) => {
+        let date = new Date();
+        let currentWeekMonday = date.getDate() - date.getDay() + 1;
+        return new Date(date.setDate(currentWeekMonday - dayNo));
+    }
     useImperativeHandle(ref, () => ({
         setSelectedEmpId_(selectedEmpId, tab) {
             if (selectedEmpId !== 0 && tab === 3) {
@@ -124,6 +135,10 @@ const StickyHeadTable = forwardRef((props, ref) => {
                 });
             } else if (selectedEmpId !== 0 && tab === 4) {
                 axios.post(nodeurl['nodeurl'], { query: 'LM_PM_EmpPermissionHistory ' + selectedEmpId + '' }).then(result => {
+                    setRows(result.data[0]);
+                });
+            } else if (selectedEmpId !== 0 && tab === 5) {
+                axios.post(nodeurl['nodeurl'], { query: 'AB_GetTimesheet "Range",' + selectedEmpId + ',"' + Moment(getLastWeekMonday(7)).format('YYYY-MM-DD') + '","' + Moment(getLastWeekMonday(2)).format('YYYY-MM-DD') + '",0,0' }).then(result => {
                     setRows(result.data[0]);
                 });
             }
@@ -271,7 +286,7 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     return (
-                                        <TableRow tabIndex={-1} key={index}>
+                                        <TableRow tabIndex={-1} key={index} style={{ backgroundColor: `${row['isCompleted'] ? 'pink' : ''}` }}>
                                             {columns.map((column, index_) => {
                                                 const value = row[column.id];
                                                 return (
@@ -281,12 +296,15 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                                         {column.type === 3 && row.LeaveType !== 'Total' ? <button className='btnAction' id={row.LeaveID} clicktype={column.type} onClick={handelCancelAction}>{column.button}</button> : ''}
                                                         {column.type === 4 ? <button className='btnAction' ><FontAwesomeIcon id={row.PermissionApplicationID} clicktype={column.type} onClick={handelCancelAction} icon={faXmark} /></button> : ''}
                                                         {column.type === 5 ?
-                                                            <Switch size="small" name="checked" checked={row['checked']} index={index} onChange={(e) => {
-
+                                                            <Switch size="small" name="checked" disabled={row['isCompleted']} checked={row['checked']} index={index} onChange={(e) => {
                                                                 const switch_ = e.target.closest('.MuiSwitch-switchBase')
-                                                                rows[parseInt(switch_.attributes.index.value)]['checked'] = e.target.checked;
-                                                                let arr = rows.filter((item) => { return item['checked'] });
-                                                                setRows(rows);
+                                                                const Rows_ = rows.map((obj, index) => {
+                                                                    if (parseInt(switch_.attributes.index.value) === index)
+                                                                        return { ...obj, 'checked': e.target.checked };
+                                                                    return obj;
+                                                                });
+                                                                let arr = Rows_.filter((item) => { return item['checked'] });
+                                                                setRows(Rows_);
                                                                 if (arr['length'] === 0)
                                                                     setIsApproveRejectAll(true);
                                                                 else
