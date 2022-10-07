@@ -186,7 +186,22 @@ export default function Approvals() {
                             <label className="input-label" style={{ height: '60px' }}>Employee</label>
                         </div>
                     </div>}
-                    {[0, 1, 2, 5].includes(value) && <div style={{ display: 'inline-block', marginLeft: '10px' }}><button className="btn marginLeft-0 btnApproveRejectAll" style={{ margin: '5px 0 0 10px', width: '95px', padding: '10px' }} onClick={() => approvelRef.current.handelApproveReject(ApproveRejectAll, 1, value)}>Approve{ApproveRejectAll ? ' All' : ''}</button></div>}
+                    {[0, 1, 2, 5].includes(value) && <div style={{ display: 'inline-block', marginLeft: '10px' }}><button className="btn marginLeft-0 btnApproveRejectAll" style={{ margin: '5px 0 0 10px', width: '95px', padding: '10px' }} onClick={
+                        () => {
+                            if (value === 5) {
+                                let Row_ = [];
+                                if (ApproveRejectAll) Row_ = Rows;
+                                else Row_ = Rows.filter((item) => { return item['checked'] })
+                                Row_.forEach((item) => {
+                                    item['isApproved'] = 1;
+                                });
+                                axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Ab_MgrApproval_Status', UpdateJson: JSON.stringify(Row_) }).then(result => {
+                                    alert.success('Approved Successfully.')
+                                });
+                            } else
+                                approvelRef.current.handelApproveReject(ApproveRejectAll, 1, value)
+                        }
+                    }>Approve{ApproveRejectAll ? ' All' : ''}</button></div>}
                     {[0, 1, 2].includes(value) && <button className="btn  marginRight-0 btnApproveRejectAll" style={{ margin: '5px 0 5px 10px', width: '100px', padding: '10px' }} onClick={() => approvelRef.current.handelApproveReject(ApproveRejectAll, 2, value)}>Reject{ApproveRejectAll ? ' All' : ''}</button>}
                 </div>
 
