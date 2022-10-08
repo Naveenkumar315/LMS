@@ -6,33 +6,15 @@ import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CustomGrid from '../../Sub-Component/CustomeGrid';
 import setTheme from '../../Sub-Component/setTheme';
-import { useAlert } from "react-alert";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import Switch from '@mui/material/Switch';
-import TableRow from '@mui/material/TableRow';
 
 export default function Approvals() {
-    const alert = useAlert();
+
     const EmpId = localStorage['EmpId'];
     const [EmpList, setEmpList] = useState([]);
-    // const [selectedEmpId, setSelectedEmpId] = useState(0);
-    // const [isApproveRejectAll, setIsApproveRejectAll] = useState(false);
-    const optionsWithLabelChange = {
-        closeOnOverlayClick: true,
-        labels: {
-            confirmable: "Confirm",
-            cancellable: "Cancel"
-        }
-    };
 
     useEffect(() => {
         setTheme();
@@ -71,11 +53,7 @@ export default function Approvals() {
         { id: 'Status', label: 'Status', minWidth: 80, sort: true },
         { id: 'Comments', label: 'Comments', minWidth: 100, field: 'textArea', type: 6 },
     ];
-    const TimesheetApprovelColumn = [
-        { id: '', label: '', minWidth: 10, field: 'CheckBox', type: 5 },
-        { id: 'FirstName', label: 'Employee Name', minWidth: 120, sort: true },
-        { id: 'TotalHours', label: 'Total Hours', minWidth: 0, sort: true },
-    ];
+
     const LOPRequestColumn = [
         { id: '', label: '', minWidth: 10, field: 'CheckBox', type: 5 },
         { id: 'FirstName', label: 'Name', minWidth: 115, sort: true },
@@ -143,7 +121,6 @@ export default function Approvals() {
 
     function FullWidthTabs(props) {
         const [value, setValue] = useState(0);
-        const [Rows, setRows] = useState([]);
 
         const handleChange = (event, newValue) => {
             setValue(newValue);
@@ -152,11 +129,6 @@ export default function Approvals() {
                 let select = document.querySelector('select.input-input') || 0;
                 if (select !== 0)
                     document.querySelector('select.input-input').value = -1;
-            }
-            if (newValue === 5) {
-                axios.post(nodeurl['nodeurl'], { query: 'AB_WorkHoursApproval ' + EmpId }).then(result => {
-                    setRows(result.data[0]);
-                });
             }
         };
 
@@ -173,7 +145,7 @@ export default function Approvals() {
         return (
             <>
                 <div style={{ float: 'right', marginTop: '-2px', zIndex: 999, marginRight: '25px', display: 'inline-flex' }} >
-                    {[3, 4, 5].includes(value) && <div className="input-wrapper timeSheetDate" style={{ width: '200px', height: '35px', marginTop: '10px' }} >
+                    {[3, 4].includes(value) && <div className="input-wrapper timeSheetDate" style={{ width: '200px', height: '35px', marginTop: '10px' }} >
                         <div className="input-holder">
                             <select className="input-input" style={{ width: '100%', fontSize: '17px' }} onChange={(e) => {
                                 approvelRef.current.setSelectedEmpId_(e.target.value, value)
@@ -186,23 +158,9 @@ export default function Approvals() {
                             <label className="input-label" style={{ height: '60px' }}>Employee</label>
                         </div>
                     </div>}
-                    {[0, 1, 2, 5].includes(value) && <div style={{ display: 'inline-block', marginLeft: '10px' }}><button className="btn marginLeft-0 btnApproveRejectAll" style={{ margin: '5px 0 0 10px', width: '100px', padding: '10px' }} onClick={
+                    {[0, 1, 2].includes(value) && <div style={{ display: 'inline-block', marginLeft: '10px' }}><button className="btn marginLeft-0 btnApproveRejectAll" style={{ margin: '5px 0 0 10px', width: '100px', padding: '10px' }} onClick={
                         () => {
-                            if (value === 5) {
-                                let Row_ = [];
-                                if (ApproveRejectAll) Row_ = Rows;
-                                else Row_ = Rows.filter((item) => { return item['checked'] })
-                                Row_.forEach((item) => {
-                                    item['isApproved'] = 1;
-                                });
-                                axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Ab_MgrApproval_Status', UpdateJson: JSON.stringify(Row_) }).then(result => {
-                                    alert.success('Approved Successfully.')
-                                    axios.post(nodeurl['nodeurl'], { query: 'AB_WorkHoursApproval ' + EmpId }).then(result => {
-                                        setRows(result.data[0]);
-                                    });
-                                });
-                            } else
-                                approvelRef.current.handelApproveReject(ApproveRejectAll, 1, value)
+                            approvelRef.current.handelApproveReject(ApproveRejectAll, 1, value)
                         }
                     }>Approve{ApproveRejectAll ? ' All' : ''}</button></div>}
                     {[0, 1, 2].includes(value) && <button className="btn  marginRight-0 btnApproveRejectAll" style={{ margin: '5px 0 5px 10px', width: '100px', padding: '10px' }} onClick={() => approvelRef.current.handelApproveReject(ApproveRejectAll, 2, value)}>Reject{ApproveRejectAll ? ' All' : ''}</button>}
@@ -220,7 +178,6 @@ export default function Approvals() {
                             <Tab label="LOP Request" className='tab' {...a11yProps(2)} />
                             <Tab label="Emp Leave History" className='tab' {...a11yProps(3)} />
                             <Tab label="Emp Per History" className='tab' {...a11yProps(4)} />
-                            <Tab label="TimeSheet Approvals" className='tab' {...a11yProps(5)} />
                         </Tabs>
                     </AppBar>
                     <SwipeableViews
@@ -241,73 +198,6 @@ export default function Approvals() {
                         </TabPanel>
                         <TabPanel value={value} index={4}>
                             <CustomGrid Columns={EmpPerColumn} ref={approvelRef} tab='EmpPerColumn' Pagination={true} />
-                        </TabPanel>
-                        <TabPanel value={value} index={5}>
-                            <div style={{ display: 'inline-block', margin: '20px 18px auto -10px' }}>
-                                <Paper sx={{ width: '100%', overflow: 'auto', border: '1px solid ' + localStorage['BgColor'] }}>
-                                    <TableContainer className='scrollbar' >
-                                        <Table stickyHeader aria-label="sticky table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    {TimesheetApprovelColumn.map((headCell, index) => (
-                                                        <TableCell
-                                                            key={index}
-                                                            style={{ minWidth: headCell.minWidth, backgroundColor: localStorage['BgColor'], color: '#fff', padding: '10px' }}
-                                                        > {headCell['label']}
-                                                        </TableCell>
-                                                    ))}
-                                                </TableRow>
-                                            </TableHead >
-                                            <TableBody>
-                                                {Rows['length'] > 0 ? Rows.map((row, index) => {
-                                                    return (
-                                                        <TableRow tabIndex={-1} key={index} style={{ backgroundColor: `${row['isCompleted'] ? 'pink' : ''}` }}>
-                                                            {TimesheetApprovelColumn.map((column, index_) => {
-                                                                const value = row[column.id];
-                                                                return (
-                                                                    <TableCell key={index_} align={column.align} style={column.type === 6 ? { padding: '0' } : { padding: '9px' }}>
-                                                                        {column.type === 5 ?
-                                                                            <Switch size="small" name="checked" disabled={row['isCompleted']} checked={row['checked']} index={index} onChange={(e) => {
-                                                                                const switch_ = e.target.closest('.MuiSwitch-switchBase')
-                                                                                const Rows_ = Rows.map((obj, index) => {
-                                                                                    if (parseInt(switch_.attributes.index.value) === index)
-                                                                                        return { ...obj, 'checked': e.target.checked };
-                                                                                    return obj;
-                                                                                });
-                                                                                let arr = Rows_.filter((item) => { return item['checked'] });
-                                                                                setRows(Rows_);
-                                                                                if (arr['length'] === 0)
-                                                                                    setIsApproveRejectAll(true);
-                                                                                else
-                                                                                    setIsApproveRejectAll(false);
-                                                                            }} /> : value}
-                                                                    </TableCell>
-                                                                );
-                                                            })}
-                                                        </TableRow>
-                                                    );
-                                                }) :
-                                                    <TableRow>
-                                                        <TableCell key={-1} colSpan={TimesheetApprovelColumn['length']} style={{ textAlign: "center" }}>No Rows Found...!</TableCell>
-                                                    </TableRow>}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </Paper>
-                            </div>
-                            <div style={{ display: 'inline-block', position: 'absolute', marginTop: '20px' }}>
-                                <CustomGrid Columns={
-                                    [
-                                        { id: 'TaskDate', label: 'Date', minWidth: 100 },
-                                        { id: 'ProjectName', label: 'Project', minWidth: 120 },
-                                        { id: 'TaskDescription', label: 'Description', minWidth: 250 },
-                                        { id: 'ExpectedCompletiondate', label: 'Completion Date', minWidth: 120 },
-                                        { id: 'Status', label: 'Status', minWidth: 100 },
-                                        { id: 'Issues', label: 'Objects Changed', minWidth: 150 },
-                                        { id: 'Hours', label: 'Hours', minWidth: 80 }
-                                    ]
-                                } ref={approvelRef} Rows={Rows} tab="viewEmpTimesheet" Pagination={true} />
-                            </div>
                         </TabPanel>
                     </SwipeableViews >
                 </Box >
