@@ -35,10 +35,11 @@ export default function TaskAssignment() {
         );
     }
     const InputBox = (props) => {
+
         return (
             <div className="input-wrapper marginLeft-0  marginRight-0" style={{ width: '100%' }}>
                 <div className="input-holder">
-                    <input type="text" className="input-input" name={props['name']} value={props['value']} onChange={props['onChange']} />
+                    <input type="text" placeholder={props['placeholder']} className="input-input" name={props['name']} value={props['value']} onChange={props['onChange']} />
                     <label className="input-label">{props['label']}</label>
                 </div>
             </div>
@@ -80,8 +81,8 @@ export default function TaskAssignment() {
             <>
                 <div className='task-container' style={props['style']} >
                     <h1>Add Client</h1>
-                    <InputBox name="ClientName" value={ClientDetails['ClientName']} onChange={handelClientOnChange} label="Client Name" />
-                    <InputBox name="ClientCode" value={ClientDetails['ClientCode']} onChange={handelClientOnChange} label="Client Code" />
+                    <InputBox name="ClientName" value={ClientDetails['ClientName']} placeholder="Client Name" onChange={handelClientOnChange} label="Client Name" />
+                    <InputBox name="ClientCode" value={ClientDetails['ClientCode']} placeholder="Client Code" onChange={handelClientOnChange} label="Client Code" />
                     <Button disabled={isClientDisable} onClick={handelClientClick} text="Add Client" />
                 </div>
             </>
@@ -113,7 +114,7 @@ export default function TaskAssignment() {
             <div className='task-container' style={props['style']}>
                 <h1>Add Project</h1>
                 <SelectDD name="ClientID" label="Client" option={Client} value={NewProjectDetails['ClientID']} OnChange={handelProjectChange} />
-                <InputBox name="ProjectName" onChange={handelProjectChange} value={NewProjectDetails['ProjectName']} label="Project Name" />
+                <InputBox name="ProjectName" onChange={handelProjectChange} placeholder="Project Name" value={NewProjectDetails['ProjectName']} label="Project Name" />
                 <Button disabled={isProjectDisable} onClick={handelProjectClick} text="Add Project" />
             </div>
         </>);
@@ -153,7 +154,7 @@ export default function TaskAssignment() {
                     <SelectDD name="ClientID" style={{ width: '48%', display: 'inline-block', marginRight: '15px' }} label="Client" option={Client} value={NewModuleDetails['ClientID']} OnChange={handelModuleChange} />
                     <SelectDD name="ProjectID" style={{ width: '48%', display: 'inline-block', marginRight: 0 }} label="Project" option={Project} value={NewModuleDetails['ProjectID']} OnChange={handelModuleChange} />
                 </div>
-                <InputBox name="ModuleName" label="Module Name" onChange={handelModuleChange} value={NewModuleDetails['ModuleName']} />
+                <InputBox name="ModuleName" label="Module Name" onChange={handelModuleChange} placeholder="Module Name" value={NewModuleDetails['ModuleName']} />
                 <Button disabled={isModuleDisable} onClick={handelModuleClick} text="Add Module" />
             </div></>);
     }
@@ -200,10 +201,10 @@ export default function TaskAssignment() {
                 <SelectDD name="ClientID" style={{ width: '150px', marginRight: '15px' }} label="Client" option={Client} value={NewTaskDetails['ClientID']} OnChange={handelTaskOnChange} />
                 <SelectDD name="ProjectID" style={{ width: '195px', display: 'inline-block', marginRight: '15px' }} label="Project" option={Project} value={NewTaskDetails['ProjectID']} OnChange={handelTaskOnChange} />
                 <SelectDD name="ModuleID" label="Module" option={Module} value={NewTaskDetails['ModuleID']} OnChange={handelTaskOnChange} />
-                <InputBox name="TaskName" label="Task Name" onChange={handelTaskOnChange} value={NewTaskDetails['TaskName']} />
+                <InputBox name="TaskName" label="Task Name" onChange={handelTaskOnChange} placeholder="Task Name" value={NewTaskDetails['TaskName']} />
                 <div className="input-wrapper marginLeft-0" style={{ width: '100%' }}>
                     <div className="input-holder">
-                        <textarea className="input-input textarea" name="TaskDescription" value={NewTaskDetails['TaskDescription']} onChange={handelTaskOnChange} />
+                        <textarea className="input-input textarea" name="TaskDescription" placeholder="Enter Task Description" value={NewTaskDetails['TaskDescription']} onChange={handelTaskOnChange} />
                         <label className="input-label">Task Description</label>
                     </div>
                 </div>

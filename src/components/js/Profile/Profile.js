@@ -83,21 +83,21 @@ export default function Profile() {
                             <option>Ms.</option>
                             <option>Miss.</option>
                         </select>
-                        <input type="text" className="input-input" list="exampleList" style={{ border: 'none', height: '47px', boxShadow: 'none', width: '80%', padding: '0 10px', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} name="FirstName" value={Details['FirstName']} onChange={handelOnChange} />
+                        <input type="text" placeholder="First Name" className="input-input" list="exampleList" style={{ border: 'none', height: '47px', boxShadow: 'none', width: '80%', padding: '0 10px', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} name="FirstName" value={Details['FirstName']} onChange={handelOnChange} />
                         <label className="input-label">First Name</label>
                     </div>
                 </div>
 
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="LastName" value={Details['LastName']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" name="LastName" placeholder="Last Name" value={Details['LastName']} onChange={handelOnChange} />
                         <label className="input-label">Last Name</label>
                     </div>
                 </div>
 
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="AliceName" value={Details['AliceName']} onChange={handelOnChange} />
+                        <input type="text" className="input-input" placeholder="Alice Name" name="AliceName" value={Details['AliceName']} onChange={handelOnChange} />
                         <label className="input-label">Alice Name</label>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ export default function Profile() {
 
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="PhoneNumber" value={Details['PhoneNumber']} onChange={handelOnChange} />
+                        <input type="text" placeholder="PhoneNumber" className="input-input" name="Mobile No" value={Details['PhoneNumber']} onChange={handelOnChange} />
                         <label className="input-label">Mobile No.</label>
                     </div>
                 </div>
@@ -145,14 +145,14 @@ export default function Profile() {
 
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <input type="text" className="input-input" name="EmailID" value={Details['EmailID']} onChange={handelOnChange} />
+                        <input type="text" placeholder="Personal Email Id" className="input-input" name="EmailID" value={Details['EmailID']} onChange={handelOnChange} />
                         <label className="input-label">Personal Email Id</label>
                     </div>
                 </div>
 
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder">
-                        <textarea className="input-input textarea" name="Address" value={Details['Address']} onChange={handelOnChange} />
+                        <textarea className="input-input textarea" placeholder="Enter Address" name="Address" value={Details['Address']} onChange={handelOnChange} />
                         <label className="input-label">Address</label>
                     </div>
                 </div>

@@ -355,7 +355,7 @@ export default function EnterTimeSheet() {
                                                     </div>
                                                     <div className="input-wrapper marginLeft-0" style={{ width: '30%' }}>
                                                         <div className="input-holder">
-                                                            <input type="text" className="input-input" name="Issues" index={index} value={Details[index]['Issues']} onChange={handelOnChange} />
+                                                            <input type="text" className="input-input" name="Issues" placeholder="Facing Issues?" index={index} value={Details[index]['Issues']} onChange={handelOnChange} />
                                                             <label className="input-label">Issue</label>
                                                         </div>
                                                     </div>
@@ -387,7 +387,7 @@ export default function EnterTimeSheet() {
                                                 <div style={{ width: '35%' }}>
                                                     <div className="input-wrapper marginLeft-0" style={{ width: '100%' }} >
                                                         <div className="input-holder">
-                                                            <textarea type="text" className={"input-input " + (Details[index]['TaskDescription'] === '' ? 'input-warning' : '')} name="TaskDescription" index={index} value={Details[index]['TaskDescription']} onChange={handelOnChange} style={{ height: '155px' }} />
+                                                            <textarea type="text" className={"input-input " + (Details[index]['TaskDescription'] === '' ? 'input-warning' : '')} name="TaskDescription" placeholder="Start Typing your Description" index={index} value={Details[index]['TaskDescription']} onChange={handelOnChange} style={{ height: '155px' }} />
                                                             <label className="input-label">Task Description</label>
                                                         </div>
                                                     </div>

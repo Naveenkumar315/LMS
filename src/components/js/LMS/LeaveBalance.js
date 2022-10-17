@@ -178,7 +178,7 @@ export default function LeaveBalanceTab() {
                     </div>
                     <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
-                            <input type="text" className="input-input" name="Reason" value={Details['Reason']} onChange={handelOnChange} />
+                            <input type="text" className="input-input" name="Reason" placeholder="Enter Your Reason" value={Details['Reason']} onChange={handelOnChange} />
                             <label className="input-label">Reason</label>
                         </div>
                     </div>

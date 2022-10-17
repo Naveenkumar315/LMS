@@ -156,14 +156,14 @@ const Login = () => {
                         <input type="text" onChange={handleChange} className="input-input" id="name"
                             onClick={(e) => {
                                 e.target.setSelectionRange(0, e.target.value.indexOf('@'))
-                            }} name="email" />
+                            }} name="email" placeholder="Email ID" />
                         {errors.email && <div className={(errors.email ? 'text-danger' : '')}>{errors.email}</div>}
                         <label className="Input-label">user name</label>
                     </div>
                 </div>
                 <div className="input input--open" style={{ margin: '25px 0 30px 0' }}>
                     <div className="input-holder">
-                        <input type={passwordType} onChange={handleChange} className="input-input" id="password"
+                        <input type={passwordType} onChange={handleChange} className="input-input" id="password" placeholder="Password"
                             onClick={(e) => {
                                 e.target.select()
                             }} name="password" />
@@ -248,7 +248,7 @@ const Login = () => {
                             <div className="title">Forgot Password</div>
                             <div className="input-wrapper marginLeft-0" style={{ margin: '35px 0px' }}>
                                 <div className="input-holder">
-                                    <input type="text" className="input-input" name="UserName" onClick={(e) => {
+                                    <input type="text" className="input-input" name="UserName" placeholder="Email ID" onClick={(e) => {
                                         e.target.setSelectionRange(0, e.target.value.indexOf('@'))
                                     }}
                                         value={Details['UserName']} onChange={handelOnChange} />
