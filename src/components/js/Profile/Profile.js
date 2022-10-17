@@ -244,7 +244,7 @@ export default function Profile() {
                         style={{ color: localStorage['BgColor'] }}
                     >
                         <Tab label="Profile" className='tab' {...a11yProps(0)} />
-                        <Tab label="Change Password" className='tab'  {...a11yProps(1)} />
+                        {/* <Tab label="Change Password" className='tab'  {...a11yProps(1)} /> */}
                     </Tabs>
                 </AppBar>
                 <SwipeableViews

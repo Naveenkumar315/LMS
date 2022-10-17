@@ -235,6 +235,12 @@ label {
 .react-swipeable-view-container {
   transition: transform 0.35s cubic-bezier(0.15, 0.3, 0.25, 1) 0s !important;
 }
+#logIn .input-wrapper {
+  width: 80%;
+}
+.float-right {
+  float: right;
+}
 .rdrMonthAndYearWrapper {
   border: 1px solid var(--background-color);
 }

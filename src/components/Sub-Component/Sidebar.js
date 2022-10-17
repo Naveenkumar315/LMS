@@ -26,7 +26,6 @@ const Sidebar = (props) => {
     } catch (error) {
         images = localStorage['Gender'] === 'Female' ? Female : Male
     }
-    const managersId = [40];
     var Tabs = [
         { text: 'Home', link: '/Home', icon: faHouseChimney, isManagerSide: false },
         { text: 'Time Sheet', link: '/EnterTimeSheet', icon: faTableList, isManagerSide: false },
@@ -38,7 +37,8 @@ const Sidebar = (props) => {
         { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false }
         // { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
-    if (managersId.indexOf(parseInt(localStorage['EmpId'])) === -1) {
+    debugger
+    if (parseInt(localStorage['IsManager']) !== 1) {
         Tabs = Tabs.filter((item) => {
             return !item['isManagerSide']
         });

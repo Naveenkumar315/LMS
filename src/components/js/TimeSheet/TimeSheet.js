@@ -74,7 +74,7 @@ export default function TimeSheet() {
                         >
                             <Tab label="Enter TimeSheet" className='tab' {...a11yProps(0)} />
                             <Tab label="View TimeSheet" className='tab'  {...a11yProps(1)} />
-                            <Tab label="TimeSheet Approvals" className='tab' {...a11yProps(3)} />
+                            {parseInt(localStorage['IsManager']) === 1 && <Tab label="TimeSheet Approvals" className='tab' {...a11yProps(3)} />}
                         </Tabs>
                     </AppBar>
                     <SwipeableViews
