@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import nodeurl from '../../../nodeServer.json'
 import AbLogo from '../../../images/AB_logo.png'
 
-
 const Login = () => {
     const [value, setValue] = useState(0);
     const navigate = useNavigate();
@@ -21,7 +20,7 @@ const Login = () => {
         document.documentElement.style.setProperty('--background-color', '#0589a0');
         document.documentElement.style.setProperty('--color', '#fff');
     }, [])
-    const Page = () => {
+    const LogInPage = () => {
         const [input, setInput] = useState({});
         const [errors, setErrors] = useState({});
         const [alert, setAlert] = useState('');
@@ -156,14 +155,14 @@ const Login = () => {
                         <input type="text" onChange={handleChange} className="input-input" id="name"
                             onClick={(e) => {
                                 e.target.setSelectionRange(0, e.target.value.indexOf('@'))
-                            }} name="email" placeholder="Email ID" />
+                            }} name="email" />
                         {errors.email && <div className={(errors.email ? 'text-danger' : '')}>{errors.email}</div>}
                         <label className="Input-label">user name</label>
                     </div>
                 </div>
                 <div className="input input--open" style={{ margin: '25px 0 30px 0' }}>
                     <div className="input-holder">
-                        <input type={passwordType} onChange={handleChange} className="input-input" id="password" placeholder="Password"
+                        <input type={passwordType} onChange={handleChange} className="input-input" id="password"
                             onClick={(e) => {
                                 e.target.select()
                             }} name="password" />
@@ -226,8 +225,9 @@ const Login = () => {
                 if (!isOTPSent) {
                     e.target.textContent = 'Verify'
                     setIsOTPSent(true);
-                    // axios.post(nodeurl['nodeurl'] + 'Email', { EmpId: EmpId, EmailTo: Details['UserName'] }).then(result => {
-                    // });
+                    axios.post(nodeurl['nodeurl'] + 'Email', { EmpId: EmpId, EmailTo: Details['UserName'] }).then(result => {
+                        console.log('OTP Sent Successfully.');
+                    });
                 }
                 else if (!isOTPVerified) {
                     axios.post(nodeurl['nodeurl'],
@@ -248,7 +248,7 @@ const Login = () => {
                             <div className="title">Forgot Password</div>
                             <div className="input-wrapper marginLeft-0" style={{ margin: '35px 0px' }}>
                                 <div className="input-holder">
-                                    <input type="text" className="input-input" name="UserName" placeholder="Email ID" onClick={(e) => {
+                                    <input type="text" className="input-input" name="UserName" onClick={(e) => {
                                         e.target.setSelectionRange(0, e.target.value.indexOf('@'))
                                     }}
                                         value={Details['UserName']} onChange={handelOnChange} />
@@ -344,7 +344,7 @@ const Login = () => {
                     <Box id="logIn" sx={{ bgcolor: 'inherit' }}>
                         <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
                             <TabPanel value={value} index={0}>
-                                <Page />
+                                <LogInPage />
                             </TabPanel>
                             <TabPanel value={value} index={1}>
                                 <ChangePassword />
@@ -357,8 +357,6 @@ const Login = () => {
     }
 
     return (<FullWidthTabs />);
-
-
 }
 
 export default Login

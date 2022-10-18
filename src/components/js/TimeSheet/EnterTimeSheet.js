@@ -361,7 +361,7 @@ export default function EnterTimeSheet() {
                                                     </div>
                                                     <div className="input-wrapper marginLeft-0" style={{ width: '20%' }}>
                                                         <div className="input-holder">
-                                                            <DatePicker name="CompletionDate" minDate_={new Date()} Value={new Date(Details[index]['CompletionDate'])} index={index} valueChange={handelOnChange} />
+                                                            <DatePicker name="CompletionDate" isWeekEndDisable={false} minDate_={new Date()} Value={new Date(Details[index]['CompletionDate'])} index={index} valueChange={handelOnChange} />
                                                             <label className="input-label">Completion Date</label>
                                                         </div>
                                                     </div>

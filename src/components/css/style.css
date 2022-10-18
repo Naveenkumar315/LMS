@@ -238,6 +238,10 @@ label {
 #logIn .input-wrapper {
   width: 80%;
 }
+.react-datepicker__day--weekend.disabled {
+  color: red !important;
+  pointer-events: none !important;
+}
 .float-right {
   float: right;
 }

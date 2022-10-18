@@ -104,7 +104,7 @@ export default function Profile() {
 
                 <div className="input-wrapper marginLeft-0">
                     <div className="input-holder  input-DatePicker" style={{ width: '48%', float: 'left' }}>
-                        {Details['DateOfBirth'] ? <DatePicker name="DateOfBirth" dd={(Details['DateOfBirth'])} Value={((Details['DateOfBirth']).split('-').reverse().join('-'))} valueChange={handelOnChange} /> : <></>}
+                        {Details['DateOfBirth'] ? <DatePicker name="DateOfBirth" isWeekEndDisable={false} dd={(Details['DateOfBirth'])} Value={((Details['DateOfBirth']).split('-').reverse().join('-'))} valueChange={handelOnChange} /> : <></>}
                         <label className="input-label">Date Of Birth</label>
                     </div>
                     <div className="input-holder" style={{ width: '48%', float: 'right', position: 'relative' }}>

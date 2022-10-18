@@ -37,7 +37,6 @@ const Sidebar = (props) => {
         { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false }
         // { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
-    debugger
     if (parseInt(localStorage['IsManager']) !== 1) {
         Tabs = Tabs.filter((item) => {
             return !item['isManagerSide']
