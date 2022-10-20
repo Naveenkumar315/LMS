@@ -132,7 +132,7 @@ export default function Lms() {
 
         return (
             <>
-                <Box sx={{ bgcolor: 'inherit' }}>
+                <Box sx={{ bgcolor: 'inherit' }} id="LmsWrapper">
                     <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
                         <Tabs
                             value={value}

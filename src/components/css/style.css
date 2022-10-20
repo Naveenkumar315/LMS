@@ -483,13 +483,18 @@ label {
 .MuiTypography-root {
   padding: 0 10px !important;
 }
-#EnterTimeSheet .MuiAccordionSummary-content .MuiTypography-root {
-  line-height: 1.3 !important;
+#EnterTimeSheet
+  .MuiPaper-root:not(:first-child)
+  .MuiAccordionSummary-content
+  .MuiTypography-root {
+  line-height: 1.2 !important;
   max-height: 100px;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
+  white-space: normal;
   display: inline-block;
+  padding: 5px !important;
+  height: 73px;
 }
 .hidden {
   visibility: hidden;
@@ -573,9 +578,18 @@ button[role="cancellable-button"] {
   font-size: 18px;
   background-color: var(--background-color);
 }
+#TimeSheet .body-Container {
+  min-height: calc(100vh - 250px);
+  max-height: calc(100vh - 250px);
+}
+#home .MuiTableContainer-root,
+#LmsWrapper .MuiTableContainer-root {
+  max-height: calc(100vh - 240px);
+}
 .body-Container {
   overflow-y: auto;
   overflow-x: hidden;
+  min-height: calc(100vh - 180px);
   max-height: calc(100vh - 240px);
 }
 #TimeSheet #full-width-tabpanel-0 .MuiBox-root,

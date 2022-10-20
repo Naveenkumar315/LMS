@@ -79,7 +79,7 @@ export default function Home() {
         };
 
         return (
-            <Box sx={{ bgcolor: 'inherit' }}>
+            <Box sx={{ bgcolor: 'inherit' }} id="home">
                 <AppBar position="static" style={{ width: 'max-content', display: 'inline-block', marginLeft: '25px', backgroundColor: '#fff' }} >
                     <Tabs
                         value={value}
