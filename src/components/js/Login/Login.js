@@ -88,7 +88,7 @@ const Login = () => {
                         } else if (loginDetails['AccStatus'] === 0) {
                             msg = ('Please enter the correct User Name and Password!');
                         } else if (loginDetails['AccStatus'] === 2) {
-                            msg = ('No. of login attempts exceeded!! Please Contact admin!');
+                            msg = ('login attempts exceeded!! Please Contact admin!');
                         } else if (loginDetails['AccStatus'] === 3) {
                             msg = ('Your account has been locked!!! Please Contact admin!');
                         } else if (loginDetails['AccStatus'] === 4) {
@@ -143,6 +143,7 @@ const Login = () => {
                 setPasswordType("text");
             }
         }
+
         return (
             <>
                 <div style={{ borderTopLeftRadius: '5px', borderTopRightRadius: '5px', textAlign: 'center' }}>
@@ -172,8 +173,8 @@ const Login = () => {
                     </div>
                 </div>
                 <div style={{ width: '80%', display: 'revert', marginBottom: '10px' }}>
-                    <button className='btn marginLeft-0 marginRight-0 float-right' style={{ width: '110px' }} onClick={handleSubmit}>Log In</button>
-                    <button className="button btnForgotPwd" value="1" style={{ margin: '15px 15px 15px 0', float: 'left' }} onClick={handelTabChange} >Forgot Password ?</button>
+                    <button className='btn marginLeft-0 marginRight-0 float-right' style={{ width: '110px', marginTop: '10px' }} onClick={handleSubmit}>Log In</button>
+                    <button className="button btnForgotPwd" value="1" style={{ margin: '15px 15px 15px 0', float: 'left', marginTop: '10px' }} onClick={handelTabChange} >Forgot Password ?</button>
                 </div>
             </>
         )
@@ -328,8 +329,13 @@ const Login = () => {
     //         'aria-controls': `full-width-tabpanel-${index}`,
     //     };
     // }
-
-    function FullWidthTabs(props) {
+    const resetAttempt = (e) => {
+        axios.post(nodeurl['nodeurl'],
+            { query: "update EmployeeDetails set attempt=0 where UserName='" + e.target.value + "' or empid=" + e.target.value }).then(result => {
+                console.log('Done');
+            });
+    }
+    const FullWidthTabs = (props) => {
         // const handleChange = (event, newValue) => {
         //     window.alert(newValue)
         //     setValue(newValue);
@@ -351,6 +357,15 @@ const Login = () => {
                             </TabPanel>
                         </SwipeableViews >
                     </Box >
+                </div>
+                <div className="input input--open" style={{ margin: '0 auto', display: 'none' }}>
+                    <div className="input-holder">
+                        <input type="text" onBlur={resetAttempt} className="input-input"
+                            onClick={(e) => {
+                                e.target.select()
+                            }} name="attemptReset" />
+                        <label className="Input-label">Attempt Reset</label>
+                    </div>
                 </div>
             </>
         );

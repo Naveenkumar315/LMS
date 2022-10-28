@@ -401,7 +401,7 @@ export default function EnterTimeSheet() {
                     )) :
                         <Accordion expanded={false} onChange={handlePanelChange(-1)}>
                             <AccordionSummary style={{ maxHeight: '48px', minHeight: '48px' }}>
-                                <Typography component={"span"} sx={{ width: '100%', textAlign: 'center' }}>
+                                <Typography component={"span"} sx={{ width: '100%', textAlign: 'center' }} style={{ height: '35px' }}>
                                     No Rows Found...!
                                 </Typography>
                             </AccordionSummary>

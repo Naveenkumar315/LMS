@@ -53,9 +53,10 @@ const StickyHeadTable = forwardRef((props, ref) => {
                 setRows(result.data[0]);
             });
         }
-        else if (tab === 'viewTimesheet') {
-            setRows(props['Rows']);
-        } else if (tab === 'HoliDayList') {
+        // else if (tab === 'viewTimesheet') {
+        //     setRows(props['Rows']);
+        // } 
+        else if (tab === 'HoliDayList') {
             setPaperWidth('35%');
             axios.post(nodeurl['nodeurl'], { query: 'Menus_HolidayList' }).then(result => {
                 setRows(result.data[0]);
@@ -82,6 +83,11 @@ const StickyHeadTable = forwardRef((props, ref) => {
         //     });
         // }
     }, [EmpId, tab, IsInclude]);
+    useEffect(() => {
+        if (tab === 'viewTimesheet') {
+            setRows(props['Rows']);
+        }
+    }, [props['Rows']]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -326,7 +332,7 @@ const StickyHeadTable = forwardRef((props, ref) => {
                                     );
                                 }) :
                                 <TableRow>
-                                    <TableCell key={-1} colSpan={columns['length']} style={{ textAlign: "center" }}>No Rows Found...!</TableCell>
+                                    <TableCell key={-1} colSpan={columns['length']} style={{ textAlign: "center", height: '35px' }}>No Rows Found...!</TableCell>
                                 </TableRow>}
                         </TableBody>
                     </Table>

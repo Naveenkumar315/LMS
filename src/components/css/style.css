@@ -132,6 +132,9 @@ th {
   border: 0.1px solid #000c2f4d;
   box-shadow: 0px 5px 20px 0px #000c2f4d;
 }
+.input-holder textarea {
+  padding: 5px 10px;
+}
 .input-input,
 .react-datepicker-wrapper input {
   width: inherit;
@@ -139,7 +142,7 @@ th {
   border-radius: 5px;
   background-color: #f1f3f4;
   font-size: 1.05em;
-  padding: 0 5%;
+  padding: 0 10px;
   box-shadow: 0px 1px 5px 0px #000c2f4d;
 }
 .react-datepicker-ignore-onclickoutside + .input-wrapper {
@@ -488,13 +491,14 @@ label {
   .MuiAccordionSummary-content
   .MuiTypography-root {
   line-height: 1.2 !important;
-  max-height: 100px;
+  max-height: 73px;
   overflow: hidden;
-  /* text-overflow: ellipsis; */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   white-space: normal;
-  display: inline-block;
   padding: 5px !important;
-  height: 73px;
+  height: 66px;
 }
 .hidden {
   visibility: hidden;
