@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/js/Login/Login';
 import Home from './components/js/Home/Home';
 import Lms from './components/js/LMS/LMS';
+import Approvals from './components/js/LMS/Approvals';
 import Profile from './components/js/Profile/Profile';
 import Tasks from './components/js/Tasks/Task';
 import Portal from './components/js/EmployeePortal/Portal';
@@ -22,6 +23,7 @@ export default function App() {
           <Route path='/Tasks' element={<SideBar Component={<Tasks />} />} />
           <Route path='/LMS' element={<SideBar Component={<Lms />} />} />
           <Route path='/EmployeePortal' element={<SideBar Component={<Portal />} />} />
+          <Route path='/Approvals' element={<SideBar Component={<Approvals />} />} />
           <Route path='/Profile' element={<SideBar Component={<Profile />} />} />
           <Route path='/EnterTimeSheet' element={<SideBar Component={<EnterTimeSheet />} />} />
           <Route path='/Settings' element={<SideBar Component={<Settings />} />} />

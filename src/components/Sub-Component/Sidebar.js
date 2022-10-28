@@ -26,18 +26,29 @@ const Sidebar = (props) => {
     } catch (error) {
         images = localStorage['Gender'] === 'Female' ? Female : Male
     }
-    const Tabs = [
-        { text: 'Home', link: '/Home', icon: faHouseChimney },
-        { text: 'Time Sheet', link: '/EnterTimeSheet', icon: faTableList },
-        { text: 'Tasks', link: '/Tasks', icon: faTasks },
-        { text: 'LMS', link: '/LMS', icon: faLevelUpAlt },
-        { text: 'Employee Portal', link: '/EmployeePortal', icon: faUserDoctor },
-        { text: 'Profile', link: '/Profile', icon: faUser },
-        { text: 'Settings', link: '/Settings', icon: faUserGear }
+    var Tabs = [
+        { text: 'Home', link: '/Home', icon: faHouseChimney, isManagerSide: false },
+        { text: 'Time Sheet', link: '/EnterTimeSheet', icon: faTableList, isManagerSide: false },
+        { text: 'Tasks', link: '/Tasks', icon: faTasks, isManagerSide: false },
+        { text: 'Leave & Permission', link: '/LMS', icon: faLevelUpAlt, isManagerSide: false },
+        { text: 'Approvals', link: '/Approvals', icon: faLevelUpAlt, isManagerSide: true },
+        { text: 'Employee Portal', link: '/EmployeePortal', icon: faUserDoctor, isManagerSide: false },
+        { text: 'Profile', link: '/Profile', icon: faUser, isManagerSide: false },
+        { text: 'Settings', link: '/Settings', icon: faUserGear, isManagerSide: false }
         // { text: 'WorkPlace', link: '/WorkPlace', icon: faUserGear }
     ];
+    if (parseInt(localStorage['IsManager']) !== 1) {
+        Tabs = Tabs.filter((item) => {
+            return !item['isManagerSide']
+        });
+    }
     const getName = () => {
-        return (<span className="name"> {localStorage["Name"]} </span>)
+        return (<span className="name"> {localStorage["Name"]} </span>);
+    }
+    const getDesignation = () => {
+        return (<><span className="profession">{localStorage["Designation"].split('-')[0]}</span>
+            {localStorage["Designation"].split('-')[1] && <span className="profession">{localStorage["Designation"].split('-')[1]}</span>}
+        </>);
     }
     return (
         <>
@@ -57,7 +68,7 @@ const Sidebar = (props) => {
                                     </NavLink>
                                     <div className="text logo-text">
                                         {getName()}
-                                        <span className="profession">{localStorage["Designation"]}</span>
+                                        {getDesignation()}
                                     </div>
                                 </div>
                                 {<FontAwesomeIcon className="icon Side-toggle" icon={faChevronRight} onClick={() => { setIsOpen(!IsOpen); }} />}

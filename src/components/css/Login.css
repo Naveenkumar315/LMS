@@ -13,12 +13,21 @@
   padding-bottom: 10px; */
   box-shadow: 0px 5px 20px 0px #000c2f4d;
 }
+#logIn .MuiBox-root {
+  text-align: -webkit-center;
+  /* text-align: center; */
+  padding: 0;
+}
+#logIn {
+  width: 100%;
+}
+#logIn .react-swipeable-view-container {
+  transition: none;
+}
 .login-container .title {
   text-transform: capitalize;
   font-size: 1.6em;
   font-weight: 300;
-  padding: 60px 0;
-  padding-bottom: 10px;
 }
 .visible-Hide {
   visibility: hidden;
@@ -131,16 +140,29 @@ textarea {
 }
 .login-container .login-button {
   border-radius: 5px;
-  width: 60%;
+  width: 65%;
   padding: 15px;
   background-color: #0589a0 !important;
   color: #fff;
+  display: inline-block !important;
   text-transform: capitalize;
   letter-spacing: 1px;
   font-weight: 400;
-  margin: 20px 0;
+  margin: 40px 0 20px 0;
   font-size: 20px;
   transition: 0.3;
+}
+.btnNewUser,
+.btnForgotPwd {
+  display: inline-block !important;
+  padding: 5px 10px;
+  /* margin: 0 20px; */
+  color: #0589a0;
+  border-radius: 5px;
+  /* border: 0.5px solid #0589a0; */
+}
+.btnNewUser {
+  margin-right: 20px;
 }
 .login-container .login-button:hover {
   background-color: #fff !important;

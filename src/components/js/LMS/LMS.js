@@ -17,6 +17,7 @@ import { confirm } from "react-confirm-box";
 
 export default function Lms() {
     const alert = useAlert();
+    // const EmpId = localStorage['EmpId'];
     const optionsWithLabelChange = {
         closeOnOverlayClick: true,
         labels: {
@@ -28,7 +29,6 @@ export default function Lms() {
     useEffect(() => {
         setTheme();
     }, []);
-
 
     const handelConfirm = async (msg, id, type, query) => {
         const result = await confirm(msg, optionsWithLabelChange);
@@ -67,9 +67,9 @@ export default function Lms() {
 
     const LeaveHistoryColumn = [
         { id: 'LeaveType', label: 'Leave Type', minWidth: 115, sort: true },
-        { id: 'AppliedOn', label: 'Applied On', minWidth: 115, sort: true },
         { id: 'StartDate', label: 'Start Date', minWidth: 110, sort: true },
         { id: 'EndDate', label: 'End Date', minWidth: 100, sort: true },
+        { id: 'AppliedOn', label: 'Applied On', minWidth: 115, sort: true },
         { id: 'No_Of_Days', label: 'No. of Days', minWidth: 110, sort: true },
         { id: 'status', label: 'Status', minWidth: 120, sort: true },
         { id: 'Reason', label: 'Reason', minWidth: 180 },
@@ -79,18 +79,16 @@ export default function Lms() {
     ];
     const PermissionHistoryColumn = [
         { id: 'PermissionType', label: 'Permission Type', minWidth: 200, sort: true },
-        { id: 'AppliedOn', label: 'Applied On', minWidth: 160, sort: true },
         { id: 'StartDate', label: 'Start Date Time', minWidth: 160, sort: true },
         { id: 'EndDate', label: 'End Date Time', minWidth: 160, sort: true },
+        { id: 'AppliedOn', label: 'Applied On', minWidth: 160, sort: true },
         { id: 'No_of_days', label: 'Hours', minWidth: 110 },
         { id: 'Status', label: 'Status', minWidth: 130, sort: true },
         { id: 'Reason', label: 'Reason', minWidth: 180 },
         { id: '', label: 'Action', minWidth: 100, button: 'Cancel', type: 4, onclick: handelAction },
     ];
     function TabPanel(props) {
-
         const { children, value, index, ...other } = props;
-
         return (
             <div
                 role="tabpanel"
@@ -134,7 +132,7 @@ export default function Lms() {
 
         return (
             <>
-                <Box sx={{ bgcolor: 'inherit' }}>
+                <Box sx={{ bgcolor: 'inherit' }} id="LmsWrapper">
                     <AppBar position="static" style={{ width: 'max-content', marginLeft: '25px', backgroundColor: '#fff' }} >
                         <Tabs
                             value={value}
@@ -142,7 +140,7 @@ export default function Lms() {
                             textColor="inherit"
                             style={{ color: localStorage['BgColor'] }}>
                             <Tab label="Leave History" className='tab' {...a11yProps(0)} />
-                            <Tab label="Leave Balance" className='tab'  {...a11yProps(1)} />
+                            <Tab label="Apply Leave" className='tab'  {...a11yProps(1)} />
                             <Tab label="Permission History" className='tab'  {...a11yProps(2)} />
                             <Tab label="Apply Permission" className='tab'  {...a11yProps(3)} />
                         </Tabs>
@@ -162,6 +160,7 @@ export default function Lms() {
                         <TabPanel value={value} index={3} style={{ width: '100%' }}>
                             <Permission />
                         </TabPanel>
+
                     </SwipeableViews >
                 </Box >
             </>

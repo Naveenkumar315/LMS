@@ -1,8 +1,6 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
 const ToolTip = styled(({ className, ...props }) => (
     <Tooltip {...props} arrow classes={{ popper: className }} />

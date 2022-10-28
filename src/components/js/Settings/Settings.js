@@ -33,7 +33,7 @@ export default function Settings() {
         { Primary: '#82ade2', Secondary: '#111' },
         { Primary: '#4fb8c0', Secondary: '#111' },
         { Primary: '#ffcf05', Secondary: '#111' },
-        { Primary: '#00bfff', Secondary: '#0c090a'},
+        { Primary: '#00bfff', Secondary: '#0c090a' },
         { Primary: '#673ab7', Secondary: '#fff' },
 
         { Primary: '#ff6f00', Secondary: '#111' },
@@ -76,6 +76,13 @@ export default function Settings() {
             console.log("Theme Saved");
         });
     }
+    const getDesignation = () => {
+        // <span className="profession" style={{ positio, top: '12%', left: '4%', fontSize: '20px' }}>{localStorage["Designation"]}</span>
+
+        return (<><div style={{ padding: '0 15px' }}><span className="profession">{localStorage["Designation"].split('-')[0]}</span><br />
+            {localStorage["Designation"].split('-')[1] && <span className="profession" >{localStorage["Designation"].split('-')[1]}</span>}
+        </div></>);
+    }
     return (
         <>
             <div className="page">
@@ -93,8 +100,10 @@ export default function Settings() {
                             </div>
                         </div>
                     </div>
-                    <h1 className="heading">{localStorage['Name']}</h1>
-                    <span className="profession" style={{ position: 'absolute', top:'12%', left: '4%',fontSize : '20px'}}>{localStorage["Designation"]}</span>
+                    <div>
+                        <h1 className="heading">{localStorage['Name']}</h1>
+                        {getDesignation()}
+                    </div>
                     <input type="file" accept="image/png" name="image-upload" id="input" onChange={imageHandler} />
                     <div className="label">
 
@@ -104,6 +113,7 @@ export default function Settings() {
                             return (<div key={index} className='colorPaletteWrapper' >
                                 <div className='colorPalette col-sm' onClick={handelColorClick} index={index} style={{ backgroundColor: color['Primary'], border: '2px solid' + color['Primary'] }}>
                                     <div className='primary'></div>
+
                                     <div className='secondary' style={{ backgroundColor: color['Secondary'] }}></div>
                                 </div>
                             </div>)
@@ -112,12 +122,10 @@ export default function Settings() {
                             <button id='applybtn' className="btn" style={{ float: 'right' }} onClick={handelClick}>Apply</button>
                         </div>
                     </div>
-                    
                 </div>
 
 
                 {/* <div className="container container_2" style={{ minWidth: '400px', textAlign: 'center' }}> */}
-                    
                 {/* </div> */}
             </div>
         </>

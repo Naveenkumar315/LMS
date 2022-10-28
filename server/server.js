@@ -102,7 +102,7 @@ app.post('/Email', function (req, res) {
             )
         });
         console.log('Mail Sent Successfully...!!!');
-        query('Update EmployeeDetails SET OTP=' + content + ' WHERE EmpId=' + req.body.EmpId)
+        query("Update EmployeeDetails SET OTP=" + content + " WHERE UserName='" + req.body.EmailTo+"'")
 
         return newTransportPromise;
     }

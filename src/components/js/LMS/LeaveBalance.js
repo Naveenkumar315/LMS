@@ -9,6 +9,7 @@ import axios from 'axios';
 import nodeurl from '../../../nodeServer.json';
 import DatePicker from '../../Sub-Component/DatePicker/DatePicker';
 import { useAlert } from "react-alert";
+import { confirm } from "react-confirm-box";
 
 export default function LeaveBalanceTab() {
     let EmpId = localStorage['EmpId'];
@@ -17,11 +18,32 @@ export default function LeaveBalanceTab() {
     const [ActiveTab, setActiveTab] = useState(1);
     const [ComDate, setComDate] = useState([]);
     const [PrevComDate, setPrevComDate] = useState([]);
+    const optionsWithLabelChange = {
+        closeOnOverlayClick: true,
+        labels: {
+            confirmable: "Confirm",
+            cancellable: "Cancel"
+        }
+    };
+
+
     const handleChange = (panel) => (event, isExpanded) => {
         if (panel === -1) return;
-        setExpanded(isExpanded ? panel : false);
+        let msg = null;
         setActiveTab(panel + 1);
+        msg = Data[panel]['currentblc'] === 0 ? msg = <><b>You are applying leave more than the available balance!!!</b> <br /><br />  Do you want to proceed?</> : null;
+        if (msg !== null && expanded !== panel) {
+            handelConfirm(msg, isExpanded, panel);
+            return;
+        }
+        setExpanded(isExpanded ? panel : false);
+
     };
+    const handelConfirm = async (msg, isExpanded, panel) => {
+        if (await confirm(msg, optionsWithLabelChange))
+            setExpanded(isExpanded ? panel : false);
+    }
+
     const [Data, setData] = useState([]);
     useEffect(() => {
         axios.post(nodeurl['nodeurl'], { query: 'SP_LM_LeaveBalance ' + EmpId + '' }).then(result => {
@@ -44,7 +66,7 @@ export default function LeaveBalanceTab() {
         const [Option, setOption] = useState([{}]);
         const [Details, setDetails] = useState({
             EmpId: localStorage['EmpId'], startDate: Moment(new Date()).format('MM-DD-YYYY'), endDate: Moment(new Date()).format('MM-DD-YYYY'),
-            Duration: 0, NoOfDays: 1, Reason: '', LeaveOption: 0, Dates: Moment(new Date()).format('MM-DD-YYYY'), LeaveId: 1
+            Duration: 0, NoOfDays: 1, Reason: '', LeaveOption: 0, Dates: '-1', LeaveId: 1
         });
 
         const handelOnChange = (event) => {
@@ -58,12 +80,12 @@ export default function LeaveBalanceTab() {
             if (Details['NoOfDays'] <= 1) Details['Duration'] = 1;
             if (event.target.name === 'LeaveOption') {
                 if (event.target.value === '1') {
-                    Details['Dates'] = ComDate[0]['Date'];
+                    Details['Dates'] = ComDate[0]['Date_'] === undefined ? '-1' : ComDate[0]['Date_'];
                     setOption(ComDate);
                     setIsVisavle(true);
                 }
                 else if (event.target.value === '2') {
-                    Details['Dates'] = '-1';
+                    Details['Dates'] = PrevComDate.length === 0 ? '-1' : PrevComDate[0]['Date_'];
                     setOption(PrevComDate);
                     setIsVisavle(true);
                 } else {
@@ -72,21 +94,41 @@ export default function LeaveBalanceTab() {
             }
             setDetails({ ...Details, [event.target.name]: event.target.value });
         }
+
+        const handelApplyConfirm = async () => {
+            let msg = <><b>You are applying for leave more than available balance.This would result in loss  of pay!!!</b> <br /><br />  Do you want to proceed?</>
+            const result = await confirm(msg, optionsWithLabelChange);
+            if (result) {
+                setExpanded(-1);
+                axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Sp_LM_Leaveapplication ', UpdateJson: JSON.stringify(Details) }).then(result => {
+                    // let IsSubmit = result.data[0];
+                    let msg = 'Leave has been Applied successfully.';
+                    // if (IsSubmit === 0) msg = 'Already exists this date.';
+                    alert.success(msg);
+                });
+            }
+
+        }
+
         const handelClick = () => {
-            setExpanded(-1);
-            axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Sp_LM_Leaveapplication ', UpdateJson: JSON.stringify(Details) }).then(result => {
-                // let IsSubmit = result.data[0];
-                let msg = 'Leave has been Applied successfully.';
-                // if (IsSubmit === 0) msg = 'Already exists this date.';
-                alert.success(msg);
-            });
+            if (parseInt(Data[expanded]['currentblc']) < parseInt(Details['NoOfDays'])) {
+                handelApplyConfirm();
+            } else {
+                setExpanded(-1);
+                axios.post(nodeurl['nodeurl'] + 'Update', { SP: 'Sp_LM_Leaveapplication ', UpdateJson: JSON.stringify(Details) }).then(result => {
+                    // let IsSubmit = result.data[0];
+                    let msg = 'Leave has been Applied successfully.';
+                    // if (IsSubmit === 0) msg = 'Already exists this date.';
+                    alert.success(msg);
+                });
+            }
         }
         const getBusinessDatesCount = (startDate, endDate) => {
             startDate = new Date(startDate);
             endDate = new Date(endDate);
             let count = 0;
             let curDate = +startDate;
-            let holiDay = ComDate.filter((item) => { return item['Day'] !== "Sunday" && item['Day'] !== "Saturday" });
+            //let holiDay = ComDate.filter((item) => { return item['Day'] !== "Sunday" && item['Day'] !== "Saturday" });
             while (curDate <= +endDate) {
                 const dayOfWeek = new Date(curDate).getDay();
                 const isWeekend = (dayOfWeek === 6) || (dayOfWeek === 0);
@@ -99,7 +141,7 @@ export default function LeaveBalanceTab() {
         }
         const isDisable = () => {
             let isValidate = false;
-            if (Details['Reason'] === '' || Details['Dates'] === '-1') isValidate = true;
+            if (Details['Reason'] === '' || (Details['LeaveOption'] === '2' && Details['Dates'] === '-1')) isValidate = true;
             return { disabled: isValidate };
         }
         return (
@@ -136,7 +178,7 @@ export default function LeaveBalanceTab() {
                     </div>
                     <div className="input-wrapper marginLeft-0">
                         <div className="input-holder">
-                            <input type="text" className="input-input" name="Reason" value={Details['Reason']} onChange={handelOnChange} />
+                            <input type="text" className="input-input" name="Reason" placeholder="Enter Your Reason" value={Details['Reason']} onChange={handelOnChange} />
                             <label className="input-label">Reason</label>
                         </div>
                     </div>
@@ -155,7 +197,7 @@ export default function LeaveBalanceTab() {
                             <select className="input-input" name="Dates" value={Details['Dates']} onChange={handelOnChange}>
                                 {Option.length > 0 ? Option.map((item, index) => (
                                     <option key={index} value={item['Date_']}>{item['Date']}</option>
-                                )) : <option value="-1" disabled selected>No Dates Available</option>}
+                                )) : <option value="-1" disabled >No Dates Available</option>}
                             </select>
                             <label className="input-label">Dates</label>
                         </div>
